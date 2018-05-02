@@ -1,4 +1,4 @@
-export function config ($logProvider, toastrConfig) {
+export function config($logProvider, toastrConfig, ngDexieProvider) {
   'ngInject';
   // Enable log
   $logProvider.debugEnabled(true);
@@ -9,4 +9,16 @@ export function config ($logProvider, toastrConfig) {
   toastrConfig.positionClass = 'toast-top-right';
   toastrConfig.preventDuplicates = true;
   toastrConfig.progressBar = true;
+
+  ngDexieProvider.setOptions({
+    name: 'achievements',
+    debug: false
+  });
+  ngDexieProvider.setConfiguration((db) => {
+    db.version(2).stores({
+      achievements: "++id,&name,description,karma,icon,archived",
+      users: "++id,name,bio,photo,archived",
+      userAchievements: "[userId+achievementId],comment,date"
+    });
+  });
 }

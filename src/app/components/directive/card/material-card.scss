@@ -1,0 +1,256 @@
+material-card {
+  display: flex;
+  flex-direction: column;
+  margin: 8px;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  color: rgba(0, 0, 0, 0.87);
+  background-color: white;
+  border-radius: 2px;
+  transition: $swift-ease-in-out;
+  material-card-header {
+    padding: 16px;
+    display: flex;
+    flex-direction: row;
+    &:first-child material-card-avatar {
+      margin-right: 12px;
+    }
+    &:last-child material-card-avatar {
+      margin-left: 12px;
+    }
+  }
+  &.active {
+    cursor: default;
+    background: #FFF;
+    border-radius: 0.125em;
+    width: 450px;
+    height: 350px;
+    box-shadow: 0 25px 35px 0 rgba(0, 0, 0, 0.35);
+    top: calc(50% - 250px);
+    right: calc(50% - 250px);
+    margin: 0 auto;
+    position: fixed;
+    z-index: 300;
+  }
+  &:hover {
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+  }
+}
+
+[dir=rtl] material-card material-card-header {
+  &:first-child material-card-avatar {
+    margin-right: auto;
+    margin-left: 12px;
+  }
+  &:last-child material-card-avatar {
+    margin-left: auto;
+    margin-right: 12px;
+  }
+}
+
+material-card {
+  material-card-header {
+    material-card-avatar {
+      width: 40px;
+      height: 40px;
+      .material-user-avatar {
+        border-radius: 50%;
+      }
+      material-icon {
+        border-radius: 50%;
+        padding: 8px;
+        > svg {
+          height: inherit;
+          width: inherit;
+        }
+      }
+      + material-card-header-text {
+        max-height: 40px;
+        .material-title {
+          font-size: 14px;
+        }
+      }
+    }
+    material-card-header-text {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      .material-subhead {
+        font-size: 14px;
+      }
+    }
+  }
+  > {
+    img, material-card-header img {
+      display: flex;
+      flex: 0 0 auto;
+      width: 100%;
+      height: auto;
+    }
+  }
+  material-card-title-media img {
+    display: flex;
+    flex: 0 0 auto;
+    width: 100%;
+    height: auto;
+  }
+  material-card-title {
+    padding: 24px 16px 16px;
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: row;
+    + material-card-content {
+      padding-top: 0;
+    }
+    material-card-title-text {
+      flex: 1;
+      flex-direction: column;
+      display: flex;
+      font-size: 24px;
+      font-weight: 400;
+      line-height: 32px;
+      .material-subhead {
+        padding-top: 0;
+        font-size: 14px;
+      }
+      &:only-child .material-subhead {
+        padding-top: 12px;
+      }
+    }
+    material-card-title-media {
+      margin-top: -8px;
+      .material-media-sm {
+        height: 80px;
+        width: 80px;
+      }
+      .material-media-material {
+        height: 112px;
+        width: 112px;
+      }
+      .material-media-lg {
+        height: 152px;
+        width: 152px;
+      }
+    }
+  }
+  material-card-content {
+    display: block;
+    padding: 16px;
+    > p {
+      &:first-child {
+        margin-top: 0;
+      }
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+    .material-media-xl {
+      height: 240px;
+      width: 240px;
+    }
+  }
+  .material-actions, material-card-actions {
+    margin: 8px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+  .material-actions.layout-column .material-button:not(.material-icon-button), material-card-actions.layout-column .material-button:not(.material-icon-button) {
+    margin: 2px 0;
+  }
+  .material-actions.layout-column .material-button:not(.material-icon-button):first-of-type, material-card-actions.layout-column .material-button:not(.material-icon-button):first-of-type {
+    margin-top: 0;
+  }
+  .material-actions.layout-column .material-button:not(.material-icon-button):last-of-type, material-card-actions.layout-column .material-button:not(.material-icon-button):last-of-type {
+    margin-bottom: 0;
+  }
+  .material-actions.layout-column .material-button.material-icon-button, material-card-actions.layout-column .material-button.material-icon-button {
+    margin-top: 6px;
+    margin-bottom: 6px;
+  }
+  .material-actions material-card-icon-actions, material-card-actions material-card-icon-actions {
+    flex: 1;
+    justify-content: flex-start;
+    display: flex;
+    flex-direction: row;
+  }
+  .material-actions:not(.layout-column) .material-button:not(.material-icon-button), material-card-actions:not(.layout-column) .material-button:not(.material-icon-button) {
+    margin: 0 4px;
+  }
+  .material-actions:not(.layout-column) .material-button:not(.material-icon-button):first-of-type, material-card-actions:not(.layout-column) .material-button:not(.material-icon-button):first-of-type {
+    margin-left: 0;
+  }
+}
+
+[dir=rtl] material-card {
+  .material-actions:not(.layout-column) .material-button:not(.material-icon-button):first-of-type, material-card-actions:not(.layout-column) .material-button:not(.material-icon-button):first-of-type {
+    margin-left: auto;
+    margin-right: 0;
+  }
+}
+
+material-card {
+  .material-actions:not(.layout-column) .material-button:not(.material-icon-button):last-of-type, material-card-actions:not(.layout-column) .material-button:not(.material-icon-button):last-of-type {
+    margin-right: 0;
+  }
+}
+
+[dir=rtl] material-card {
+  .material-actions:not(.layout-column) .material-button:not(.material-icon-button):last-of-type, material-card-actions:not(.layout-column) .material-button:not(.material-icon-button):last-of-type {
+    margin-right: auto;
+    margin-left: 0;
+  }
+}
+
+material-card {
+  .material-actions:not(.layout-column) .material-button.material-icon-button, material-card-actions:not(.layout-column) .material-button.material-icon-button {
+    margin-left: 6px;
+    margin-right: 6px;
+  }
+  .material-actions:not(.layout-column) .material-button.material-icon-button:first-of-type, material-card-actions:not(.layout-column) .material-button.material-icon-button:first-of-type {
+    margin-left: 12px;
+  }
+}
+
+[dir=rtl] material-card {
+  .material-actions:not(.layout-column) .material-button.material-icon-button:first-of-type, material-card-actions:not(.layout-column) .material-button.material-icon-button:first-of-type {
+    margin-left: auto;
+    margin-right: 12px;
+  }
+}
+
+material-card {
+  .material-actions:not(.layout-column) .material-button.material-icon-button:last-of-type, material-card-actions:not(.layout-column) .material-button.material-icon-button:last-of-type {
+    margin-right: 12px;
+  }
+}
+
+[dir=rtl] material-card {
+  .material-actions:not(.layout-column) .material-button.material-icon-button:last-of-type, material-card-actions:not(.layout-column) .material-button.material-icon-button:last-of-type {
+    margin-right: auto;
+    margin-left: 12px;
+  }
+}
+
+material-card {
+  .material-actions:not(.layout-column) .material-button + material-card-icon-actions, material-card-actions:not(.layout-column) .material-button + material-card-icon-actions {
+    flex: 1;
+    justify-content: flex-end;
+    display: flex;
+    flex-direction: row;
+  }
+  material-card-footer {
+    margin-top: auto;
+    padding: 16px;
+  }
+}
+
+@media screen and (-ms-high-contrast: active) {
+  material-card {
+    border: 1px solid #fff;
+  }
+}
+
+.material-image-no-fill > img {
+  width: auto;
+  height: auto;
+}

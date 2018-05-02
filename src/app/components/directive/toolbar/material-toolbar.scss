@@ -1,0 +1,110 @@
+material-toolbar {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 2;
+  font-size: 20px;
+  min-height: $material-toolbar-height;
+  width: 100%;
+  background: $color-indigo-normal;
+  color: #FFFFFF;
+
+  &._material-toolbar-transitions {
+    transition-duration: 0.5s;
+    transition-timing-function: cubic-bezier(0.35, 0, 0.25, 1);
+    transition-property: background-color, fill, color;
+  }
+
+  &.ng-animate {
+    transition: none;
+  }
+
+  .material-toolbar-tools {
+    font-size: 20px;
+    letter-spacing: 0.005em;
+    box-sizing: border-box;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    width: 100%;
+    height: $material-toolbar-height;
+    max-height: $material-toolbar-height;
+    padding: 0 16px;
+    margin: 0;
+    h1, h2, h3 {
+      font-size: inherit;
+      font-weight: inherit;
+      margin: inherit;
+    }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+    .material-button {
+      margin-top: 0;
+      margin-bottom: 0;
+      transition-duration: 0.5s;
+      transition-timing-function: cubic-bezier(0.35, 0, 0.25, 1);
+      transition-property: background-color, fill, color;
+      &.material-icon-button material-icon {
+        transition-duration: 0.5s;
+        transition-timing-function: cubic-bezier(0.35, 0, 0.25, 1);
+        transition-property: background-color, fill, color;
+      }
+      &.ng-animate, &.material-icon-button material-icon.ng-animate {
+        transition: none;
+      }
+    }
+    > .material-button:first-child {
+      margin-left: -8px;
+    }
+    > .material-button:last-child {
+      margin-right: -8px;
+    }
+  }
+}
+
+[dir=rtl] .material-toolbar-tools > .material-button:first-child {
+  margin-left: auto;
+  margin-right: -8px;
+}
+
+[dir=rtl] .material-toolbar-tools > .material-button:last-child {
+  margin-right: auto;
+  margin-left: -8px;
+}
+
+@media screen and (-ms-high-contrast: active) {
+  .material-toolbar-tools {
+    border-bottom: 1px solid #fff;
+  }
+}
+
+@media (min-width: 0) and (max-width: 959px) and (orientation: portrait) {
+  material-toolbar {
+    min-height: 56px;
+    .material-toolbar-tools {
+      height: 56px;
+      max-height: 56px;
+    }
+  }
+
+  material-sidenav {
+    top: 56px;
+  }
+}
+
+@media (min-width: 0) and (max-width: 959px) and (orientation: landscape) {
+  material-toolbar {
+    min-height: 48px;
+    .material-toolbar-tools {
+      height: 48px;
+      max-height: 48px;
+    }
+  }
+
+  material-sidenav {
+    top: 48px;
+  }
+}

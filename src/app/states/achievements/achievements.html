@@ -1,0 +1,57 @@
+<material-content class="achievements">
+  <div class="achievements-active-background"
+       ng-show="achievementsCtrl.achievements.hasActive()"></div>
+  <div class="achievements-new-card">
+    <material-card>
+      <material-card-content>
+        <form>
+          <material-input-container>
+            <input required
+                   ng-model="achievementsCtrl.newAchievement.name">
+            <label>Название</label>
+          </material-input-container>
+          <material-input-container>
+            <textarea required
+                      ng-model="achievementsCtrl.newAchievement.description"></textarea>
+            <label>Описание</label>
+          </material-input-container>
+          <material-input-container>
+            <input type="number" min="0" step="1" required
+                   ng-model="achievementsCtrl.newAchievement.karma">
+            <label>Количество кармы</label>
+          </material-input-container>
+        </form>
+      </material-card-content>
+      <material-card-actions>
+        <material-button ng-click="achievementsCtrl.saveAchievement(achievementsCtrl.newAchievement)">
+          Сохранить
+        </material-button>
+        <material-button ng-click="achievementsCtrl.initNewAchievement()">
+          Закрыть
+        </material-button>
+      </material-card-actions>
+    </material-card>
+  </div>
+  <div class="achievements-cards">
+    <material-card
+      ng-repeat="achievement in achievementsCtrl.achievements.cards | orderBy:'obj.name' track by achievement.obj.id"
+      ng-class="{'active': achievementsCtrl.achievements.isActive(achievement)}"
+      ng-click="achievementsCtrl.achievements.toggle(achievement)">
+      <material-card-header>
+        <material-card-title>
+          <material-card-title-text>
+            <span ng-bind="achievement.obj.name"></span>
+          </material-card-title-text>
+        </material-card-title>
+      </material-card-header>
+      <material-card-content>
+        <p ng-bind="achievement.obj.description"></p>
+      </material-card-content>
+      <material-card-actions>
+        <material-button ng-click="achievementsCtrl.deleteAchievement(achievement, $event)">
+          <i class="material-icons">delete</i>
+        </material-button>
+      </material-card-actions>
+    </material-card>
+  </div>
+</material-content>

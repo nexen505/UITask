@@ -1,0 +1,25 @@
+.flex {
+  display: flex;
+
+  &-1 {
+    flex: 1;
+  }
+
+  &-column {
+    flex-direction: column;
+    &-reverse {
+      flex-direction: column-reverse;
+    }
+  }
+
+  &-row {
+    flex-direction: row;
+    &-reverse {
+      flex-direction: row-reverse;
+    }
+  }
+}
+
+* {
+  box-sizing: border-box;
+}

@@ -1,0 +1,112 @@
+$material-form-label: $color-grey-dark;
+$material-form-label-focus: $color-indigo-normal;
+$material-form-line: $color-grey-dark;
+$material-form-line-focus: $color-indigo-normal;
+$material-form-input-text: $material-form-label;
+$material-form-input-text-focus: $material-form-label-focus;
+$material-form-field-invalid-foreground: #d50000;
+
+$material-dropdown-hoverBackground: #e8eaf6;
+$material-dropdown-selectedBackground: #9fa8da;
+$material-labelOffset: 25px;
+$material-textInputPaddingTopBottom: 10px;
+
+material-select {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow: hidden;
+  background: #FFFFFF;
+  color: #000000;
+  z-index: 1000;
+
+  //transition: 0.2s ease-in height, step-end box-shadow 0.2s;
+
+  &.material-dropdown-open {
+    box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.2);
+  }
+
+  li {
+    padding: 10px;
+    cursor: default;
+    user-select: none;
+    &:hover {
+      background-color: $material-dropdown-hoverBackground;
+    }
+    &.material-dropdown-selected {
+      background-color: $material-dropdown-selectedBackground;
+    }
+  }
+}
+
+material-input-container {
+  font-size: 14px;
+  position: relative;
+  display: block;
+  color: $material-form-label;
+  padding: $material-labelOffset 0 10px 0;
+
+  &:after {
+    content: "\00A0";
+    display: block;
+    color: $material-form-field-invalid-foreground;
+    font-size: 12px;
+    padding-top: 5px;
+  }
+
+  label {
+    position: absolute;
+    display: block;
+    top: $material-labelOffset + $material-textInputPaddingTopBottom;
+    left: 0;
+    transition: $swift-ease-in-out;
+    pointer-events: none;
+    cursor: text;
+  }
+
+  input, textarea {
+    padding: $material-textInputPaddingTopBottom 0;
+    display: block;
+    width: 100%;
+    border: none;
+    font-size: 14px;
+    color: $material-form-input-text;
+    border-bottom: 1px solid $material-form-line;
+    outline: none;
+
+    &:valid, &:focus {
+      & ~ label {
+        top: $material-labelOffset - ($material-textInputPaddingTopBottom + 5);
+        font-size: 12px;
+      }
+    }
+    &:invalid {
+      color: $material-form-field-invalid-foreground;
+      border-bottom: 1px solid $material-form-field-invalid-foreground;
+
+      & ~ label {
+        color: $material-form-field-invalid-foreground;
+      }
+    }
+    &:focus {
+      outline: none;
+      color: $material-form-input-text-focus;
+      padding-bottom: $material-textInputPaddingTopBottom - 2;
+      border-bottom: 2px solid $material-form-line-focus;
+
+      & ~ label {
+        color: $material-form-label-focus;
+      }
+
+      & ~ material-select {
+        height: 228px;
+        box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.2);
+        //transition: 0.2s ease-out height, step-start box-shadow 0.2s;
+      }
+    }
+  }
+}

@@ -1,0 +1,86 @@
+$sidenav-mobile-width: 320px !default;
+$sidenav-desktop-width: 400px !default;
+$sidenav-min-space: 56px !default;
+$z-index-sidenav: 60 !default;
+
+material-sidenav {
+  box-sizing: border-box;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  z-index: $z-index-sidenav;
+  background: $color-grey-light;
+  color: $color-grey-dark;
+
+  width: $sidenav-mobile-width;
+  max-width: $sidenav-mobile-width;
+  bottom: 0;
+  overflow: hidden;
+
+  ul {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+    li {
+      width: 100%;
+      .material-button {
+        width: 100%;
+        padding-left: 40px;
+        display: flex;
+        &:hover {
+          background: $color-grey-normal;
+        }
+      }
+    }
+  }
+
+  // unlocked|closed
+  &.material-closed {
+    display: none;
+  }
+
+  // any|open <=> any|closed
+  &.material-closed-add,
+  &.material-closed-remove {
+    display: flex;
+    transition: 0.2s ease-in all;
+  }
+
+  // any|open <=> any|closed (animating)
+  &.material-closed-add.material-closed-add-active,
+  &.material-closed-remove.material-closed-remove-active {
+    transition: $swift-ease-out;
+  }
+
+  @extend .material-sidenav-left;
+}
+
+.material-sidenav-left {
+  left: 0;
+  top: 64px;
+  transform: translate3d(0%, 0, 0);
+  &.material-closed {
+    transform: translate3d(-100%, 0, 0);
+  }
+}
+
+@media (min-width: $layout-breakpoint-xs) {
+  material-sidenav {
+    max-width: $sidenav-desktop-width;
+  }
+}
+
+@media (max-width: $sidenav-desktop-width + $sidenav-min-space) {
+  material-sidenav {
+    width: calc(100% - #{$sidenav-min-space});
+    min-width: calc(100% - #{$sidenav-min-space});
+    max-width: calc(100% - #{$sidenav-min-space});
+  }
+}
+
+@media screen and (-ms-high-contrast: active) {
+  .material-sidenav-left {
+    border-right: 1px solid #fff;
+  }
+}

@@ -30,7 +30,7 @@
         }
       ],
       "jQuery": {
-        "key": "jquery2"
+        "key": "jqLite"
       },
       "resource": {
         "key": "$http",
