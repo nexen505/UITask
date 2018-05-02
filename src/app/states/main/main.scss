@@ -23,3 +23,19 @@
 * {
   box-sizing: border-box;
 }
+
+view-wrapper.main {
+  > div.view {
+    > material-toolbar {
+      position: fixed;
+      top: 0;
+    }
+
+    > material-content {
+      overflow: auto;
+      position: relative;
+      top: $material-toolbar-height;
+      height: calc(100% - #{$material-toolbar-height});
+    }
+  }
+}

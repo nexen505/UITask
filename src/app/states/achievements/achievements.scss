@@ -1,4 +1,7 @@
 .achievements {
+  &--no-scroll {
+    overflow: hidden;
+  }
   &-active-background {
     width: 100%;
     height: 100%;

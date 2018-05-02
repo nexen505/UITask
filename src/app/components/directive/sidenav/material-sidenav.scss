@@ -58,7 +58,7 @@ material-sidenav {
 
 .material-sidenav-left {
   left: 0;
-  top: 64px;
+  top: $material-toolbar-height;
   transform: translate3d(0%, 0, 0);
   &.material-closed {
     transform: translate3d(-100%, 0, 0);

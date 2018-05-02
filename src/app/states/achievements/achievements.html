@@ -1,4 +1,5 @@
-<material-content class="achievements">
+<material-content class="achievements"
+                  ng-class="{'achievements--no-scroll': achievementsCtrl.achievements.hasActive()}">
   <div class="achievements-active-background"
        ng-show="achievementsCtrl.achievements.hasActive()"></div>
   <div class="achievements-new-card">
