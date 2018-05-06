@@ -1,24 +1,23 @@
 <material-toolbar>
   <div class="material-toolbar-tools">
     <material-button class="material-icon-button"
-                     ng-click="isSidenavOpen = !isSidenavOpen">
+                     ng-click="mainCtrl.isSidenavOpen = !mainCtrl.isSidenavOpen">
       <i class="material-icons">menu</i>
     </material-button>
     <h2 class="flex">Achievement Board</h2>
   </div>
 </material-toolbar>
-<material-sidenav ng-init="isSidenavOpen = false"
-                  material-is-open="isSidenavOpen">
+<material-sidenav material-is-open="mainCtrl.isSidenavOpen">
   <ul>
     <li>
       <a material-button
          ui-sref=".users"
-         ng-click="isSidenavOpen = false">Пользователи</a>
+         ng-click="mainCtrl.isSidenavOpen = false">Пользователи</a>
     </li>
     <li>
       <a material-button
          ui-sref=".achievements"
-         ng-click="isSidenavOpen = false">Достижения</a>
+         ng-click="mainCtrl.isSidenavOpen = false">Достижения</a>
     </li>
   </ul>
 </material-sidenav>

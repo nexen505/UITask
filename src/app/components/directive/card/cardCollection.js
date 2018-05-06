@@ -7,17 +7,17 @@ export class Card {
     this._obj = value;
   }
 
-  get active() {
-    return this._active;
+  get $active() {
+    return this._$active;
   }
 
-  set active(value) {
-    this._active = value;
+  set $active(value) {
+    this._$active = value;
   }
 
-  constructor(obj = null, active = false) {
+  constructor(obj = null, $active = false) {
     this._obj = obj;
-    this._active = active;
+    this._$active = $active;
   }
 }
 
@@ -44,21 +44,21 @@ export class CardCollection {
     if (card) {
       this.toggle(card, false);
     } else {
-      this.cards.forEach((c) => (c.active = false));
+      this.cards.forEach((c) => (c.$active = false));
     }
   }
 
-  toggle(cardToToggle, value = !cardToToggle.active) {
+  toggle(cardToToggle, value = !cardToToggle.$active) {
     this.cards.forEach((card) => {
-      if (card !== cardToToggle && card.active) {
-        card.active = false;
+      if (card !== cardToToggle && card.$active) {
+        card.$active = false;
       }
     });
-    cardToToggle.active = value;
+    cardToToggle.$active = value;
   }
 
   hasActive() {
-    return !!this.cards.find((card) => card.active);
+    return !!this.cards.find((card) => card.$active);
   }
 
   push(...items) {

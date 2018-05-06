@@ -1,13 +1,14 @@
 import { Utils } from "../utils/utils.service";
 
 export class Achievement {
-  constructor(id = Utils.uuid(), name = null, description = null, karma = 0, icon = null, archived = false) {
+  constructor(id = Utils.uuid(), name = null, description = null, karma = 0, icon = null, archived = false, users = []) {
     this._id = id;
     this._name = name;
     this._description = description;
     this._karma = karma;
     this._icon = icon;
     this._archived = archived;
+    this._users = users;
   }
 
   get id() {

@@ -1,5 +1,6 @@
 export function routerConfig($stateProvider, $urlRouterProvider) {
   'ngInject';
+
   $stateProvider
     .state('main', {
       url: '/main',
@@ -23,6 +24,25 @@ export function routerConfig($stateProvider, $urlRouterProvider) {
       resolve: {
         usersData: (UserService) => {
           'ngInject';
+
+          return UserService.getAll(false);
+        }
+      }
+    })
+    .state('user', {
+      url: '/:userId',
+      parent: 'main.users',
+      views: {
+        'content@main': {
+          templateUrl: 'app/states/users/user/user.html',
+          controller: 'UserController',
+          controllerAs: 'userCtrl'
+        }
+      },
+      resolve: {
+        userData: (UserService) => {
+          'ngInject';
+
           return UserService.getAll(false);
         }
       }
@@ -39,7 +59,26 @@ export function routerConfig($stateProvider, $urlRouterProvider) {
       resolve: {
         achievementsData: (AchievementService) => {
           'ngInject';
+
           return AchievementService.getAll(false);
+        }
+      }
+    })
+    .state('achievement', {
+      url: '/:achievementId',
+      parent: 'main.achievements',
+      views: {
+        'content@main': {
+          templateUrl: 'app/states/achievements/achievement/achievement.html',
+          controller: 'AchievementController',
+          controllerAs: 'achievementCtrl'
+        }
+      },
+      resolve: {
+        achievementData: (AchievementService, $stateParams) => {
+          'ngInject';
+
+          return AchievementService.get($stateParams.achievementId, true);
         }
       }
     });

@@ -12,11 +12,10 @@ export function AchievementCardDirective(_) {
     },
     controller: ctrl,
     controllerAs: '$ctrl',
-    bindToController: true,
-    link: postLink
+    bindToController: true
   };
 
-  function ctrl($scope, $element, $attrs) {
+  function ctrl($scope) {
     const vm = this,
       $$deregIconImgWatch = $scope.$watch('iconImg', (newVal) => {
         if (newVal) {
@@ -28,9 +27,4 @@ export function AchievementCardDirective(_) {
       $$deregIconImgWatch();
     });
   }
-
-  function postLink(scope, element, attrs, ctrls) {
-
-  }
-
 }

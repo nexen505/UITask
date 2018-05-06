@@ -20,10 +20,10 @@
   <div class="achievements-cards">
     <div class="achievements-card"
          ng-repeat="achievement in achievementsCtrl.achievements.cards | orderBy:'obj.name' track by achievement.obj.id"
-         ng-switch="achievement.active">
+         ng-switch="achievement.$active">
       <achievement-card
         ng-switch-when="true"
-        active="true"
+        active="achievement.$active"
         achievement="achievement.objCopy"
         save-achievement="achievementsCtrl.saveAchievement(achievement, $event)"
         close-achievement="achievement.closeEditingAchievement($event)"></achievement-card>
@@ -45,13 +45,13 @@
         </material-card-content>
         <material-card-actions>
           <material-button class="material-icon-button"
-                           title="Редактировать достижение"
-                           ng-click="achievementsCtrl.goToAchievement(achievement)">
+                           title="Просмотреть информацию о достижении"
+                           ng-click="achievementsCtrl.goToAchievement(achievement.obj.id)">
             <i class="material-icons">info</i>
           </material-button>
           <material-button class="material-icon-button"
                            title="Редактировать достижение"
-                           ng-click="achievementsCtrl.openAchievement(achievement)">
+                           ng-click="achievementsCtrl.editAchievement(achievement)">
             <i class="material-icons">edit</i>
           </material-button>
           <material-button class="material-icon-button"

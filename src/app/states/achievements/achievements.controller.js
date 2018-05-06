@@ -1,12 +1,14 @@
 import { Achievement } from "../../components/model/achievement.model";
 import { CardCollection } from "../../components/directive/card/cardCollection";
+import { Utils } from "../../components/utils/utils.service";
 
 export class AchievementsController {
-  constructor(_, AchievementService, achievementsData) {
+  constructor(_, AchievementService, $state, achievementsData) {
     'ngInject';
 
-    console.log('achievementsData', achievementsData);
+    console.log(arguments);
     this.AchievementService = AchievementService;
+    this.$state = $state;
     this.achievements = new CardCollection(achievementsData);
     this._ = _;
 
@@ -38,7 +40,13 @@ export class AchievementsController {
     this.isCardAdding = false;
   }
 
-  openAchievement(achievement = {}) {
+  goToAchievement(achievementId = Utils.requiredParam()) {
+    this.$state.go('achievement', {
+      achievementId: achievementId
+    });
+  }
+
+  editAchievement(achievement = Utils.requiredParam()) {
     const cards = this.achievements;
 
     achievement.closeEditingAchievement = ($event) => {
@@ -48,14 +56,14 @@ export class AchievementsController {
     cards.open(achievement);
   }
 
-  closeAchievements($event, achievement = null) {
+  closeAchievements($event = Utils.requiredParam(), achievement = null) {
     const cards = this.achievements;
 
     $event.stopImmediatePropagation();
     cards.close(achievement);
   }
 
-  saveNewAchievement(achievement, $event) {
+  saveNewAchievement(achievement = Utils.requiredParam(), $event = Utils.requiredParam()) {
     $event.stopImmediatePropagation();
     this.AchievementService.saveOrUpdate(achievement)
       .then((savedAchievement) => {
@@ -64,7 +72,7 @@ export class AchievementsController {
       });
   }
 
-  saveAchievement(achievement, $event) {
+  saveAchievement(achievement = Utils.requiredParam(), $event = Utils.requiredParam()) {
     $event.stopImmediatePropagation();
     this.AchievementService.saveOrUpdate(achievement)
       .then((savedAchievement) => {
@@ -73,7 +81,7 @@ export class AchievementsController {
       });
   }
 
-  deleteAchievement(achievementCard, $event) {
+  deleteAchievement(achievementCard = Utils.requiredParam(), $event = Utils.requiredParam()) {
     $event.stopImmediatePropagation();
     this.AchievementService.delete(achievementCard.obj.id)
       .then(() => {

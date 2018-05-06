@@ -1,8 +1,4 @@
 export class Utils {
-  constructor() {
-    'ngInject';
-  }
-
   static uuid() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
       const r = Math.random() * 16 | 0,
@@ -10,5 +6,9 @@ export class Utils {
 
       return v.toString(16);
     });
+  }
+
+  static requiredParam() {
+    throw new TypeError('Function has required param that was not passed!');
   }
 }

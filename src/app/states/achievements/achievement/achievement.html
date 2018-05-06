@@ -1,0 +1,127 @@
+<material-content class="achievement">
+  <div class="achievement-info">
+    <div ng-switch="achievementCtrl.achievement.$active">
+      <achievement-card
+        ng-switch-when="true"
+        active="achievementCtrl.achievement.$active"
+        achievement="achievementCtrl.achievementCopy"
+        save-achievement="achievementCtrl.saveAchievement(achievement, $event)"
+        close-achievement="achievementCtrl.closeEditingAchievement($event)"></achievement-card>
+      <material-card ng-switch-default>
+        <material-card-title>
+          <material-card-title-text>
+            <span class="material-headline" ng-bind="achievementCtrl.achievement.name"></span>
+            <span class="material-subhead">Кол-во кармы: {{achievementCtrl.achievement.karma}}</span>
+          </material-card-title-text>
+          <material-card-title-media ng-if="achievementCtrl.achievement.icon">
+            <div class="material-media-med">
+              <img src="data:image/png;base64,{{achievementCtrl.achievement.icon}}" alt=""/>
+            </div>
+          </material-card-title-media>
+        </material-card-title>
+        <material-card-content>
+          <p ng-bind="achievementCtrl.achievement.description"></p>
+        </material-card-content>
+        <material-card-actions>
+          <material-button class="material-icon-button"
+                           title="Редактировать достижение"
+                           ng-click="achievementCtrl.editAchievement()">
+            <i class="material-icons">edit</i>
+          </material-button>
+          <material-button class="material-icon-button"
+                           title="Удалить достижение"
+                           ng-click="achievementCtrl.deleteAchievement($event)">
+            <i class="material-icons">delete</i>
+          </material-button>
+        </material-card-actions>
+      </material-card>
+    </div>
+  </div>
+  <div class="achievement-users">
+    <material-tabs>
+      <input type="radio"
+             name="tab"
+             id="{{achievementCtrl.tabs.ACHIEVED}}"
+             ng-value="achievementCtrl.tabs.ACHIEVED"
+             ng-model="selectedTab"
+             checked>
+      <material-tab>
+        <label class="material-tab-label" for="{{achievementCtrl.tabs.ACHIEVED}}">Награжденные пользователи</label>
+        <material-tab-content>
+          <material-card
+            ng-repeat="userAchievement in achievementCtrl.users | orderBy:'date' track by userAchievement.id"
+            ng-if="userAchievement.user">
+            <material-card-title>
+              <material-card-title-text>
+                <span class="material-headline" ng-bind="userAchievement.user.name"></span>
+                <span class="material-subhead" ng-bind="userAchievement.date | date:'dd/MM/yyyy hh:mm:ss'"></span>
+              </material-card-title-text>
+              <material-card-title-media ng-if="userAchievement.user.photo">
+                <div class="material-media-med">
+                  <img src="data:image/png;base64,{{userAchievement.user.photo}}" alt=""/>
+                </div>
+              </material-card-title-media>
+            </material-card-title>
+            <material-card-content>
+              <p ng-bind="achievement.obj.description"></p>
+            </material-card-content>
+            <material-card-actions>
+              <material-button class="material-icon-button"
+                               title="Лишить пользователя достижения"
+                               ng-click="achievementCtrl.toggleAchievement(userAchievement.user.id, achievementCtrl.achievement.achievementId, false)">
+                <i class="material-icons" ng-bind="userAchievement.user.id ? 'star' : 'star border'"></i>
+              </material-button>
+              <material-button class="material-icon-button"
+                               title="Просмотреть информацию о пользователе"
+                               ng-click="achievementCtrl.goToUser(userAchievement.user.id)">
+                <i class="material-icons">info</i>
+              </material-button>
+            </material-card-actions>
+          </material-card>
+        </material-tab-content>
+      </material-tab>
+      <input type="radio"
+             name="tab"
+             id="{{achievementCtrl.tabs.OTHERS}}"
+             ng-value="achievementCtrl.tabs.OTHERS"
+             ng-model="selectedTab">
+      <material-tab>
+        <label class="material-tab-label" for="{{achievementCtrl.tabs.OTHERS}}">Остальные пользователи</label>
+        <material-tab-content>
+          <material-card
+            ng-repeat="userAchievement in achievementCtrl.users | orderBy:'date' track by userAchievement.id"
+            ng-if="userAchievement.user">
+            <material-card-title>
+              <material-card-title-text>
+                <span class="material-headline" ng-bind="userAchievement.user.name"></span>
+                <span class="material-subhead" ng-bind="userAchievement.date | date:'dd/MM/yyyy hh:mm:ss'"></span>
+              </material-card-title-text>
+              <material-card-title-media ng-if="userAchievement.user.photo">
+                <div class="material-media-med">
+                  <img src="data:image/png;base64,{{userAchievement.user.photo}}" alt=""/>
+                </div>
+              </material-card-title-media>
+            </material-card-title>
+            <material-card-content>
+              <p ng-bind="achievement.obj.description"></p>
+            </material-card-content>
+            <material-card-actions>
+              <material-button class="material-icon-button"
+                               title="Лишить пользователя достижения"
+                               ng-click="achievementCtrl.toggleAchievement(userAchievement.user.id, achievementCtrl.achievement.achievementId, true)">
+                <i class="material-icons" ng-bind="userAchievement.user.id ? 'star' : 'star border'"></i>
+              </material-button>
+              <material-button class="material-icon-button"
+                               title="Просмотреть информацию о пользователе"
+                               ng-click="achievementCtrl.goToUser(userAchievement.user.id)">
+                <i class="material-icons">info</i>
+              </material-button>
+            </material-card-actions>
+          </material-card>
+        </material-tab-content>
+      </material-tab>
+      <div class="slide"></div>
+    </material-tabs>
+  </div>
+
+</material-content>

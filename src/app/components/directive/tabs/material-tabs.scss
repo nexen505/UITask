@@ -1,0 +1,80 @@
+$num-of-tabs: 2;
+
+@mixin tabs {
+  @for $i from 1 through $num-of-tabs {
+    &:nth-of-type(#{$i}) {
+      &:checked {
+        ~ .slide {
+          left: calc((100% / #{$num-of-tabs}) * #{$i - 1});
+        }
+      }
+    }
+  }
+}
+
+material-tabs {
+  width: 100%;
+  position: relative;
+  display: flex;
+
+  input[type="radio"][name="tab"] {
+    position: absolute;
+    z-index: -1;
+
+    &:checked {
+      + material-tab {
+        label.material-tab-label {
+          color: white;
+        }
+
+        material-tab-content {
+          display: block;
+        }
+      }
+    }
+
+    @include tabs;
+
+    &:first-of-type {
+      &:checked {
+        ~ .slide {
+          left: 0;
+        }
+      }
+    }
+  }
+
+  .slide {
+    $slide-height: 4px;
+    background: $color-indigo-dark;
+    width: calc(100% / #{$num-of-tabs});
+    height: $slide-height;
+    position: absolute;
+    left: 0;
+    top: calc(100% - #{$slide-height});
+    transition: left $swift-ease-out-duration $swift-ease-out-timing-function;
+  }
+
+  material-tab {
+    width: 100%;
+
+    label.material-tab-label {
+      cursor: pointer;
+      color: rgba(255, 255, 255, 0.6);
+      background-color: $color-indigo-light;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      height: 56px;
+      transition: color $swift-ease-out-duration ease;
+      width: 100%;
+    }
+
+    material-tab-content {
+      position: absolute;
+      width: 100%;
+      display: none;
+    }
+  }
+}

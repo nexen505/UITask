@@ -1,10 +1,11 @@
 export class UserAchievement {
-  constructor(id, comment, date, achievement) {
+  constructor(id, comment, date, achievement, user) {
 
     this._id = id;
     this._comment = comment;
     this._date = date;
     this._achievement = achievement;
+    this._user = user;
   }
 
   get id() {
@@ -37,5 +38,13 @@ export class UserAchievement {
 
   set achievement(value) {
     this._achievement = value;
+  }
+
+  get user() {
+    return this._user;
+  }
+
+  set user(value) {
+    this._user = value;
   }
 }
