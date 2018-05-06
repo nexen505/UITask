@@ -2,10 +2,10 @@ import { User } from "../model/user.model";
 import { DexieService } from "./ngDexie.service";
 
 export class UserService extends DexieService {
-  constructor(ngDexie, $q, AchievementService, UtilsService) {
+  constructor(ngDexie, $log, $q, AchievementService, UtilsService) {
     'ngInject';
 
-    super(ngDexie);
+    super(ngDexie, $log);
     this.$q = $q;
     this.AchievementService = AchievementService;
     this.UtilsService = UtilsService;

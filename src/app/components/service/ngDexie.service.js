@@ -1,8 +1,9 @@
 export class DexieService {
-  constructor(ngDexie) {
+  constructor(ngDexie, $log) {
     'ngInject';
 
     this._ngDexie = ngDexie;
+    this._$log = $log;
   }
 
   $$removePendingReq(promise) {
@@ -22,5 +23,9 @@ export class DexieService {
 
   get ngDexie() {
     return this._ngDexie;
+  }
+
+  get $log() {
+    return this._$log;
   }
 }

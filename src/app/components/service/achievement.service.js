@@ -3,10 +3,10 @@ import { UserAchievement } from "../model/userAchievement.model";
 import { DexieService } from "./ngDexie.service";
 
 export class AchievementService extends DexieService {
-  constructor(ngDexie, $q) {
+  constructor(ngDexie, $log, $q) {
     'ngInject';
 
-    super(ngDexie);
+    super(ngDexie, $log);
     this.$q = $q;
   }
 
@@ -138,13 +138,13 @@ export class AchievementService extends DexieService {
           archived: true
         })
         .then(
-          (value = []) => {
+          (ignoredRespo) => {
             this.$$removePendingReq(promise);
-            return deferred.resolve(value);
+            return deferred.resolve(true);
           },
-          (ignoredRejection) => {
+          (rejection) => {
             this.$$removePendingReq(promise);
-            return deferred.resolve(null);
+            return deferred.reject(rejection);
           }
         );
     } else {
@@ -159,17 +159,18 @@ export class AchievementService extends DexieService {
       promise = deferred.promise;
 
     if (achievement) {
+      this.$log.info('saveOrUpdate achievement', achievement.toObject());
       this.$$pushPendingReq(promise);
       this.getAchievementsDb()
         .put(achievement.toObject())
         .then(
-          (value) => {
+          (ignoredResponse) => {
             this.$$removePendingReq(promise);
-            return deferred.resolve(value);
+            return deferred.resolve(achievement);
           },
-          (ignoredRejection) => {
+          (rejection) => {
             this.$$removePendingReq(promise);
-            return deferred.reject(ignoredRejection);
+            return deferred.reject(rejection);
           }
         );
     } else {

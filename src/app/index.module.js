@@ -14,8 +14,10 @@ import { ViewWrapperDirective } from "./components/directive/viewWrapper/viewWra
 import { LoaderSpinnerDirective } from "./components/directive/loaderSpinner/loaderSpinner.directive";
 import { MaterialSidenavDirective } from "./components/directive/sidenav/materialSidenav.directive";
 import { MaterialInputDirective } from "./components/directive/input/materialInput.directive";
+import { FileModelDirective } from "./components/directive/fileModel/fileModel.directive";
+import { AchievementCardDirective } from "./states/achievements/directive/achievementCard/achievementCard.directive";
 
-angular.module('uitask', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngMessages', 'ngAria', 'ui.router', 'ngMaterial', 'toastr', 'ngdexie', 'ngdexie.ui'])
+angular.module('uitask', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngMessages', 'ngAria', 'ui.router', 'ngMaterial', 'toastr', 'ngdexie', 'ngdexie.ui', 'naif.base64'])
   .constant('malarkey', malarkey)
   .constant('moment', moment)
   .constant('_', window._)
@@ -28,6 +30,8 @@ angular.module('uitask', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ng
   .controller('MainController', MainController)
   .controller('UsersController', UsersController)
   .controller('AchievementsController', AchievementsController)
+  .directive('fileModel', FileModelDirective)
+  .directive('achievementCard', AchievementCardDirective)
   .directive('materialButton', MdButtonDirective)
   .directive('materialInputContainer', MaterialInputDirective)
   .directive('viewWrapper', ViewWrapperDirective)

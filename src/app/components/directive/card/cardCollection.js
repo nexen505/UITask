@@ -1,14 +1,35 @@
+export class Card {
+  get obj() {
+    return this._obj;
+  }
+
+  set obj(value) {
+    this._obj = value;
+  }
+
+  get active() {
+    return this._active;
+  }
+
+  set active(value) {
+    this._active = value;
+  }
+
+  constructor(obj = null, active = false) {
+    this._obj = obj;
+    this._active = active;
+  }
+}
+
 export class CardCollection {
 
   static cardMapper(elm) {
-    return {
-      obj: elm,
-      active: false
-    };
+    return new Card(elm);
   }
 
   constructor(collection = []) {
-    this._cards = collection.map(CardCollection.cardMapper);
+    this._cards = [];
+    this.push(...collection);
   }
 
   get cards() {
@@ -20,7 +41,11 @@ export class CardCollection {
   }
 
   close(card) {
-    this.toggle(card, false);
+    if (card) {
+      this.toggle(card, false);
+    } else {
+      this.cards.forEach((c) => (c.active = false));
+    }
   }
 
   toggle(cardToToggle, value = !cardToToggle.active) {
@@ -32,15 +57,11 @@ export class CardCollection {
     cardToToggle.active = value;
   }
 
-  isActive(card) {
-    return card.active;
-  }
-
   hasActive() {
-    return !!this.cards.find(this.isActive);
+    return !!this.cards.find((card) => card.active);
   }
 
-  push(items) {
+  push(...items) {
     this.cards.push(...items.map(CardCollection.cardMapper));
   }
 

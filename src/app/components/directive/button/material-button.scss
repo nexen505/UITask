@@ -1,7 +1,3 @@
-button.material-button::-moz-focus-inner {
-  border: 0;
-}
-
 .material-button {
   display: inline-block;
   position: relative;
@@ -35,45 +31,40 @@ button.material-button::-moz-focus-inner {
   text-decoration: none;
   overflow: hidden;
   transition: box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), background-color 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
 
-.material-dense {
-  > .material-button:not(.material-dense-disabled) {
-    min-height: 32px;
+  &[disabled] {
+    @extend .disabled
   }
-  :not(.material-dense-disabled) .material-button:not(.material-dense-disabled) {
-    min-height: 32px;
-    line-height: 32px;
-    font-size: 13px;
-  }
-  > .material-button:not(.material-dense-disabled) {
-    line-height: 32px;
-  }
-  > .material-button:not(.material-dense-disabled) {
-    font-size: 13px;
-  }
-}
 
-.material-button {
+  &:hover {
+    background-color: $color-grey-light;
+  }
+
   &:focus {
     outline: none;
   }
+
   &:hover, &:focus {
     text-decoration: none;
   }
+
   &.ng-hide, &.ng-leave {
     transition: none;
   }
+
   &.material-cornered {
     border-radius: 0;
   }
+
   &.material-icon {
     padding: 0;
     background: none;
   }
+
   &.material-raised:not([disabled]) {
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
   }
+
   &.material-icon-button {
     margin: 0 6px;
     height: 40px;
@@ -96,6 +87,7 @@ button.material-button::-moz-focus-inner {
     overflow: hidden;
     transition: all 0.3s cubic-bezier(0.55, 0, 0.55, 0.2);
     transition-property: background-color, box-shadow, transform;
+
     &.material-fab-bottom-right {
       top: auto;
       right: 20px;
@@ -103,6 +95,7 @@ button.material-button::-moz-focus-inner {
       left: auto;
       position: absolute;
     }
+
     &.material-fab-bottom-left {
       top: auto;
       right: auto;
@@ -110,6 +103,7 @@ button.material-button::-moz-focus-inner {
       left: 20px;
       position: absolute;
     }
+
     &.material-fab-top-right {
       top: 20px;
       right: 20px;
@@ -117,6 +111,7 @@ button.material-button::-moz-focus-inner {
       left: auto;
       position: absolute;
     }
+
     &.material-fab-top-left {
       top: 20px;
       right: auto;
@@ -124,15 +119,18 @@ button.material-button::-moz-focus-inner {
       left: 20px;
       position: absolute;
     }
+
     &.material-mini {
       line-height: 40px;
       width: 40px;
       height: 40px;
     }
+
     &.ng-hide, &.ng-leave {
       transition: none;
     }
   }
+
   &:not([disabled]) {
     &.material-raised.material-focused, &.material-fab.material-focused {
       box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
@@ -141,13 +139,32 @@ button.material-button::-moz-focus-inner {
       box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
     }
   }
+
   .material-ripple-container {
     border-radius: inherit;
     background-clip: padding-box;
     overflow: hidden;
   }
+
   &.material-icon-button material-icon {
     display: block;
+  }
+}
+
+.material-dense {
+  > .material-button:not(.material-dense-disabled) {
+    min-height: 32px;
+  }
+  :not(.material-dense-disabled) .material-button:not(.material-dense-disabled) {
+    min-height: 32px;
+    line-height: 32px;
+    font-size: 13px;
+  }
+  > .material-button:not(.material-dense-disabled) {
+    line-height: 32px;
+  }
+  > .material-button:not(.material-dense-disabled) {
+    font-size: 13px;
   }
 }
 
@@ -193,6 +210,7 @@ button.material-button.material-fab material-icon {
   display: flex;
   flex: 1;
   width: 100%;
+
   > .material-button {
     flex: 1;
     display: block;
@@ -203,9 +221,11 @@ button.material-button.material-fab material-icon {
     text-align: center;
     text-overflow: ellipsis;
     white-space: nowrap;
+
     &:first-child {
       border-radius: 2px 0 0 2px;
     }
+
     &:last-child {
       border-right-width: 1px;
       border-radius: 0 2px 2px 0;

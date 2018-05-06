@@ -37,7 +37,6 @@ export function MdButtonDirective() {
     });
 
     if (!element.hasClass('md-no-focus')) {
-
       element.on('focus', () => {
         element.addClass('md-focused');
       });

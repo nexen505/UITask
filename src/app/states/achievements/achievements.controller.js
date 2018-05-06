@@ -2,12 +2,15 @@ import { Achievement } from "../../components/model/achievement.model";
 import { CardCollection } from "../../components/directive/card/cardCollection";
 
 export class AchievementsController {
-  constructor(AchievementService, achievementsData) {
+  constructor(_, AchievementService, achievementsData) {
     'ngInject';
 
+    console.log('achievementsData', achievementsData);
     this.AchievementService = AchievementService;
     this.achievements = new CardCollection(achievementsData);
-    this.initNewAchievement();
+    this._ = _;
+
+    this.isCardAdding = false;
   }
 
   get newAchievement() {
@@ -18,15 +21,55 @@ export class AchievementsController {
     this._newAchievement = achievement;
   }
 
-  initNewAchievement() {
+  get isCardAdding() {
+    return this._isCardAdding;
+  }
+
+  set isCardAdding(value) {
+    this._isCardAdding = value;
     this.newAchievement = new Achievement();
   }
 
-  saveAchievement(achievement) {
+  openAddingCard() {
+    this.isCardAdding = true;
+  }
+
+  closeAddingCard() {
+    this.isCardAdding = false;
+  }
+
+  openAchievement(achievement = {}) {
+    const cards = this.achievements;
+
+    achievement.closeEditingAchievement = ($event) => {
+      this.closeAchievements($event, achievement);
+    };
+    achievement.objCopy = angular.copy(achievement.obj);
+    cards.open(achievement);
+  }
+
+  closeAchievements($event, achievement = null) {
+    const cards = this.achievements;
+
+    $event.stopImmediatePropagation();
+    cards.close(achievement);
+  }
+
+  saveNewAchievement(achievement, $event) {
+    $event.stopImmediatePropagation();
     this.AchievementService.saveOrUpdate(achievement)
       .then((savedAchievement) => {
         this.achievements.push(savedAchievement);
-        this.initNewAchievement();
+        this.closeAchievements($event);
+      });
+  }
+
+  saveAchievement(achievement, $event) {
+    $event.stopImmediatePropagation();
+    this.AchievementService.saveOrUpdate(achievement)
+      .then((savedAchievement) => {
+        achievement.obj = savedAchievement;
+        this.closeAchievements($event);
       });
   }
 

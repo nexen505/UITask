@@ -1,0 +1,48 @@
+<material-card ng-class="{'active': $ctrl.active}">
+  <material-card-title>
+    <material-card-title-text>
+      <span class="material-headline">Достижение</span>
+    </material-card-title-text>
+    <material-card-title-media ng-if="$ctrl.achievement.icon">
+      <div class="material-media-lg">
+        <img src="data:image/png;base64,{{$ctrl.achievement.icon}}" alt=""/>
+      </div>
+    </material-card-title-media>
+  </material-card-title>
+  <material-card-content>
+    <form name="achievementForm">
+      <material-input-container>
+        <input required
+               ng-model="$ctrl.achievement.name">
+        <label>Название</label>
+      </material-input-container>
+      <material-input-container>
+            <textarea required
+                      ng-model="$ctrl.achievement.description"></textarea>
+        <label>Описание</label>
+      </material-input-container>
+      <material-input-container>
+        <input type="number" min="0" step="1" required
+               ng-model="$ctrl.achievement.karma">
+        <label>Количество кармы</label>
+      </material-input-container>
+      <material-input-container ng-init="iconImg = null">
+        <input type="file"
+               accept="image/*"
+               ng-model="iconImg"
+               base-sixty-four-input>
+        <label>Иконка</label>
+      </material-input-container>
+    </form>
+  </material-card-content>
+  <material-card-actions>
+    <material-button type="submit"
+                     ng-disabled="!achievementForm.$valid"
+                     ng-click="$ctrl.saveAchievement({achievement: $ctrl.achievement, $event: $event})">
+      Сохранить
+    </material-button>
+    <material-button ng-click="$ctrl.closeAchievement({$event: $event})">
+      Закрыть
+    </material-button>
+  </material-card-actions>
+</material-card>

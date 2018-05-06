@@ -5,9 +5,37 @@
 // bower:scss
 // endbower
 
-$color-grey-light: #f5f5f6;
-$color-grey-normal: #e1e2e1;
-$color-grey-dark: #49696f;
+$font-family: Roboto, 'Helvetica Neue', sans-serif !default;
+$font-size: 10px !default;
+
+@function rem($multiplier) {
+  @return $multiplier * $font-size;
+}
+
+@function rgba-to-rgb($rgba, $background: #fff) {
+  @return mix(rgb(red($rgba), green($rgba), blue($rgba)), $background, alpha($rgba) * 100%)
+}
+
+$display-4-font-size-base: rem(11.20) !default;
+$display-3-font-size-base: rem(5.600) !default;
+$display-2-font-size-base: rem(4.500) !default;
+$display-1-font-size-base: rem(3.400) !default;
+$headline-font-size-base: rem(2.400) !default;
+$title-font-size-base: rem(2.000) !default;
+$subhead-font-size-base: rem(1.600) !default;
+
+$body-font-size-base: rem(1.400) !default;
+$caption-font-size-base: rem(1.200) !default;
+
+//$color-grey-light: #f5f5f6;
+//$color-grey-normal: #e1e2e1;
+//$color-grey-dark: #49696f;
+
+$color-grey-light: rgba-to-rgb(rgba(0, 0, 0, 0.12));
+$color-grey-normal: rgba-to-rgb(rgba(0, 0, 0, 0.38));
+$color-grey-dark: rgba-to-rgb(rgba(0, 0, 0, 0.54));
+$color-grey-darker: rgba-to-rgb(rgba(0, 0, 0, 0.87));
+
 $color-indigo-light: #757ce8;
 $color-indigo-normal: #3f50b5;
 $color-indigo-dark: #002884;
@@ -83,7 +111,22 @@ $material-toolbar-height: 64px;
 }
 
 html {
-  font-family: 'Roboto Slab', serif;
+  font-family: $font-family;
+}
+
+button,
+select,
+html,
+textarea,
+input {
+  font-family: $font-family;
+}
+
+select,
+button,
+textarea,
+input {
+  font-size: 100%;
 }
 
 /*! normalize.css v8.0.0 | MIT License | github.com/necolas/normalize.css */
@@ -426,6 +469,75 @@ template {
 
 [hidden] {
   display: none;
+}
+
+h1, h2, h3, h4 {
+  padding: 16px;
+  margin: 0;
+}
+
+.material-display-4 {
+  font-size: $display-4-font-size-base;
+  font-weight: 300;
+  letter-spacing: -0.010em;
+  line-height: $display-4-font-size-base;
+}
+
+.material-display-3 {
+  font-size: $display-3-font-size-base;
+  font-weight: 400;
+  letter-spacing: -0.005em;
+  line-height: $display-3-font-size-base;
+}
+
+.material-display-2 {
+  font-size: $display-2-font-size-base;
+  font-weight: 400;
+  line-height: rem(6.4);
+}
+
+.material-display-1 {
+  font-size: $display-1-font-size-base;
+  font-weight: 400;
+  line-height: rem(4);
+}
+
+.material-headline {
+  font-size: $headline-font-size-base;
+  font-weight: 400;
+  line-height: rem(3.2);
+  display: flex;
+  align-items: center;
+}
+
+.material-title {
+  font-size: $title-font-size-base;
+  font-weight: 500;
+  letter-spacing: 0.005em;
+}
+
+.material-subhead {
+  font-size: $subhead-font-size-base;
+  font-weight: 400;
+  letter-spacing: 0.010em;
+  line-height: rem(2.4);
+}
+
+.clickable {
+  cursor: pointer;
+  opacity: 0.6;
+  transition: $swift-ease-in;
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.disabled {
+  color: rgba(0, 0, 0, 0.2);
+  background-color: transparent;
+  cursor: default;
+  pointer-events: none;
+  transition: $swift-ease-in;
 }
 
 /**
