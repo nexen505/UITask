@@ -5,6 +5,31 @@
 // bower:scss
 // endbower
 
+@mixin switching-cards {
+  $animation-duration: 0.4s;
+
+  material-card {
+    &.ng-enter {
+      animation: $animation-duration bounce-left;
+      animation-timing-function: $swift-ease-out-timing-function;
+      animation-fill-mode: forwards;
+    }
+    &.ng-leave {
+      display: none;
+    }
+  }
+  achievement-card, user-card {
+    &.ng-enter {
+      animation: $animation-duration bounce-right;
+      animation-timing-function: $swift-ease-out-timing-function;
+      animation-fill-mode: forwards;
+    }
+    &.ng-leave {
+      display: none;
+    }
+  }
+}
+
 $font-family: Roboto, 'Helvetica Neue', sans-serif !default;
 $font-size: 10px !default;
 

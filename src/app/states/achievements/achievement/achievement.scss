@@ -1,0 +1,5 @@
+.achievement {
+  .achievement-info {
+    @include switching-cards;
+  }
+}

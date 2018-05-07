@@ -15,9 +15,9 @@ export function config($logProvider, toastrConfig, ngDexieProvider) {
     debug: false
   });
   ngDexieProvider.setConfiguration((db) => {
-    db.version(3).stores({
+    db.version(2).stores({
       achievements: "++id,&name,description,karma,icon,archived",
-      users: "++id,name,bio,photo,archived",
+      users: "++id,&name,bio,photo,archived",
       userAchievements: "++id,userId,achievementId,comment,date"
     });
   });

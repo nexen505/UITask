@@ -34,14 +34,6 @@ export class DexieService {
     return this._lodash;
   }
 
-  static get minKey() {
-    return -Infinity;
-  }
-
-  static get maxKey() {
-    return String.fromCharCode(65535);
-  }
-
   getDb() {
     const db = this.ngDexie.getDb();
 

@@ -84,28 +84,7 @@ $card-active-animation-duration: 0.3s;
   }
 
   .achievements-new-card {
-    $animation-duration: 0.4s;
-
-    material-card {
-      &.ng-enter {
-        animation: $animation-duration bounce-left;
-        animation-timing-function: $swift-ease-out-timing-function;
-        animation-fill-mode: forwards;
-      }
-      &.ng-leave {
-        display: none;
-      }
-    }
-    achievement-card {
-      &.ng-enter {
-        animation: $animation-duration bounce-right;
-        animation-timing-function: $swift-ease-out-timing-function;
-        animation-fill-mode: forwards;
-      }
-      &.ng-leave {
-        display: none;
-      }
-    }
+    @include switching-cards
   }
 
   .achievements-cards {
