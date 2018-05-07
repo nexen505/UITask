@@ -1,7 +1,7 @@
-import { Achievement } from "../model/achievement.model";
-import { DexieService } from "./ngDexie.service";
-import { UserAchievement } from "../model/userAchievement.model";
-import { Utils } from "../utils/utils.service";
+import {Achievement} from "../model/achievement.model";
+import {DexieService} from "./ngDexie.service";
+import {UserAchievement} from "../model/userAchievement.model";
+import {Utils} from "../utils/utils.service";
 
 export class AchievementService extends DexieService {
   constructor(ngDexie, $log, $q, $injector) {
@@ -123,7 +123,11 @@ export class AchievementService extends DexieService {
         if (has) {
           return userAchievementsIds;
         }
-        return this.getAchievementsDb().where('id').noneOf(userAchievementsIds).toArray(); // FIXME noneOf expected Array instead of Promise
+        return userAchievementsIds.then(
+          (ids) => {
+            return this.getAchievementsDb().where('id').noneOf(ids).toArray();
+          }
+        ); // TODO check implementation
       })(hasUser)
         .then(
           (values = []) => {
