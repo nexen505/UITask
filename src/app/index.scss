@@ -45,6 +45,8 @@ $layout-breakpoint-sm: 960px !default;
 $layout-breakpoint-md: 1280px !default;
 $layout-breakpoint-lg: 1920px !default;
 
+$card-animation-duration: 0.6s;
+
 $swift-ease-out-duration: 0.4s !default;
 $swift-ease-out-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1) !default;
 $swift-ease-out: all $swift-ease-out-duration $swift-ease-out-timing-function !default;

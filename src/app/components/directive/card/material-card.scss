@@ -8,17 +8,61 @@ material-card {
   border-radius: 2px;
   transition: $swift-ease-in-out;
 
+  &.ng-leave.ng-leave-active {
+    display: none;
+  }
+
   &.active {
+    display: flex;
     cursor: default;
     background: #FFF;
     border-radius: 0.125em;
-    width: 450px;
     box-shadow: 0 25px 35px 0 rgba(0, 0, 0, 0.3);
-    top: calc(20%);
-    right: calc(50% - 250px);
-    margin: 0 auto;
-    position: fixed;
-    z-index: 300;
+    animation: $card-animation-duration upper;
+    animation-timing-function: ease-in;
+    animation-fill-mode: forwards;
+    &.ng-leave {
+      animation: $card-animation-duration upper;
+      animation-timing-function: ease-in;
+      animation-direction: reverse;
+      animation-fill-mode: forwards;
+    }
+  }
+
+  &:not(.active) {
+    &.ng-enter {
+      animation: $card-animation-duration upper;
+      animation-timing-function: ease-in;
+      animation-direction: reverse;
+      animation-fill-mode: forwards;
+    }
+  }
+
+  @keyframes upper {
+    from {
+      width: 100%;
+      margin: 0 auto;
+      position: fixed;
+      z-index: 300;
+      top: 35%;
+      right: 0;
+    }
+    65% {
+      width: 50%;
+      margin: 0 auto;
+      position: fixed;
+      z-index: 300;
+      top: 20%;
+      right: 25%;
+    }
+    to {
+      width: 500px;
+      margin: 0 auto;
+      position: fixed;
+      z-index: 300;
+      top: 15%;
+      right: calc(50% - 250px);
+    }
   }
 
   &:hover {
