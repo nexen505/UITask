@@ -36,7 +36,7 @@
           </material-card-title-text>
           <material-card-title-media ng-if="achievement.obj.icon">
             <div class="material-media-med">
-              <img src="data:image/png;base64,{{achievement.obj.icon}}" alt=""/>
+              <img ng-src="data:image/png;base64,{{achievement.obj.icon}}" alt=""/>
             </div>
           </material-card-title-media>
         </material-card-title>
@@ -44,7 +44,7 @@
           <p ng-bind="achievement.obj.description"></p>
         </material-card-content>
         <material-card-actions>
-          <material-button class="material-icon-button"
+          <material-button class="material-icon-button material-button--info"
                            title="Просмотреть информацию о достижении"
                            ng-click="achievementsCtrl.goToAchievement(achievement.obj.id)">
             <i class="material-icons">info</i>
@@ -54,7 +54,7 @@
                            ng-click="achievementsCtrl.editAchievement(achievement)">
             <i class="material-icons">edit</i>
           </material-button>
-          <material-button class="material-icon-button"
+          <material-button class="material-icon-button material-button--delete"
                            title="Удалить достижение"
                            ng-click="achievementsCtrl.deleteAchievement(achievement, $event)">
             <i class="material-icons">delete</i>

@@ -12,59 +12,6 @@ material-card {
     display: none;
   }
 
-  &.active {
-    display: flex;
-    cursor: default;
-    background: #FFF;
-    border-radius: 0.125em;
-    box-shadow: 0 25px 35px 0 rgba(0, 0, 0, 0.3);
-    animation: $card-animation-duration upper;
-    animation-timing-function: ease-in;
-    animation-fill-mode: forwards;
-    &.ng-leave {
-      animation: $card-animation-duration upper;
-      animation-timing-function: ease-in;
-      animation-direction: reverse;
-      animation-fill-mode: forwards;
-    }
-  }
-
-  &:not(.active) {
-    &.ng-enter {
-      animation: $card-animation-duration upper;
-      animation-timing-function: ease-in;
-      animation-direction: reverse;
-      animation-fill-mode: forwards;
-    }
-  }
-
-  @keyframes upper {
-    from {
-      width: 100%;
-      margin: 0 auto;
-      position: fixed;
-      z-index: 300;
-      top: 35%;
-      right: 0;
-    }
-    65% {
-      width: 50%;
-      margin: 0 auto;
-      position: fixed;
-      z-index: 300;
-      top: 20%;
-      right: 25%;
-    }
-    to {
-      width: 500px;
-      margin: 0 auto;
-      position: fixed;
-      z-index: 300;
-      top: 15%;
-      right: calc(50% - 250px);
-    }
-  }
-
   &:hover {
     box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
   }
@@ -160,6 +107,7 @@ material-card {
         padding-top: 12px;
       }
     }
+
     material-card-title-media {
       margin-top: -8px;
 
@@ -207,7 +155,7 @@ material-card {
     }
   }
 
-  .material-actions, material-card-actions {
+  material-card-actions {
     margin: 8px;
     display: flex;
     flex-direction: row;
@@ -223,6 +171,7 @@ material-card {
     .material-button {
       &:hover {
         background-color: $color-grey-light;
+        color: $color-indigo-light;
       }
 
       &:not(.material-icon-button) {

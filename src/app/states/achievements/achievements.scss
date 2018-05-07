@@ -1,3 +1,32 @@
+$card-active-animation-duration: 0.3s;
+
+@keyframes material-card-to-top {
+  from {
+    width: 100%;
+    margin: 0 auto;
+    position: fixed;
+    z-index: 300;
+    top: 35%;
+    right: 0;
+  }
+  65% {
+    width: 50%;
+    margin: 0 auto;
+    position: fixed;
+    z-index: 300;
+    top: 20%;
+    right: 25%;
+  }
+  to {
+    width: 500px;
+    margin: 0 auto;
+    position: fixed;
+    z-index: 300;
+    top: 15%;
+    right: calc(50% - 250px);
+  }
+}
+
 .achievements {
   &--no-scroll {
     overflow: hidden;
@@ -16,11 +45,12 @@
     background: $color-grey-normal;
     opacity: 0.1;
 
-    animation: $card-animation-duration opacity;
+    animation: $card-active-animation-duration opacity;
     animation-timing-function: $swift-ease-in-timing-function;
     animation-fill-mode: forwards;
+
     &.ng-hide-add {
-      animation: $card-animation-duration opacity-reversed;
+      animation: $card-active-animation-duration opacity-reversed;
       animation-timing-function: $swift-ease-in-timing-function;
       animation-fill-mode: forwards;
     }
@@ -43,12 +73,70 @@
       }
     }
   }
+
   &-new-card {
     display: flex;
     align-items: flex-start;
     justify-content: center;
     material-card {
       width: 600px;
+    }
+  }
+
+  .achievements-new-card {
+    $animation-duration: 0.4s;
+
+    material-card {
+      &.ng-enter {
+        animation: $animation-duration bounce-left;
+        animation-timing-function: $swift-ease-out-timing-function;
+        animation-fill-mode: forwards;
+      }
+      &.ng-leave {
+        display: none;
+      }
+    }
+    achievement-card {
+      &.ng-enter {
+        animation: $animation-duration bounce-right;
+        animation-timing-function: $swift-ease-out-timing-function;
+        animation-fill-mode: forwards;
+      }
+      &.ng-leave {
+        display: none;
+      }
+    }
+  }
+
+  .achievements-cards {
+    .achievements-card {
+      material-card {
+        &.active {
+          display: flex;
+          cursor: default;
+          background: #FFF;
+          border-radius: 0.125em;
+          box-shadow: 0 25px 35px 0 rgba(0, 0, 0, 0.3);
+          animation: $card-active-animation-duration material-card-to-top;
+          animation-timing-function: ease-in;
+          animation-fill-mode: forwards;
+
+          &.ng-leave {
+            animation: $card-active-animation-duration material-card-to-top;
+            animation-timing-function: ease-in;
+            animation-direction: reverse;
+            animation-fill-mode: forwards;
+          }
+        }
+
+        &:not(.active) {
+          &.ng-enter {
+            animation: $card-active-animation-duration material-card-to-top;
+            animation-timing-function: ease-in;
+            animation-direction: reverse;
+          }
+        }
+      }
     }
   }
 }

@@ -16,6 +16,36 @@ $font-size: 10px !default;
   @return mix(rgb(red($rgba), green($rgba), blue($rgba)), $background, alpha($rgba) * 100%)
 }
 
+@keyframes bounce-right {
+  0% {
+    transform: translateX(2000px);
+  }
+  70% {
+    transform: translateX(-30px);
+  }
+  90% {
+    transform: translateX(-10px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes bounce-left {
+  0% {
+    transform: translateX(-2000px);
+  }
+  70% {
+    transform: translateX(30px);
+  }
+  90% {
+    transform: translateX(10px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
 $display-4-font-size-base: rem(11.20) !default;
 $display-3-font-size-base: rem(5.600) !default;
 $display-2-font-size-base: rem(4.500) !default;
@@ -40,12 +70,15 @@ $color-indigo-light: #757ce8;
 $color-indigo-normal: #3f50b5;
 $color-indigo-dark: #002884;
 
+$color_green_dark: #118e93;
+$color_green_normal: #25a54e;
+$color_red_normal: #d44a4a;
+$color_yellow_normal: #e8b920;
+
 $layout-breakpoint-xs: 600px !default;
 $layout-breakpoint-sm: 960px !default;
 $layout-breakpoint-md: 1280px !default;
 $layout-breakpoint-lg: 1920px !default;
-
-$card-animation-duration: 0.6s;
 
 $swift-ease-out-duration: 0.4s !default;
 $swift-ease-out-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1) !default;

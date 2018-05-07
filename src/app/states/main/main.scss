@@ -38,4 +38,18 @@ view-wrapper.main {
       height: calc(100% - #{$material-toolbar-height});
     }
   }
+
+  .material-button {
+    &--delete {
+      &:hover {
+        color: $color_red_normal;
+      }
+    }
+
+    &--info {
+      &:hover {
+        color: $color-green_normal;
+      }
+    }
+  }
 }
