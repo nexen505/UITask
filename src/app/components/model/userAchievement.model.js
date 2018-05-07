@@ -1,6 +1,7 @@
-export class UserAchievement {
-  constructor(id, comment, date, achievement, user) {
+import { Utils } from "../utils/utils.service";
 
+export class UserAchievement {
+  constructor(id = Utils.uuid(), comment = null, date = Date.now(), achievement = null, user = null) {
     this._id = id;
     this._comment = comment;
     this._date = date;
@@ -46,5 +47,15 @@ export class UserAchievement {
 
   set user(value) {
     this._user = value;
+  }
+
+  toObject() {
+    return {
+      id: this.id,
+      comment: this.comment,
+      date: this.date,
+      userId: this.user ? this.user.id : null,
+      achievementId: this.achievement ? this.achievement.id : null
+    };
   }
 }

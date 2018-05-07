@@ -1,7 +1,7 @@
-import {Achievement} from "../model/achievement.model";
-import {DexieService} from "./ngDexie.service";
-import {UserAchievement} from "../model/userAchievement.model";
-import {Utils} from "../utils/utils.service";
+import { Achievement } from "../model/achievement.model";
+import { DexieService } from "./ngDexie.service";
+import { UserAchievement } from "../model/userAchievement.model";
+import { Utils } from "../utils/utils.service";
 
 export class AchievementService extends DexieService {
   constructor(ngDexie, $log, $q, $injector) {
@@ -16,12 +16,12 @@ export class AchievementService extends DexieService {
     return this.$injector.get('UserService');
   }
 
-  getAchievementsDb(db = this.getDb()) {
-    return db.achievements;
+  get UserAchievementService() {
+    return this.$injector.get('UserAchievementService');
   }
 
-  getUserAchievementsDb(db = this.getDb()) {
-    return db.userAchievements;
+  getAchievementsDb(db = this.getDb()) {
+    return db.achievements;
   }
 
   static achievementMapper(achievement = {}) {
@@ -110,66 +110,87 @@ export class AchievementService extends DexieService {
 
   getUserAchievements(userId = Utils.requiredParam(), hasUser = true) {
     const deferred = this.$q.defer(),
-      promise = deferred.promise;
+      promise = deferred.promise,
+      usAchs = this.UserAchievementService
+        .getUserAchievementsCollection(userId, null)
+        .toArray();
 
-    if (userId) {
-      this.$$pushPendingReq(promise);
-      ((has) => {
-        const userAchievementsIds = this.getUserAchievementsDb()
-          .where('[userId+achievementId]')
-          .between([userId, this.ngDexie.minKey], [userId, this.ngDexie.maxKey]) // FIXME it doesn't work
-          .toArray();
-
-        if (has) {
-          return userAchievementsIds;
-        }
-        return userAchievementsIds.then(
-          (ids) => {
-            return this.getAchievementsDb().where('id').noneOf(ids).toArray();
-          }
-        ); // TODO check implementation
-      })(hasUser)
+    this.$$pushPendingReq(promise);
+    this.$$pushPendingReq(usAchs);
+    if (hasUser) {
+      usAchs
         .then(
           (values = []) => {
-            const usAchPromises = values.map(
+            const usAch = values.map(
               (userAchievement) => {
-                const userPromise = this.get(userAchievement.achievementId),
-                  userAchievementId = `${userAchievement.userId}/${userAchievement.achievementId}`;
+                const achievementPromise = this.get(userAchievement.achievementId);
 
-                this.$$pushPendingReq(userPromise);
-                userPromise
+                this.$$pushPendingReq(achievementPromise);
+                achievementPromise
                   .then(
                     (achievement) => {
-                      this.$$removePendingReq(userPromise);
-                      return new UserAchievement(userAchievementId, userAchievement.comment, userAchievement.date, AchievementService.achievementMapper(achievement));
+                      this.$$removePendingReq(achievementPromise);
+                      return new UserAchievement(userAchievement.id, userAchievement.comment, userAchievement.date, AchievementService.achievementMapper(achievement));
                     },
                     (ignoredRejection) => {
-                      this.$$removePendingReq(userPromise);
-                      return new UserAchievement(userAchievementId, userAchievement.comment, userAchievement.date);
+                      this.$$removePendingReq(achievementPromise);
+                      return new UserAchievement(userAchievement.id, userAchievement.comment, userAchievement.date);
                     }
                   );
 
-                return userPromise;
+                return achievementPromise;
               }
             );
 
-            return this.$q.all(usAchPromises)
+            return this.$q.all(usAch)
               .then(
                 (userAchievements) => {
+                  this.$$removePendingReq(usAchs);
                   this.$$removePendingReq(promise);
                   return deferred.resolve(
                     userAchievements
                   );
+                },
+                (rejections) => {
+                  this.$$removePendingReq(usAchs);
+                  this.$$removePendingReq(promise);
+                  return deferred.reject(rejections);
                 }
               );
           },
-          (ignoredRejection) => {
+          (rejection) => {
             this.$$removePendingReq(promise);
-            return deferred.resolve(null);
+            return deferred.resolve(rejection);
           }
         );
     } else {
-      deferred.resolve(null);
+      return usAchs.then(
+        (rows) => {
+          const achIds = this._.uniq(
+            this._.compact(
+              rows.map((row) => row.achievementId)
+            )
+          );
+
+          this.$$removePendingReq(usAchs);
+          return this.getAchievementsDb().where('id').noneOf(achIds).toArray();
+        },
+        (rejection) => {
+          this.$$removePendingReq(usAchs);
+          return deferred.reject(rejection);
+        }
+      ).then(
+        (values = []) => {
+          const users = values.map(AchievementService.achievementMapper);
+
+          this.$$removePendingReq(promise);
+          return deferred.resolve(users);
+        },
+        (rejection) => {
+          this.$$removePendingReq(promise);
+          return deferred.reject(rejection);
+        }
+      );
     }
 
     return promise;
@@ -186,9 +207,9 @@ export class AchievementService extends DexieService {
           archived: true
         })
         .then(
-          (ignoredRespo) => {
+          (resp) => {
             this.$$removePendingReq(promise);
-            return deferred.resolve(true);
+            return deferred.resolve(resp);
           },
           (rejection) => {
             this.$$removePendingReq(promise);
@@ -202,31 +223,25 @@ export class AchievementService extends DexieService {
     return promise;
   }
 
-  saveOrUpdate(achievement) {
+  saveOrUpdate(achievement = Utils.requiredParam()) {
     const deferred = this.$q.defer(),
       promise = deferred.promise;
 
-    if (achievement) {
-      this.$log.info('saveOrUpdate achievement', achievement.toObject());
-      this.$$pushPendingReq(promise);
-      this.getAchievementsDb()
-        .put(achievement.toObject())
-        .then(
-          (ignoredResponse) => {
-            this.$$removePendingReq(promise);
-            return deferred.resolve(achievement);
-          },
-          (rejection) => {
-            this.$$removePendingReq(promise);
-            return deferred.reject(rejection);
-          }
-        );
-    } else {
-      deferred.resolve(achievement);
-    }
+    this.$log.info('saveOrUpdate achievement', achievement.toObject());
+    this.$$pushPendingReq(promise);
+    this.getAchievementsDb()
+      .put(achievement.toObject())
+      .then(
+        (ignoredResponse) => {
+          this.$$removePendingReq(promise);
+          return deferred.resolve(achievement);
+        },
+        (rejection) => {
+          this.$$removePendingReq(promise);
+          return deferred.reject(rejection);
+        }
+      );
 
     return promise;
   }
-
-
 }

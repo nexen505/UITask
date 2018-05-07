@@ -1,9 +1,10 @@
 export class DexieService {
-  constructor(ngDexie, $log) {
+  constructor(_, ngDexie, $log) {
     'ngInject';
 
     this._ngDexie = ngDexie;
     this._$log = $log;
+    this._lodash = _;
   }
 
   $$removePendingReq(promise) {
@@ -27,6 +28,10 @@ export class DexieService {
 
   get $log() {
     return this._$log;
+  }
+
+  get _() {
+    return this._lodash;
   }
 
   static get minKey() {
