@@ -1,7 +1,7 @@
 import { Utils } from "../../../components/utils/utils.service";
 
 export class AchievementController {
-  constructor($scope, AchievementService, UserService, achievementData, $state) {
+  constructor($scope, AchievementService, UserService, EventService, achievementData, $state) {
     'ngInject';
 
     console.log(arguments);
@@ -12,14 +12,10 @@ export class AchievementController {
 
     this.$scope = $scope;
     this.$scope.selectedTab = this.tabs.ACHIEVED;
-    const $$deregWatcher = this.$scope.$watch('selectedTab', (newVal) => {
+    EventService.watch(this.$scope, 'selectedTab', (newVal) => {
       if (newVal) {
         this.selectTab(newVal);
       }
-    });
-
-    this.$scope.$on('$destroy', () => {
-      $$deregWatcher();
     });
   }
 

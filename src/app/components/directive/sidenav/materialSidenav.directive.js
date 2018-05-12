@@ -1,4 +1,4 @@
-export function MaterialSidenavDirective($q, $animate, $window, $mdConstant) {
+export function MaterialSidenavDirective($q, $animate, $window, $mdConstant, EventService) {
   'ngInject';
 
   return {
@@ -16,25 +16,23 @@ export function MaterialSidenavDirective($q, $animate, $window, $mdConstant) {
 
   function postLink(scope, element, attr, sidenavCtrl) {
     let lastParentOverFlow,
-      disableScrollTarget = element.parent(),
+      container = element.parent(),
       previousContainerStyles;
 
-    scope.$watch('isOpen', updateIsOpen);
+    EventService.watch(scope, 'isOpen', updateIsOpen);
 
     sidenavCtrl.$toggleOpen = toggleOpen;
 
     function updateIsOpen(isOpen) {
-      const parent = element.parent(),
-        restorePositioning = updateContainerPositions(parent, isOpen);
+      const restorePositioning = updateContainerPositions(container, isOpen);
 
-      parent[isOpen ? 'on' : 'off']('keydown', onKeyDown);
-
+      container[isOpen ? 'on' : 'off']('keydown', onKeyDown);
       disableParentScroll(isOpen);
 
       return $q.all([
         $animate[isOpen ? 'removeClass' : 'addClass'](element, 'material-closed')
       ]).then(() => {
-        restorePositioning && restorePositioning();
+        restorePositioning();
       });
     }
 
@@ -55,7 +53,6 @@ export function MaterialSidenavDirective($q, $animate, $window, $mdConstant) {
           height: `${parent[0].clientHeight}px`
         };
 
-        // Apply the new position styles to the sidenav and backdrop.
         element.css(positionStyle);
       }
 
@@ -68,14 +65,16 @@ export function MaterialSidenavDirective($q, $animate, $window, $mdConstant) {
           previousContainerStyles = null;
         };
       }
+
+      return angular.noop;
     }
 
     function disableParentScroll(disabled) {
       if (disabled && !lastParentOverFlow) {
-        lastParentOverFlow = disableScrollTarget.css('overflow');
-        disableScrollTarget.css('overflow', 'hidden');
+        lastParentOverFlow = container.css('overflow');
+        container.css('overflow', 'hidden');
       } else if (angular.isDefined(lastParentOverFlow)) {
-        disableScrollTarget.css('overflow', lastParentOverFlow);
+        container.css('overflow', lastParentOverFlow);
         lastParentOverFlow = undefined;
       }
     }

@@ -1,4 +1,5 @@
-export function MdButtonDirective() {
+export function MdButtonDirective(EventService) {
+  'ngInject';
 
   return {
     restrict: 'EA',
@@ -24,7 +25,7 @@ export function MdButtonDirective() {
 
   function postLink(scope, element, attr) {
     if (isAnchor(attr) && angular.isDefined(attr.ngDisabled)) {
-      scope.$watch(attr.ngDisabled, (isDisabled) => {
+      EventService.watch(scope, attr.ngDisabled, (isDisabled) => {
         element.attr('tabindex', isDisabled ? -1 : 0);
       });
     }
