@@ -1,7 +1,92 @@
+import { Utils } from "../../components/utils/utils.service";
+import { User } from "../../components/model/user.model";
+import { CardCollection } from "../../components/directive/card/cardCollection";
+
 export class UsersController {
-  constructor() {
+  constructor(_, UserService, $state, usersData) {
     'ngInject';
 
+    console.log(arguments);
+    this.UserService = UserService;
+    this.$state = $state;
+    this.users = new CardCollection(usersData);
+    this._ = _;
+
+    this.isCardAdding = false;
+  }
+
+  get newUser() {
+    return this._newUser;
+  }
+
+  set newUser(user) {
+    this._newUser = user;
+  }
+
+  get isCardAdding() {
+    return this._isCardAdding;
+  }
+
+  set isCardAdding(value) {
+    this._isCardAdding = value;
+    this.newUser = new User();
+  }
+
+  openAddingCard() {
+    this.isCardAdding = true;
+  }
+
+  closeAddingCard() {
+    this.isCardAdding = false;
+  }
+
+  goToUser(userId = Utils.requiredParam()) {
+    this.$state.go('user', {
+      userId: userId
+    });
+  }
+
+  editUser(user = Utils.requiredParam()) {
+    const cards = this.users;
+
+    user.closeEditingUser = ($event) => {
+      this.closeUsers($event, user);
+    };
+    user.objCopy = angular.copy(user.obj);
+    cards.open(user);
+  }
+
+  closeUsers($event = Utils.requiredParam(), user = null) {
+    const cards = this.users;
+
+    $event.stopImmediatePropagation();
+    cards.close(user);
+  }
+
+  saveNewUser(user = Utils.requiredParam(), $event = Utils.requiredParam()) {
+    $event.stopImmediatePropagation();
+    this.UserService.saveOrUpdate(user)
+      .then((savedUser) => {
+        this.users.push(savedUser);
+        this.closeAddingCard();
+      });
+  }
+
+  saveUser(user = Utils.requiredParam(), $event = Utils.requiredParam()) {
+    $event.stopImmediatePropagation();
+    this.UserService.saveOrUpdate(user)
+      .then((savedUser) => {
+        user.obj = savedUser;
+        this.closeUsers($event);
+      });
+  }
+
+  deleteUser(userCard = Utils.requiredParam(), $event = Utils.requiredParam()) {
+    $event.stopImmediatePropagation();
+    this.UserService.delete(userCard.obj.id)
+      .then(() => {
+        this.users.remove(userCard);
+      });
   }
 
 }

@@ -1,3 +1,64 @@
-<div>
-
-</div>
+<material-content class="users"
+                  ng-class="{'users--no-scroll': usersCtrl.users.hasActive()}">
+  <h3 class="material-display-1">Все пользователи</h3>
+  <div class="users-new-card">
+    <material-card ng-if="!usersCtrl.isCardAdding">
+      <material-card-title ng-click="usersCtrl.openAddingCard()"
+                           ng-class="{'clickable': !usersCtrl.isCardAdding}">
+        <material-card-title-text>
+          <span class="material-headline"><i class="material-icons">add</i>Новый пользователь</span>
+        </material-card-title-text>
+      </material-card-title>
+    </material-card>
+    <user-card ng-if="usersCtrl.isCardAdding"
+               user="usersCtrl.newUser"
+               save-user="usersCtrl.saveNewUser(user, $event)"
+               close-user="usersCtrl.closeAddingCard()"></user-card>
+  </div>
+  <div class="users-cards">
+    <div class="users-card"
+         ng-repeat="user in usersCtrl.users.cards | orderBy:'obj.name' track by user.obj.id">
+      <user-card
+        ng-if="user.$active"
+        ng-class="{'active': user.$active}"
+        active="user.$active"
+        user="user.objCopy"
+        save-user="usersCtrl.saveUser(user, $event)"
+        close-user="user.closeEditingUser($event)"></user-card>
+      <material-card
+        ng-if="!user.$active">
+        <material-card-title>
+          <material-card-title-text>
+            <span class="material-headline" ng-bind="user.obj.name"></span>
+            <span class="material-subhead">Кол-во кармы: {{user.obj.karma}}</span>
+          </material-card-title-text>
+          <material-card-title-media>
+            <div class="material-media-med">
+              <img ng-src="data:image/png;base64,{{user.obj.icon}}" alt="Изображение отсутствует"/>
+            </div>
+          </material-card-title-media>
+        </material-card-title>
+        <material-card-content>
+          <p ng-bind="user.obj.description"></p>
+        </material-card-content>
+        <material-card-actions>
+          <material-button class="material-icon-button material-button--info"
+                           title="Просмотреть информацию о достижении"
+                           ng-click="usersCtrl.goToUser(user.obj.id)">
+            <i class="material-icons">info</i>
+          </material-button>
+          <material-button class="material-icon-button"
+                           title="Редактировать достижение"
+                           ng-click="usersCtrl.editUser(user)">
+            <i class="material-icons">edit</i>
+          </material-button>
+          <material-button class="material-icon-button material-button--delete"
+                           title="Удалить достижение"
+                           ng-click="usersCtrl.deleteUser(user, $event)">
+            <i class="material-icons">delete</i>
+          </material-button>
+        </material-card-actions>
+      </material-card>
+    </div>
+  </div>
+</material-content>

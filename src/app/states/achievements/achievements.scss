@@ -13,7 +13,7 @@ $card-active-animation-duration: 0.25s;
   }
 }
 
-.achievements {
+.achievements, .users {
   &--no-scroll {
     overflow: hidden;
   }
@@ -27,14 +27,14 @@ $card-active-animation-duration: 0.25s;
     }
   }
 
-  .achievements-new-card {
+  .achievements-new-card, .users-new-card {
     @include switching-cards
   }
 
-  .achievements-cards {
+  .achievements-cards, .users-cards {
     position: relative;
 
-    .achievements-card {
+    .achievements-card, .user-card {
       material-card {
         &.active {
           display: flex;

@@ -19,6 +19,7 @@ import { AchievementController } from "./states/achievements/achievement/achieve
 import { UserController } from "./states/users/user/user.controller";
 import { UserAchievementService } from "./components/service/userAchievement.service";
 import { EventService } from "./components/utils/events.service";
+import { UserCardDirective } from "./states/users/directive/achievementCard/userCard.directive";
 
 angular.module('uitask', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngMessages', 'ngAria', 'ngScrollbars', 'ui.router', 'ngMaterial', 'toastr', 'ngdexie', 'ngdexie.ui', 'naif.base64'])
   .constant('malarkey', malarkey)
@@ -38,6 +39,7 @@ angular.module('uitask', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ng
   .controller('AchievementController', AchievementController)
   .directive('fileModel', FileModelDirective)
   .directive('achievementCard', AchievementCardDirective)
+  .directive('userCard', UserCardDirective)
   .directive('materialButton', MdButtonDirective)
   .directive('materialInputContainer', MaterialInputDirective)
   .directive('viewWrapper', ViewWrapperDirective)

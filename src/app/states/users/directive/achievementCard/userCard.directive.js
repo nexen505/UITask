@@ -1,4 +1,4 @@
-export function AchievementCardDirective(_, EventService) {
+export function UserCardDirective(_, EventService) {
   'ngInject';
 
   return {
@@ -6,9 +6,9 @@ export function AchievementCardDirective(_, EventService) {
     templateUrl: 'app/states/achievements/directive/achievementCard/achievementCard.template.html',
     scope: {
       active: '=',
-      achievement: '<',
-      saveAchievement: '&',
-      closeAchievement: '&'
+      user: '<',
+      saveUser: '&',
+      closeUser: '&'
     },
     controller: ctrl,
     controllerAs: '$ctrl',
@@ -20,7 +20,7 @@ export function AchievementCardDirective(_, EventService) {
 
     EventService.watch($scope, 'iconImg', (newVal) => {
       if (newVal) {
-        vm.achievement.icon = _.get(newVal, 'base64', null);
+        vm.user.icon = _.get(newVal, 'base64', null);
       }
     }, true);
   }
