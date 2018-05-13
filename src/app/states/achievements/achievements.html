@@ -1,8 +1,6 @@
 <material-content class="achievements"
                   ng-class="{'achievements--no-scroll': achievementsCtrl.achievements.hasActive()}">
-  <h3 class="material-display-1">Достижения</h3>
-  <div class="achievements-active-background"
-       ng-show="achievementsCtrl.achievements.hasActive()"></div>
+  <h3 class="material-display-1">Все достижения</h3>
   <div class="achievements-new-card">
     <material-card ng-if="!achievementsCtrl.isCardAdding">
       <material-card-title ng-click="achievementsCtrl.openAddingCard()"
@@ -19,24 +17,24 @@
   </div>
   <div class="achievements-cards">
     <div class="achievements-card"
-         ng-repeat="achievement in achievementsCtrl.achievements.cards | orderBy:'obj.name' track by achievement.obj.id"
-         ng-switch="achievement.$active">
+         ng-repeat="achievement in achievementsCtrl.achievements.cards | orderBy:'obj.name' track by achievement.obj.id">
       <achievement-card
-        ng-switch-when="true"
+        ng-if="achievement.$active"
+        ng-class="{'active': achievement.$active}"
         active="achievement.$active"
         achievement="achievement.objCopy"
         save-achievement="achievementsCtrl.saveAchievement(achievement, $event)"
         close-achievement="achievement.closeEditingAchievement($event)"></achievement-card>
       <material-card
-        ng-switch-default>
+        ng-if="!achievement.$active">
         <material-card-title>
           <material-card-title-text>
             <span class="material-headline" ng-bind="achievement.obj.name"></span>
             <span class="material-subhead">Кол-во кармы: {{achievement.obj.karma}}</span>
           </material-card-title-text>
-          <material-card-title-media ng-if="achievement.obj.icon">
+          <material-card-title-media>
             <div class="material-media-med">
-              <img ng-src="data:image/png;base64,{{achievement.obj.icon}}" alt=""/>
+              <img ng-src="data:image/png;base64,{{achievement.obj.icon}}" alt="Изображение отсутствует"/>
             </div>
           </material-card-title-media>
         </material-card-title>

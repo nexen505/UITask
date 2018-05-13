@@ -40,13 +40,13 @@ view-wrapper.main {
   }
 
   .material-button {
-    &--delete {
+    &--delete, [type="reset"] {
       &:hover {
         color: $color_red_normal;
       }
     }
 
-    &--info {
+    &--info, [type="submit"] {
       &:hover {
         color: $color-green_normal;
       }

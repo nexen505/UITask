@@ -93,7 +93,7 @@ export class AchievementController {
     this.achievement.$active = false;
   }
 
-  toggleAchievement(userId = Utils.requiredParam(), achievementId = Utils.requiredParam(), toggle = true) {
+  toggleAchievement(userAchievement = Utils.requiredParam(), achievementId = Utils.requiredParam(), toggle = true) {
     // TODO implement this logic
   }
 

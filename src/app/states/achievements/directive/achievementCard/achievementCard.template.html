@@ -3,9 +3,9 @@
     <material-card-title-text>
       <span class="material-headline">Достижение</span>
     </material-card-title-text>
-    <material-card-title-media ng-if="$ctrl.achievement.icon">
+    <material-card-title-media>
       <div class="material-media-lg">
-        <img ng-src="data:image/png;base64,{{$ctrl.achievement.icon}}" alt=""/>
+        <img ng-src="data:image/png;base64,{{$ctrl.achievement.icon}}" alt="Изображение отсутствует"/>
       </div>
     </material-card-title-media>
   </material-card-title>
@@ -41,8 +41,11 @@
                      ng-click="$ctrl.saveAchievement({achievement: $ctrl.achievement, $event: $event})">
       Сохранить
     </material-button>
-    <material-button ng-click="$ctrl.closeAchievement({$event: $event})">
+    <material-button type="reset"
+                     ng-click="$ctrl.closeAchievement({$event: $event})">
       Закрыть
     </material-button>
   </material-card-actions>
 </material-card>
+<div class="active-background"
+     ng-show="$ctrl.active"></div>

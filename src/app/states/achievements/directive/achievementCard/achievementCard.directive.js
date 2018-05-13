@@ -1,4 +1,4 @@
-export function AchievementCardDirective(_) {
+export function AchievementCardDirective(_, EventService) {
   'ngInject';
 
   return {

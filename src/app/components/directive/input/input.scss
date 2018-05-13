@@ -1,9 +1,10 @@
+$material-form-focus-color: $color-indigo-normal;
 $material-form-label: $color-grey-dark;
-$material-form-label-focus: $color-indigo-normal;
-$material-form-line: $color-grey-dark;
-$material-form-line-focus: $color-indigo-normal;
-$material-form-input-text: $material-form-label;
-$material-form-input-text-focus: $material-form-label-focus;
+$material-form-label-focus: $material-form-focus-color;
+$material-form-line: $color-grey-darker;
+$material-form-line-focus: $material-form-focus-color;
+$material-form-input-text: $material-form-line;
+$material-form-input-text-focus: $material-form-focus-color;
 $material-form-field-invalid-foreground: #d50000;
 
 $material-dropdown-hoverBackground: #e8eaf6;
@@ -23,8 +24,6 @@ material-select {
   background: #FFFFFF;
   color: #000000;
   z-index: 1000;
-
-  //transition: 0.2s ease-in height, step-end box-shadow 0.2s;
 
   &.material-dropdown-open {
     box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.2);
@@ -47,8 +46,8 @@ material-input-container {
   font-size: 14px;
   position: relative;
   display: block;
-  color: $material-form-label;
   padding: $material-labelOffset 0 10px 0;
+  transition: $swift-ease-in-out;
 
   &:after {
     content: "\00A0";
@@ -63,9 +62,10 @@ material-input-container {
     display: block;
     top: $material-labelOffset + $material-textInputPaddingTopBottom;
     left: 0;
-    transition: $swift-ease-in-out;
+    transition: inherit;
     pointer-events: none;
     cursor: text;
+    color: $material-form-label;
   }
 
   input, textarea {
@@ -77,6 +77,7 @@ material-input-container {
     color: $material-form-input-text;
     border-bottom: 1px solid $material-form-line;
     outline: none;
+    transition: inherit;
 
     &:valid, &:focus {
       & ~ label {
@@ -105,7 +106,6 @@ material-input-container {
       & ~ material-select {
         height: 228px;
         box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.2);
-        //transition: 0.2s ease-out height, step-start box-shadow 0.2s;
       }
     }
   }

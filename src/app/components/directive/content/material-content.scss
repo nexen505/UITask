@@ -1,0 +1,21 @@
+material-content {
+  display: block;
+  position: relative;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+
+  &[material-scroll-y] {
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  &[material-scroll-x] {
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+  &[material-scroll-xy] {
+  }
+
+  @media print {
+    overflow: visible !important;
+  }
+}

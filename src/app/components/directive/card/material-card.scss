@@ -127,10 +127,17 @@ material-card {
       }
 
       img {
+        width: 100%;
+        height: 100%;
         display: flex;
         flex: 0 0 auto;
-        width: 100%;
-        height: auto;
+        align-items: center;
+        justify-content: center;
+
+        &:before {
+          font-style: italic;
+          color: $color-grey-normal;
+        }
       }
     }
   }

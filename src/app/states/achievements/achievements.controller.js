@@ -68,7 +68,7 @@ export class AchievementsController {
     this.AchievementService.saveOrUpdate(achievement)
       .then((savedAchievement) => {
         this.achievements.push(savedAchievement);
-        this.closeAchievements($event);
+        this.closeAddingCard();
       });
   }
 

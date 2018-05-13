@@ -4,10 +4,10 @@ import { UserAchievement } from "../model/userAchievement.model";
 import { Utils } from "../utils/utils.service";
 
 export class AchievementService extends DexieService {
-  constructor(ngDexie, $log, $q, $injector) {
+  constructor(_, ngDexie, $log, $q, $injector) {
     'ngInject';
 
-    super(ngDexie, $log);
+    super(ngDexie, $log, _);
     this.$q = $q;
     this.$injector = $injector;
   }
@@ -36,9 +36,7 @@ export class AchievementService extends DexieService {
     let ordered = this.getAchievementsDb();
 
     if (angular.isDefined(archived)) {
-      // ordered = ordered.where({
-      //   archived: +archived
-      // });
+      // ordered = ordered.where('archived').equalsIgnoreCase(archived);
       // FIXME it doesn't work
     }
 

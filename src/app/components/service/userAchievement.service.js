@@ -2,10 +2,10 @@ import { DexieService } from "./ngDexie.service";
 import { Utils } from "../utils/utils.service";
 
 export class UserAchievementService extends DexieService {
-  constructor(ngDexie, $log, $q) {
+  constructor(ngDexie, $log, $q, _) {
     'ngInject';
 
-    super(ngDexie, $log);
+    super(ngDexie, $log, _);
     this.$q = $q;
   }
 
@@ -68,5 +68,12 @@ export class UserAchievementService extends DexieService {
       );
 
     return promise;
+  }
+
+  toggleAchievement(userAchievement = Utils.requiredParam(), toggled = true) {
+    if (toggled) {
+      return this.saveOrUpdate(userAchievement);
+    }
+    this.delete(userAchievement.toObject().userId, userAchievement.toObject().achievementId);
   }
 }

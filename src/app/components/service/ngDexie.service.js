@@ -1,7 +1,5 @@
 export class DexieService {
-  constructor(_, ngDexie, $log) {
-    'ngInject';
-
+  constructor(ngDexie, $log, _) {
     this._ngDexie = ngDexie;
     this._$log = $log;
     this._lodash = _;

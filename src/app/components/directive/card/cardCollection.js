@@ -29,7 +29,9 @@ export class CardCollection {
 
   constructor(collection = []) {
     this._cards = [];
-    this.push(...collection);
+    if (collection) {
+      this.push(...collection);
+    }
   }
 
   get cards() {
