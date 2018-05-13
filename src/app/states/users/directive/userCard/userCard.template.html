@@ -5,7 +5,7 @@
     </material-card-title-text>
     <material-card-title-media>
       <div class="material-media-lg">
-        <img ng-src="data:image/png;base64,{{$ctrl.user.icon}}" alt="Изображение отсутствует"/>
+        <img ng-src="data:image/png;base64,{{$ctrl.user.photo}}" alt="Изображение отсутствует"/>
       </div>
     </material-card-title-media>
   </material-card-title>
@@ -14,17 +14,12 @@
       <material-input-container>
         <input required
                ng-model="$ctrl.user.name">
-        <label>Название</label>
+        <label>ФИО</label>
       </material-input-container>
       <material-input-container>
-            <textarea required
-                      ng-model="$ctrl.user.description"></textarea>
-        <label>Описание</label>
-      </material-input-container>
-      <material-input-container>
-        <input type="number" min="0" step="1" required
-               ng-model="$ctrl.user.karma">
-        <label>Количество кармы</label>
+        <textarea required
+                  ng-model="$ctrl.user.bio"></textarea>
+        <label>Биография</label>
       </material-input-container>
       <material-input-container ng-init="iconImg = null">
         <input type="file"

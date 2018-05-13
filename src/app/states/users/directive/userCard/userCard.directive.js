@@ -3,7 +3,7 @@ export function UserCardDirective(_, EventService) {
 
   return {
     restrict: 'E',
-    templateUrl: 'app/states/achievements/directive/achievementCard/achievementCard.template.html',
+    templateUrl: 'app/states/users/directive/userCard/userCard.template.html',
     scope: {
       active: '=',
       user: '<',
@@ -20,7 +20,7 @@ export function UserCardDirective(_, EventService) {
 
     EventService.watch($scope, 'iconImg', (newVal) => {
       if (newVal) {
-        vm.user.icon = _.get(newVal, 'base64', null);
+        vm.user.photo = _.get(newVal, 'base64', null);
       }
     }, true);
   }
