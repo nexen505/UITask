@@ -36,7 +36,8 @@ export class UserService extends DexieService {
     let ordered = this.getUsersDb();
 
     if (angular.isDefined(archived)) {
-      ordered = ordered.where('archived').equals(+archived);
+      // ordered = ordered.where('archived').equals(+archived);
+      // FIXME it doesn't work
     }
     ordered
       .toArray()
@@ -227,9 +228,9 @@ export class UserService extends DexieService {
     this.getUsersDb()
       .put(user.toObject())
       .then(
-        (value) => {
+        (ignoredResponse) => {
           this.$$removePendingReq(promise);
-          return deferred.resolve(value);
+          return deferred.resolve(user);
         },
         (rejection) => {
           this.$$removePendingReq(promise);

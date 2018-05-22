@@ -30,30 +30,29 @@
         <material-card-title>
           <material-card-title-text>
             <span class="material-headline" ng-bind="user.obj.name"></span>
-            <span class="material-subhead">Кол-во кармы: {{user.obj.karma}}</span>
           </material-card-title-text>
           <material-card-title-media>
             <div class="material-media-med">
-              <img ng-src="data:image/png;base64,{{user.obj.icon}}" alt="Изображение отсутствует"/>
+              <img ng-src="data:image/png;base64,{{user.obj.photo}}" alt="Изображение отсутствует"/>
             </div>
           </material-card-title-media>
         </material-card-title>
         <material-card-content>
-          <p ng-bind="user.obj.description"></p>
+          <p ng-bind="user.obj.bio"></p>
         </material-card-content>
         <material-card-actions>
           <material-button class="material-icon-button material-button--info"
-                           title="Просмотреть информацию о достижении"
+                           title="Просмотреть информацию о пользователе"
                            ng-click="usersCtrl.goToUser(user.obj.id)">
             <i class="material-icons">info</i>
           </material-button>
           <material-button class="material-icon-button"
-                           title="Редактировать достижение"
+                           title="Редактировать пользователя"
                            ng-click="usersCtrl.editUser(user)">
             <i class="material-icons">edit</i>
           </material-button>
           <material-button class="material-icon-button material-button--delete"
-                           title="Удалить достижение"
+                           title="Удалить пользователя"
                            ng-click="usersCtrl.deleteUser(user, $event)">
             <i class="material-icons">delete</i>
           </material-button>

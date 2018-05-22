@@ -6,7 +6,6 @@ export class UsersController {
   constructor(_, UserService, $state, usersData) {
     'ngInject';
 
-    console.log(arguments);
     this.UserService = UserService;
     this.$state = $state;
     this.users = new CardCollection(usersData);

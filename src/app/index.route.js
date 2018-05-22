@@ -40,10 +40,10 @@ export function routerConfig($stateProvider, $urlRouterProvider) {
         }
       },
       resolve: {
-        userData: (UserService) => {
+        userData: (UserService, $stateParams) => {
           'ngInject';
 
-          return UserService.getAll(false);
+          return UserService.get($stateParams.userId, true);
         }
       }
     })

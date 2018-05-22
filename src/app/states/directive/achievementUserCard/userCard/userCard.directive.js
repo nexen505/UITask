@@ -3,7 +3,7 @@ export function UserCardDirective(_, EventService) {
 
   return {
     restrict: 'E',
-    templateUrl: 'app/states/users/directive/userCard/userCard.template.html',
+    templateUrl: 'app/states/directive/achievementUserCard/userCard/userCard.template.html',
     scope: {
       active: '=',
       user: '<',
@@ -15,8 +15,12 @@ export function UserCardDirective(_, EventService) {
     bindToController: true
   };
 
-  function ctrl($scope) {
+  function ctrl($scope, $element, $attrs) {
     const vm = this;
+
+    if (!$attrs.active) {
+      vm.active = false;
+    }
 
     EventService.watch($scope, 'iconImg', (newVal) => {
       if (newVal) {

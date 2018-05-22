@@ -134,7 +134,7 @@ material-card {
         align-items: center;
         justify-content: center;
 
-        &:before {
+        span.alttext, &:before {
           font-style: italic;
           color: $color-grey-normal;
         }

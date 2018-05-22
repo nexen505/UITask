@@ -44,6 +44,9 @@ export class AchievementController {
           .then(
             (users) => {
               this.users = users;
+            },
+            (error) => {
+              console.log(error);
             }
           );
         break;
@@ -52,6 +55,9 @@ export class AchievementController {
           .then(
             (users) => {
               this.users = users;
+            },
+            (error) => {
+              console.log(error);
             }
           );
         break;
@@ -67,8 +73,8 @@ export class AchievementController {
   }
 
   editAchievement() {
-    this.achievement.$active = true;
     this.achievementCopy = angular.copy(this.achievement);
+    this.achievement.$active = true;
   }
 
   saveAchievement(achievement = Utils.requiredParam(), $event = Utils.requiredParam()) {

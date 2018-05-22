@@ -28,15 +28,16 @@ $card-active-animation-duration: 0.25s;
   }
 
   .achievements-new-card, .users-new-card {
-    @include switching-cards
+    @include switching-cards;
   }
 
   .achievements-cards, .users-cards {
     position: relative;
 
-    .achievements-card, .user-card {
+    .achievements-card, .users-card {
       material-card {
         &.active {
+          position: relative;
           display: flex;
           cursor: default;
           background: #FFF;

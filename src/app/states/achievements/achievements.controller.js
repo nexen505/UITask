@@ -6,7 +6,6 @@ export class AchievementsController {
   constructor(_, AchievementService, $state, achievementsData) {
     'ngInject';
 
-    console.log(arguments);
     this.AchievementService = AchievementService;
     this.$state = $state;
     this.achievements = new CardCollection(achievementsData);

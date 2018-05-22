@@ -3,9 +3,9 @@ export function AchievementCardDirective(_, EventService) {
 
   return {
     restrict: 'E',
-    templateUrl: 'app/states/achievements/directive/achievementCard/achievementCard.template.html',
+    templateUrl: 'app/states/directive/achievementUserCard/achievementCard/achievementCard.template.html',
     scope: {
-      active: '=',
+      active: '=?',
       achievement: '<',
       saveAchievement: '&',
       closeAchievement: '&'
@@ -15,8 +15,12 @@ export function AchievementCardDirective(_, EventService) {
     bindToController: true
   };
 
-  function ctrl($scope) {
+  function ctrl($scope, $element, $attrs) {
     const vm = this;
+
+    if (!$attrs.active) {
+      vm.active = false;
+    }
 
     EventService.watch($scope, 'iconImg', (newVal) => {
       if (newVal) {

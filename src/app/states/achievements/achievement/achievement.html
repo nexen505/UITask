@@ -1,41 +1,41 @@
 <material-content class="achievement">
   <div class="achievement-info">
-    <div ng-switch="achievementCtrl.achievement.$active">
-      <achievement-card
-        ng-switch-when="true"
-        active="achievementCtrl.achievement.$active"
-        achievement="achievementCtrl.achievementCopy"
-        save-achievement="achievementCtrl.saveAchievement(achievement, $event)"
-        close-achievement="achievementCtrl.closeEditingAchievement($event)"></achievement-card>
-      <material-card ng-switch-default>
-        <material-card-title>
-          <material-card-title-text>
-            <span class="material-headline" ng-bind="achievementCtrl.achievement.name"></span>
-            <span class="material-subhead">Кол-во кармы: {{achievementCtrl.achievement.karma}}</span>
-          </material-card-title-text>
-          <material-card-title-media ng-if="achievementCtrl.achievement.icon">
-            <div class="material-media-med">
-              <img ng-src="data:image/png;base64,{{achievementCtrl.achievement.icon}}" alt=""/>
-            </div>
-          </material-card-title-media>
-        </material-card-title>
-        <material-card-content>
-          <p ng-bind="achievementCtrl.achievement.description"></p>
-        </material-card-content>
-        <material-card-actions>
-          <material-button class="material-icon-button"
-                           title="Редактировать достижение"
-                           ng-click="achievementCtrl.editAchievement()">
-            <i class="material-icons">edit</i>
-          </material-button>
-          <material-button class="material-icon-button material-button--delete"
-                           title="Удалить достижение"
-                           ng-click="achievementCtrl.deleteAchievement($event)">
-            <i class="material-icons">delete</i>
-          </material-button>
-        </material-card-actions>
-      </material-card>
-    </div>
+    <material-card ng-if="!achievementCtrl.achievement.$active">
+      <material-card-title>
+        <material-card-title-text>
+          <span class="material-headline" ng-bind="achievementCtrl.achievement.name"></span>
+          <span class="material-subhead">Кол-во кармы: {{achievementCtrl.achievement.karma}}</span>
+        </material-card-title-text>
+        <material-card-title-media ng-if="achievementCtrl.achievement.icon">
+          <div class="material-media-med">
+            <img ng-src="data:image/png;base64,{{achievementCtrl.achievement.icon}}" alt=""/>
+          </div>
+        </material-card-title-media>
+      </material-card-title>
+      <material-card-content>
+        <p ng-bind="achievementCtrl.achievement.description"></p>
+      </material-card-content>
+      <material-card-actions>
+        <material-button class="material-icon-button"
+                         title="Редактировать достижение"
+                         ng-click="achievementCtrl.editAchievement()">
+          <i class="material-icons">edit</i>
+          <div>
+            <input ng-model="achievementCtrl.achievement.comment">
+          </div>
+        </material-button>
+        <material-button class="material-icon-button material-button--delete"
+                         title="Удалить достижение"
+                         ng-click="achievementCtrl.deleteAchievement($event)">
+          <i class="material-icons">delete</i>
+        </material-button>
+      </material-card-actions>
+    </material-card>
+    <achievement-card
+      ng-if="achievementCtrl.achievement.$active"
+      achievement="achievementCtrl.achievementCopy"
+      save-achievement="achievementCtrl.saveAchievement(achievement, $event)"
+      close-achievement="achievementCtrl.closeEditingAchievement($event)"></achievement-card>
   </div>
   <div class="achievement-users">
     <material-tabs>

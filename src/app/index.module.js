@@ -14,12 +14,12 @@ import { LoaderSpinnerDirective } from "./components/directive/loaderSpinner/loa
 import { MaterialSidenavDirective } from "./components/directive/sidenav/materialSidenav.directive";
 import { MaterialInputDirective } from "./components/directive/input/materialInput.directive";
 import { FileModelDirective } from "./components/directive/fileModel/fileModel.directive";
-import { AchievementCardDirective } from "./states/achievements/directive/achievementCard/achievementCard.directive";
+import { AchievementCardDirective } from "./states/directive/achievementUserCard/achievementCard/achievementCard.directive";
 import { AchievementController } from "./states/achievements/achievement/achievement.controller";
 import { UserController } from "./states/users/user/user.controller";
 import { UserAchievementService } from "./components/service/userAchievement.service";
 import { EventService } from "./components/utils/events.service";
-import { UserCardDirective } from "./states/users/directive/userCard/userCard.directive";
+import { UserCardDirective } from "./states/directive/achievementUserCard/userCard/userCard.directive";
 
 angular.module('uitask', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngMessages', 'ngAria', 'ngScrollbars', 'ui.router', 'ngMaterial', 'toastr', 'ngdexie', 'ngdexie.ui', 'naif.base64'])
   .constant('malarkey', malarkey)
