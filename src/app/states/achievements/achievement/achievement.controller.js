@@ -1,13 +1,14 @@
 import { Utils } from "../../../components/utils/utils.service";
+import { UserAchievement } from "../../../components/model/userAchievement.model";
 
 export class AchievementController {
-  constructor($scope, AchievementService, UserService, EventService, achievementData, $state) {
+  constructor($scope, AchievementService, UserService, UserAchievementService, EventService, achievementData, $state) {
     'ngInject';
 
-    console.log(arguments);
     this.achievement = achievementData;
     this.AchievementService = AchievementService;
     this.UserService = UserService;
+    this.UserAchievementService = UserAchievementService;
     this.$state = $state;
 
     this.$scope = $scope;
@@ -17,6 +18,10 @@ export class AchievementController {
         this.selectTab(newVal);
       }
     });
+  }
+
+  get selectedTab() {
+    return this.$scope.selectedTab;
   }
 
   get achievement() {
@@ -36,7 +41,7 @@ export class AchievementController {
   }
 
   selectTab(tab) {
-    this.$scope.selectTab = tab;
+    this.$scope.selectedTab = tab;
     this.users = [];
     switch (tab) {
       case this.tabs.ACHIEVED:
@@ -99,8 +104,36 @@ export class AchievementController {
     this.achievement.$active = false;
   }
 
-  toggleAchievement(userAchievement = Utils.requiredParam(), achievementId = Utils.requiredParam(), toggle = true) {
-    // TODO implement this logic
+  toggleAchievement(user = Utils.requiredParam(), toggle = true) {
+    if (toggle) {
+      const userAchievement = new UserAchievement();
+
+      userAchievement.achievement = this.achievement;
+      userAchievement.user = user;
+      user.userAchievement = userAchievement;
+    } else {
+      this.UserAchievementService.delete(user.id, this.achievement.id)
+        .then(
+          (resp) => {
+            this.selectTab(this.selectedTab);
+          },
+          (errorResp) => {
+            console.log(errorResp);
+          }
+        );
+    }
+  }
+
+  saveUserAchievement(userAchievement = Utils.requiredParam()) {
+    this.UserAchievementService.saveOrUpdate(userAchievement)
+      .then(
+        (resp) => {
+          this.selectTab(this.selectedTab);
+        },
+        (errorResp) => {
+          console.log(errorResp);
+        }
+      );
   }
 
 }

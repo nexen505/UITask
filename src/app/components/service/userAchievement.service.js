@@ -71,9 +71,9 @@ export class UserAchievementService extends DexieService {
   }
 
   toggleAchievement(userAchievement = Utils.requiredParam(), toggled = true) {
+    this.delete(userAchievement.toObject().userId, userAchievement.toObject().achievementId);
     if (toggled) {
       return this.saveOrUpdate(userAchievement);
     }
-    this.delete(userAchievement.toObject().userId, userAchievement.toObject().achievementId);
   }
 }

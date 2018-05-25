@@ -47,7 +47,7 @@
              checked>
       <material-tab>
         <label class="material-tab-label" for="{{achievementCtrl.tabs.ACHIEVED}}">Награжденные пользователи</label>
-        <material-tab-content>
+        <material-tab-content ng-if="selectedTab === achievementCtrl.tabs.ACHIEVED">
           <material-card
             ng-repeat="userAchievement in achievementCtrl.users | orderBy:'date' track by userAchievement.id"
             ng-if="userAchievement.user">
@@ -68,7 +68,7 @@
             <material-card-actions>
               <material-button class="material-icon-button"
                                title="Лишить пользователя достижения"
-                               ng-click="achievementCtrl.toggleAchievement(userAchievement.user.id, achievementCtrl.achievement.achievementId, false)">
+                               ng-click="achievementCtrl.toggleAchievement(userAchievement, false)">
                 <i class="material-icons">star</i>
               </material-button>
               <material-button class="material-icon-button material-button--info"
@@ -87,7 +87,7 @@
              ng-model="selectedTab">
       <material-tab>
         <label class="material-tab-label" for="{{achievementCtrl.tabs.OTHERS}}">Остальные пользователи</label>
-        <material-tab-content>
+        <material-tab-content ng-if="selectedTab === achievementCtrl.tabs.OTHERS">
           <material-card
             ng-repeat="user in achievementCtrl.users | orderBy:'date' track by user.id"
             ng-if="user">
@@ -106,10 +106,33 @@
               <p ng-bind="user.bio"></p>
             </material-card-content>
             <material-card-actions>
+              <div class="comment-input" ng-if="user.userAchievement">
+                <form name="userAchievementForm">
+                  <material-input-container>
+                    <input required
+                           ng-model="user.userAchievement.comment">
+                    <label>Введите комментарий:</label>
+                  </material-input-container>
+                  <material-button class="material-icon-button"
+                                   type="submit"
+                                   ng-disabled="!userAchievementForm.$valid"
+                                   title="Присвоить достижение"
+                                   ng-click="achievementCtrl.saveUserAchievement(user.userAchievement)">
+                    <i class="material-icons">done</i>
+                  </material-button>
+                  <material-button class="material-icon-button"
+                                   type="reset"
+                                   title="Отменить присвоение"
+                                   ng-click="user.userAchievement = null">
+                    <i class="material-icons">clear</i>
+                  </material-button>
+                </form>
+              </div>
               <material-button class="material-icon-button"
-                               title="Лишить пользователя достижения"
-                               ng-click="achievementCtrl.toggleAchievement(user.id, achievementCtrl.achievement.achievementId, true)">
-                <i class="material-icons">star border</i>
+                               title="Дать пользователю достижение"
+                               ng-if="!user.userAchievement"
+                               ng-click="achievementCtrl.toggleAchievement(user, true)">
+                <i class="material-icons">star_border</i>
               </material-button>
               <material-button class="material-icon-button material-button--info"
                                title="Просмотреть информацию о пользователе"

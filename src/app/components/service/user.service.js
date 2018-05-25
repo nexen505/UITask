@@ -56,11 +56,10 @@ export class UserService extends DexieService {
   }
 
   get(userId = null, withAchievements = false) {
-    const deferred = this.$q.defer(),
-      promise = deferred.promise;
+    const deferred = this.$q.defer();
 
     if (userId) {
-      this.$$pushPendingReq(promise);
+      this.$$pushPendingReq(deferred.promise);
       this.getUsersDb()
         .where("id")
         .equalsIgnoreCase(userId)
@@ -71,30 +70,25 @@ export class UserService extends DexieService {
               const user = UserService.usersMapper(value);
 
               if (withAchievements) {
-                const userAchievementsPromise = this.AchievementService
-                  .getUserAchievements(userId);
-
-                this.$$pushPendingReq(userAchievementsPromise);
-                userAchievementsPromise
+                this.AchievementService
+                  .getUserAchievements(userId)
                   .then(
                     (achievements) => {
                       user.achievements = achievements;
-                      this.$$removePendingReq(userAchievementsPromise);
-                      this.$$removePendingReq(promise);
+                      this.$$removePendingReq(deferred.promise);
                       return deferred.resolve(user);
                     },
                     (ignoredRejection) => {
-                      this.$$removePendingReq(userAchievementsPromise);
-                      this.$$removePendingReq(promise);
+                      this.$$removePendingReq(deferred.promise);
                       return deferred.resolve(user);
                     }
                   );
               } else {
-                this.$$removePendingReq(promise);
+                this.$$removePendingReq(deferred.promise);
                 return deferred.resolve(user);
               }
             } else {
-              this.$$removePendingReq(promise);
+              this.$$removePendingReq(deferred.promise);
               return deferred.resolve(null);
             }
           },
@@ -104,61 +98,51 @@ export class UserService extends DexieService {
       deferred.resolve(null);
     }
 
-    return promise;
+    return deferred.promise;
   }
 
   getAchievementUsers(achievementId = Utils.requiredParam(), hasAchievement = true) {
     const deferred = this.$q.defer(),
-      promise = deferred.promise,
-      usAchs = this.UserAchievementService
+      vm = this,
+      usAchs = vm.UserAchievementService
         .getUserAchievementsCollection(null, achievementId)
         .toArray();
 
-    this.$$pushPendingReq(promise);
-    this.$$pushPendingReq(usAchs);
+    vm.$$pushPendingReq(deferred.promise);
     if (hasAchievement) {
       usAchs
         .then(
-          (values = []) => {
-            const achUsPromises = values.map(
-              (userAchievement) => {
-                const userPromise = this.get(userAchievement.userId);
-
-                this.$$pushPendingReq(userPromise);
-                userPromise
-                  .then(
-                    (user) => {
-                      this.$$removePendingReq(userPromise);
-                      return new UserAchievement(userAchievement.id, userAchievement.comment, userAchievement.date, null, UserService.usersMapper(user));
-                    },
-                    (ignoredRejection) => {
-                      this.$$removePendingReq(userPromise);
-                      return new UserAchievement(userAchievement.id, userAchievement.comment, userAchievement.date);
-                    }
-                  );
-
-                return userPromise;
-              }
-            );
-
-            return this.$q.all(achUsPromises)
+          (rows = []) => {
+            return vm.$q
+              .all(
+                rows.map(
+                  (userAchievement) => vm.get(userAchievement.userId)
+                    .then(
+                      (user) => {
+                        console.log(user, userAchievement);
+                        return new UserAchievement(userAchievement.id, userAchievement.comment, userAchievement.date, null, UserService.usersMapper(user));
+                      },
+                      (ignoredRejection) => {
+                        return new UserAchievement(userAchievement.id, userAchievement.comment, userAchievement.date);
+                      }
+                    )
+                )
+              )
               .then(
                 (achievementUsers) => {
-                  this.$$removePendingReq(usAchs);
-                  this.$$removePendingReq(promise);
+                  vm.$$removePendingReq(deferred.promise);
                   return deferred.resolve(
                     achievementUsers
                   );
                 },
                 (rejections) => {
-                  this.$$removePendingReq(usAchs);
-                  this.$$removePendingReq(promise);
+                  vm.$$removePendingReq(deferred.promise);
                   return deferred.reject(rejections);
                 }
               );
           },
           (rejection) => {
-            this.$$removePendingReq(promise);
+            vm.$$removePendingReq(deferred.promise);
             return deferred.resolve(rejection);
           }
         );
@@ -166,34 +150,33 @@ export class UserService extends DexieService {
       usAchs
         .then(
           (rows) => {
-            const usIds = this._.uniq(
-              this._.compact(
+            const usIds = vm._.uniq(
+              vm._.compact(
                 rows.map((row) => row.userId)
               )
             );
 
-            this.$$removePendingReq(usAchs);
-            return this.getUsersDb().where('id').noneOf(usIds).toArray();
+            return vm.getUsersDb().where('id').noneOf(usIds).toArray();
           },
           (rejection) => {
-            this.$$removePendingReq(usAchs);
             return deferred.reject(rejection);
           }
-        ).then(
-        (values = []) => {
-          const users = values.map(UserService.usersMapper);
+        )
+        .then(
+          (values = []) => {
+            const users = values.map(UserService.usersMapper);
 
-          this.$$removePendingReq(promise);
-          return deferred.resolve(users);
-        },
-        (rejection) => {
-          this.$$removePendingReq(promise);
-          return deferred.reject(rejection);
-        }
-      );
+            vm.$$removePendingReq(deferred.promise);
+            return deferred.resolve(users);
+          },
+          (rejection) => {
+            vm.$$removePendingReq(deferred.promise);
+            return deferred.reject(rejection);
+          }
+        );
     }
 
-    return promise;
+    return deferred.promise;
   }
 
   delete(userId = Utils.requiredParam()) {
