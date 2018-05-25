@@ -41,7 +41,7 @@
           <p ng-bind="user.obj.bio"></p>
         </material-card-content>
         <material-card-actions>
-          <material-button class="material-icon-button material-button--info"
+          <material-button class="material-icon-button material-button--green"
                            title="Просмотреть информацию о пользователе"
                            ng-click="usersCtrl.goToUser(user.obj.id)">
             <i class="material-icons">info</i>
@@ -51,13 +51,17 @@
                            ng-click="usersCtrl.editUser(user)">
             <i class="material-icons">edit</i>
           </material-button>
-          <material-button class="material-icon-button material-button--delete"
+          <material-button class="material-icon-button material-button--red"
                            title="Удалить пользователя"
                            ng-click="usersCtrl.deleteUser(user, $event)">
             <i class="material-icons">delete</i>
           </material-button>
         </material-card-actions>
       </material-card>
+    </div>
+    <div class="empty-state" ng-if="!usersCtrl.users.cards.length">
+      <h3 class="header"><i class="material-icons">error_outline</i>Нет пользователей. Можете добавить их через форму
+        сверху.</h3>
     </div>
   </div>
 </material-content>

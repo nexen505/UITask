@@ -24,7 +24,7 @@
             <input ng-model="achievementCtrl.achievement.comment">
           </div>
         </material-button>
-        <material-button class="material-icon-button material-button--delete"
+        <material-button class="material-icon-button material-button--red"
                          title="Удалить достижение"
                          ng-click="achievementCtrl.deleteAchievement($event)">
           <i class="material-icons">delete</i>
@@ -71,13 +71,16 @@
                                ng-click="achievementCtrl.toggleAchievement(userAchievement, false)">
                 <i class="material-icons">star</i>
               </material-button>
-              <material-button class="material-icon-button material-button--info"
+              <material-button class="material-icon-button material-button--green"
                                title="Просмотреть информацию о пользователе"
                                ng-click="achievementCtrl.goToUser(userAchievement.user.id)">
                 <i class="material-icons">info</i>
               </material-button>
             </material-card-actions>
           </material-card>
+          <div class="empty-state" ng-if="!achievementCtrl.users.length">
+            <h3><i class="material-icons">error_outline</i>Нет награжденных пользователей</h3>
+          </div>
         </material-tab-content>
       </material-tab>
       <input type="radio"
@@ -134,13 +137,16 @@
                                ng-click="achievementCtrl.toggleAchievement(user, true)">
                 <i class="material-icons">star_border</i>
               </material-button>
-              <material-button class="material-icon-button material-button--info"
+              <material-button class="material-icon-button material-button--green"
                                title="Просмотреть информацию о пользователе"
                                ng-click="achievementCtrl.goToUser(user.id)">
                 <i class="material-icons">info</i>
               </material-button>
             </material-card-actions>
           </material-card>
+          <div class="empty-state" ng-if="!achievementCtrl.users.length">
+            <h3 class="header"><i class="material-icons">error_outline</i>Нет ненагражденных пользователей</h3>
+          </div>
         </material-tab-content>
       </material-tab>
       <div class="slide"></div>

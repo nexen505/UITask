@@ -5,7 +5,6 @@
 // bower:scss
 // endbower
 
-
 $font-family: Roboto, 'Helvetica Neue', sans-serif !default;
 $font-size: 10px !default;
 
@@ -46,13 +45,9 @@ $subhead-font-size-base: rem(1.600) !default;
 $body-font-size-base: rem(1.400) !default;
 $caption-font-size-base: rem(1.200) !default;
 
-//$color-grey-light: #f5f5f6;
-//$color-grey-normal: #e1e2e1;
-//$color-grey-dark: #49696f;
-
-$color-grey-light: rgba-to-rgb(rgba(0, 0, 0, 0.12));
-$color-grey-normal: rgba-to-rgb(rgba(0, 0, 0, 0.38));
-$color-grey-dark: rgba-to-rgb(rgba(0, 0, 0, 0.54));
+$color-grey-light: rgba-to-rgb(rgba(0, 0, 0, 0.08));
+$color-grey-normal: rgba-to-rgb(rgba(0, 0, 0, 0.28));
+$color-grey-dark: rgba-to-rgb(rgba(0, 0, 0, 0.44));
 $color-grey-darker: rgba-to-rgb(rgba(0, 0, 0, 0.87));
 
 $color-indigo-light: #757ce8;
@@ -94,6 +89,20 @@ $material-leave-timing-function: cubic-bezier(0.4, 0.0, 1, 1);
 $material-leave: all $material-leave-duration $material-leave-timing-function;
 
 $material-toolbar-height: 64px;
+
+@mixin empty-state($height) {
+  height: #{$height};
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $color-grey-normal;
+
+  .header {
+    display: flex;
+    align-items: center;
+  }
+}
 
 @mixin switching-cards {
   $animation-duration: 0.3s;

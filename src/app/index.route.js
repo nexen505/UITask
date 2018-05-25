@@ -65,7 +65,7 @@ export function routerConfig($stateProvider, $urlRouterProvider) {
       }
     })
     .state('achievement', {
-      url: '/:achievementId',
+      url: '/:achievementId?tab',
       parent: 'main.achievements',
       views: {
         'content@main': {

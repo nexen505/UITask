@@ -12,7 +12,7 @@ export class AchievementController {
     this.$state = $state;
 
     this.$scope = $scope;
-    this.$scope.selectedTab = this.tabs.ACHIEVED;
+    this.$scope.selectedTab = $state.params.tab || this.tabs.ACHIEVED;
     EventService.watch(this.$scope, 'selectedTab', (newVal) => {
       if (newVal) {
         this.selectTab(newVal);

@@ -42,7 +42,7 @@
           <p ng-bind="achievement.obj.description"></p>
         </material-card-content>
         <material-card-actions>
-          <material-button class="material-icon-button material-button--info"
+          <material-button class="material-icon-button material-button--green"
                            title="Просмотреть информацию о достижении"
                            ng-click="achievementsCtrl.goToAchievement(achievement.obj.id)">
             <i class="material-icons">info</i>
@@ -52,13 +52,17 @@
                            ng-click="achievementsCtrl.editAchievement(achievement)">
             <i class="material-icons">edit</i>
           </material-button>
-          <material-button class="material-icon-button material-button--delete"
+          <material-button class="material-icon-button material-button--red"
                            title="Удалить достижение"
                            ng-click="achievementsCtrl.deleteAchievement(achievement, $event)">
             <i class="material-icons">delete</i>
           </material-button>
         </material-card-actions>
       </material-card>
+    </div>
+    <div class="empty-state" ng-if="!achievementsCtrl.achievements.cards.length">
+      <h3 class="header"><i class="material-icons">error_outline</i>Нет достижений. Можете добавить их через форму
+        сверху.</h3>
     </div>
   </div>
 </material-content>

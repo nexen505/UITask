@@ -11,7 +11,7 @@ material-sidenav {
   align-items: flex-start;
   z-index: $z-index-sidenav;
   background: $color-grey-light;
-  color: $color-grey-dark;
+  color: $color-grey-darker;
 
   width: $sidenav-mobile-width;
   max-width: $sidenav-mobile-width;
@@ -22,14 +22,21 @@ material-sidenav {
     list-style: none;
     padding: 0;
     width: 100%;
+
     li {
       width: 100%;
+
       .material-button {
         width: 100%;
-        padding-left: 40px;
+        padding-left: 20px;
         display: flex;
+
+        i.material-icons {
+          margin-right: 10px;
+        }
+
         &:hover {
-          background: $color-grey-normal;
+          background: $color-grey-dark;
         }
       }
     }

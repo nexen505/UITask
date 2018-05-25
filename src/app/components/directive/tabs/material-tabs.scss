@@ -76,6 +76,10 @@ material-tabs {
       width: 100%;
       display: none;
       left: 0;
+
+      .empty-state {
+        @include empty-state(300px);
+      }
     }
   }
 }

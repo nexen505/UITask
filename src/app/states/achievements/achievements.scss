@@ -64,6 +64,10 @@ $card-active-animation-duration: 0.25s;
         }
       }
     }
+
+    .empty-state {
+      @include empty-state(600px);
+    }
   }
 }
 
