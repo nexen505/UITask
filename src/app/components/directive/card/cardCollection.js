@@ -1,4 +1,9 @@
 export class Card {
+  constructor(obj = null, $active = false) {
+    this._obj = obj;
+    this._$active = $active;
+  }
+
   get obj() {
     return this._obj;
   }
@@ -14,18 +19,9 @@ export class Card {
   set $active(value) {
     this._$active = value;
   }
-
-  constructor(obj = null, $active = false) {
-    this._obj = obj;
-    this._$active = $active;
-  }
 }
 
 export class CardCollection {
-
-  static cardMapper(elm) {
-    return new Card(elm);
-  }
 
   constructor(collection = []) {
     this._cards = [];
@@ -36,6 +32,10 @@ export class CardCollection {
 
   get cards() {
     return this._cards;
+  }
+
+  static cardMapper(elm) {
+    return new Card(elm);
   }
 
   open(card) {

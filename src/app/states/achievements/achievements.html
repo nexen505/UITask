@@ -31,15 +31,15 @@
                  type="checkbox"
                  ng-model="archived"
                  ng-model-options="{ debounce: 1000 }"
-                 ng-true-value="1"
-                 ng-false-value="0"
+                 ng-true-value="'1'"
+                 ng-false-value="'0'"
                  ng-change="achievementsCtrl.showArchived(archived)">
           <label for="archived">Архивные</label>
         </div>
       </div>
     </div>
     <div class="achievements-card"
-         ng-repeat="achievement in filtered = (achievementsCtrl.achievements.cards | archivedName:archived:'obj.name':searchText | orderBy:'obj.name') track by achievement.obj.id">
+         ng-repeat="achievement in filtered = (achievementsCtrl.achievements.cards | archivedName:'obj.archived':(archived==='1'):'obj.name':searchText | orderBy:'obj.name') track by achievement.obj.id">
       <achievement-card
         ng-if="achievement.$active"
         ng-class="{'active': achievement.$active}"
@@ -75,27 +75,30 @@
             <i class="material-icons">edit</i>
           </material-button>
           <span ng-switch="achievement.obj.archived">
-            <material-button ng-switch-when="true"
-                             class="material-icon-button material-button--green no-animate"
-                             title="Восстановить достижение"
-                             ng-click="achievementsCtrl.restoreAchievement(achievement, $event)">
-              <i class="material-icons">undo</i>
-            </material-button>
-            <material-button ng-switch-default
-                             class="material-icon-button material-button--red no-animate"
-                             title="Удалить достижение"
-                             ng-click="achievementsCtrl.deleteAchievement(achievement, $event)">
-              <i class="material-icons">delete</i>
-            </material-button>
+            <span ng-switch-when="true">
+              <material-button class="material-icon-button material-button--green no-animate"
+                               title="Восстановить достижение"
+                               ng-click="achievementsCtrl.restoreAchievement(achievement, $event)">
+                <i class="material-icons">undo</i>
+              </material-button>
+            </span>
+            <span ng-switch-default>
+              <material-button class="material-icon-button material-button--red no-animate"
+                               title="Удалить достижение"
+                               ng-click="achievementsCtrl.deleteAchievement(achievement, $event)">
+                <i class="material-icons">delete</i>
+              </material-button>
+            </span>
           </span>
         </material-card-actions>
       </material-card>
     </div>
     <div class="empty-state" ng-if="!achievementsCtrl.achievements.cards.length">
-      <h3 class="header"><i class="material-icons">error_outline</i>Нет достижений. Можете добавить их через форму
-        сверху.</h3>
+      <h3 class="header">
+        <i class="material-icons">error_outline</i>Нет достижений. Можете добавить их через форму сверху.
+      </h3>
     </div>
-    <div class="empty-state" ng-if="!filtered.length">
+    <div class="empty-state" ng-if="achievementsCtrl.achievements.cards.length && !filtered.length">
       <h3 class="header">
         <i class="material-icons">error_outline</i>Отсутствуют достижения, удовлетворяющие выбранным критериям.
       </h3>

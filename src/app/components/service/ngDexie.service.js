@@ -5,6 +5,18 @@ export class DexieService {
     this._lodash = _;
   }
 
+  get ngDexie() {
+    return this._ngDexie;
+  }
+
+  get $log() {
+    return this._$log;
+  }
+
+  get _() {
+    return this._lodash;
+  }
+
   $$removePendingReq(promise) {
     const idx = this.ngDexie.pendingRequests.indexOf(promise);
 
@@ -18,18 +30,6 @@ export class DexieService {
       this.ngDexie.pendingRequests = [];
     }
     this.ngDexie.pendingRequests.push(promise);
-  }
-
-  get ngDexie() {
-    return this._ngDexie;
-  }
-
-  get $log() {
-    return this._$log;
-  }
-
-  get _() {
-    return this._lodash;
   }
 
   getDb() {

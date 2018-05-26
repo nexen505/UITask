@@ -20,12 +20,12 @@ export class AchievementService extends DexieService {
     return this.$injector.get('UserAchievementService');
   }
 
-  getAchievementsDb(db = this.getDb()) {
-    return db.achievements;
-  }
-
   static achievementMapper(achievement = {}) {
     return new Achievement(achievement.id, achievement.name, achievement.description, achievement.karma, achievement.icon, achievement.archived);
+  }
+
+  getAchievementsDb(db = this.getDb()) {
+    return db.achievements;
   }
 
   getAll(archived = false) {

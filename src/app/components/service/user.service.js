@@ -20,12 +20,12 @@ export class UserService extends DexieService {
     return this.$injector.get('UserAchievementService');
   }
 
-  getUsersDb(db = this.getDb()) {
-    return db.users;
+  static usersMapper(user = {}) {
+    return new User(user.id, user.name, user.bio, user.photo, user.archived);
   }
 
-  static usersMapper(user = {}) {
-    return new User(user.id, user.name, user.bio, user.photo);
+  getUsersDb(db = this.getDb()) {
+    return db.users;
   }
 
   getAll(archived = false) {

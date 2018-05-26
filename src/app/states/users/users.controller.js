@@ -84,7 +84,15 @@ export class UsersController {
     $event.stopImmediatePropagation();
     this.UserService.delete(userCard.obj.id)
       .then(() => {
-        this.users.remove(userCard);
+        userCard.obj.archived = true;
+      });
+  }
+
+  restoreUser(userCard = Utils.requiredParam(), $event = Utils.requiredParam()) {
+    $event.stopImmediatePropagation();
+    this.UserService.restore(userCard.obj.id)
+      .then(() => {
+        userCard.obj.archived = false;
       });
   }
 

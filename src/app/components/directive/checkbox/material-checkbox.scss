@@ -43,6 +43,7 @@ $material-checkmark-color: #fff;
       transform: scale(1);
       -ms-transform: scale(0);
       transition: opacity 0.5s, transform 0.5s;
+      cursor: pointer;
 
       &:checked {
         background-color: $material-checkbox-checked-color;
@@ -79,10 +80,12 @@ $material-checkmark-color: #fff;
 
       &:disabled {
         opacity: 0;
-        cursor: initial;
+        cursor: default;
+        pointer-events: none;
 
         + label {
-          cursor: initial;
+          cursor: default;
+          pointer-events: none;
 
           &:before {
             border-color: $material-checkbox-border-color-disabled;
@@ -92,6 +95,8 @@ $material-checkmark-color: #fff;
     }
 
     label {
+      cursor: pointer;
+
       &:before {
         content: "";
         display: inline-block;

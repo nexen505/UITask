@@ -22,6 +22,7 @@ $card-active-animation-duration: 0.25s;
     display: flex;
     align-items: flex-start;
     justify-content: center;
+
     material-card {
       width: 600px;
     }
@@ -93,11 +94,12 @@ material-content {
     position: relative;
     display: flex;
     align-items: center;
+    width: 100%;
+    max-width: 400px;
 
     input {
       width: 100%;
       height: 40px;
-      max-width: 400px;
       background: $color-grey-light;
       color: $color-grey-dark;
       padding: 5px;
@@ -117,7 +119,7 @@ material-content {
     }
   }
 
-  .filters-checkbox {
-
+  .filters-checkboxes {
+    flex-shrink: 0;
   }
 }

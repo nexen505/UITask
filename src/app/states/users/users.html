@@ -51,11 +51,22 @@
                            ng-click="usersCtrl.editUser(user)">
             <i class="material-icons">edit</i>
           </material-button>
-          <material-button class="material-icon-button material-button--red"
-                           title="Удалить пользователя"
-                           ng-click="usersCtrl.deleteUser(user, $event)">
-            <i class="material-icons">delete</i>
-          </material-button>
+          <span ng-switch="user.obj.archived">
+            <span ng-switch-when="true">
+              <material-button class="material-icon-button material-button--green"
+                               title="Удалить пользователя"
+                               ng-click="usersCtrl.restoreUser(user, $event)">
+                <i class="material-icons">undo</i>
+              </material-button>
+            </span>
+            <span ng-switch-default>
+              <material-button class="material-icon-button material-button--red"
+                               title="Удалить пользователя"
+                               ng-click="usersCtrl.deleteUser(user, $event)">
+                <i class="material-icons">delete</i>
+              </material-button>
+            </span>
+          </span>
         </material-card-actions>
       </material-card>
     </div>
@@ -64,7 +75,7 @@
         <i class="material-icons">error_outline</i>Нет пользователей. Можете добавить их через форму сверху.
       </h3>
     </div>
-    <div class="empty-state" ng-if="!filtered.length">
+    <div class="empty-state" ng-if="usersCtrl.users.cards.length && !filtered.length">
       <h3 class="header">
         <i class="material-icons">error_outline</i>Отсутствуют пользователи, удовлетворяющие выбранным критериям.
       </h3>

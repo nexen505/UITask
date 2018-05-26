@@ -25,7 +25,7 @@ export function routerConfig($stateProvider, $urlRouterProvider) {
         }
       },
       resolve: {
-        usersData: (UserService, $stateParams, $log) => {
+        usersData: (UserService, $stateParams) => {
           'ngInject';
 
           return UserService.getAll($stateParams.archived === '1');
