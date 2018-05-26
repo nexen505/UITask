@@ -152,10 +152,10 @@ export class AchievementService extends DexieService {
         }
       ).then(
         (values = []) => {
-          const users = values.map(AchievementService.achievementMapper);
+          const achievements = values.map(AchievementService.achievementMapper);
 
           this.$$removePendingReq(promise);
-          return deferred.resolve(users);
+          return deferred.resolve(achievements);
         },
         (rejection) => {
           this.$$removePendingReq(promise);
@@ -206,7 +206,6 @@ export class AchievementService extends DexieService {
     const deferred = this.$q.defer(),
       promise = deferred.promise;
 
-    this.$log.info('saveOrUpdate achievement', achievement.toObject());
     this.$$pushPendingReq(promise);
     this.getAchievementsDb()
       .put(achievement.toObject())

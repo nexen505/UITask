@@ -34,21 +34,14 @@ $font-size: 10px !default;
   }
 }
 
-@keyframes opacity-hide {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-}
-
-@keyframes opacity-show {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
+@mixin opacity-keyframes($name, $start, $end) {
+  @keyframes #{$name} {
+    from {
+      opacity: #{$start};
+    }
+    to {
+      opacity: #{$end};
+    }
   }
 }
 
@@ -131,16 +124,20 @@ $material-toolbar-height: 64px;
       animation-timing-function: $swift-ease-out-timing-function;
       animation-fill-mode: forwards;
     }
+
     &.ng-leave {
       display: none;
     }
   }
-  achievement-card, user-card {
+
+  achievement-card,
+  user-card {
     &.ng-enter {
       animation: $animation-duration bounce-right;
       animation-timing-function: $swift-ease-out-timing-function;
       animation-fill-mode: forwards;
     }
+
     &.ng-leave {
       display: none;
     }
@@ -148,6 +145,9 @@ $material-toolbar-height: 64px;
 }
 
 @mixin active-background($animation-duration) {
+  @include opacity-keyframes(opacity-towards, 0.1, 0.7);
+  @include opacity-keyframes(opacity-reversed, 0.7, 0);
+
   width: 100%;
   height: 100%;
   position: fixed;
@@ -159,7 +159,7 @@ $material-toolbar-height: 64px;
   background: $color-grey-normal;
   opacity: 0.1;
 
-  animation: #{$animation-duration} opacity;
+  animation: #{$animation-duration} opacity-towards;
   animation-timing-function: $swift-ease-in-timing-function;
   animation-fill-mode: forwards;
 
@@ -167,24 +167,6 @@ $material-toolbar-height: 64px;
     animation: #{$animation-duration} opacity-reversed;
     animation-timing-function: $swift-ease-in-timing-function;
     animation-fill-mode: forwards;
-  }
-
-  @keyframes opacity {
-    from {
-      opacity: 0.1;
-    }
-    to {
-      opacity: 0.7;
-    }
-  }
-
-  @keyframes opacity-reversed {
-    from {
-      opacity: 0.7;
-    }
-    to {
-      opacity: 0;
-    }
   }
 }
 
@@ -643,7 +625,9 @@ h1, h2, h3, h4 {
 .clickable {
   cursor: pointer;
   opacity: 0.6;
+  outline: none;
   transition: $swift-ease-in;
+
   &:hover {
     opacity: 1;
   }
@@ -663,6 +647,7 @@ h1, h2, h3, h4 {
   &.ng-animate {
     transition: none !important;
   }
+
   &.ng-animate {
     animation: none 0s;
   }

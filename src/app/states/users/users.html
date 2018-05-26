@@ -17,7 +17,7 @@
   </div>
   <div class="users-cards">
     <div class="users-card"
-         ng-repeat="user in usersCtrl.users.cards | orderBy:'obj.name' track by user.obj.id">
+         ng-repeat="user in filtered = (usersCtrl.users.cards | orderBy:'obj.name') track by user.obj.id">
       <user-card
         ng-if="user.$active"
         ng-class="{'active': user.$active}"
@@ -60,8 +60,14 @@
       </material-card>
     </div>
     <div class="empty-state" ng-if="!usersCtrl.users.cards.length">
-      <h3 class="header"><i class="material-icons">error_outline</i>Нет пользователей. Можете добавить их через форму
-        сверху.</h3>
+      <h3 class="header">
+        <i class="material-icons">error_outline</i>Нет пользователей. Можете добавить их через форму сверху.
+      </h3>
+    </div>
+    <div class="empty-state" ng-if="!filtered.length">
+      <h3 class="header">
+        <i class="material-icons">error_outline</i>Отсутствуют пользователи, удовлетворяющие выбранным критериям.
+      </h3>
     </div>
   </div>
 </material-content>

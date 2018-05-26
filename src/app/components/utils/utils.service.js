@@ -11,4 +11,25 @@ export class Utils {
   static requiredParam() {
     throw new TypeError('Function has required param that was not passed!');
   }
+
+  static isEmpty(e) {
+    switch (e) {
+      case '':
+      case 0:
+      case '0':
+      case null:
+      case false:
+      case angular.isUndefined(this):
+        return true;
+      case angular.isArray(this):
+        for (let i = 0; i < this.length; i++) {
+          if (!Utils.isEmpty(this[i])) {
+            return false;
+          }
+        }
+        return true;
+      default:
+        return false;
+    }
+  }
 }

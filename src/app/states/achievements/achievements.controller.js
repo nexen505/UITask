@@ -8,19 +8,17 @@ export class AchievementsController {
 
     this.AchievementService = AchievementService;
     this.$state = $state;
-    this.achievements = new CardCollection(achievementsData);
+    this.$scope = $scope;
     this._ = _;
-    this.archived = $state.params.archived;
+
+    this.achievements = new CardCollection(achievementsData);
+    this.$scope.archived = $state.params.archived;
 
     this.isCardAdding = false;
   }
 
   get archived() {
-    return this._archived;
-  }
-
-  set archived(value) {
-    this._archived = value;
+    return this.$scope.archived;
   }
 
   showArchived(archived = this.archived) {

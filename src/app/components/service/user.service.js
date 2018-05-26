@@ -113,7 +113,6 @@ export class UserService extends DexieService {
                   (userAchievement) => vm.get(userAchievement.userId)
                     .then(
                       (user) => {
-                        console.log(user, userAchievement);
                         return new UserAchievement(userAchievement.id, userAchievement.comment, userAchievement.date, null, UserService.usersMapper(user));
                       },
                       (ignoredRejection) => {
@@ -208,7 +207,6 @@ export class UserService extends DexieService {
     const deferred = this.$q.defer(),
       promise = deferred.promise;
 
-    this.$log.info('saveOrUpdate user', user.toObject());
     this.$$pushPendingReq(promise);
     this.getUsersDb()
       .put(user.toObject())
