@@ -3,15 +3,32 @@ import { CardCollection } from "../../components/directive/card/cardCollection";
 import { Utils } from "../../components/utils/utils.service";
 
 export class AchievementsController {
-  constructor(_, AchievementService, $state, achievementsData) {
+  constructor(_, AchievementService, EventService, $state, $scope, achievementsData) {
     'ngInject';
 
     this.AchievementService = AchievementService;
     this.$state = $state;
     this.achievements = new CardCollection(achievementsData);
     this._ = _;
+    this.archived = $state.params.archived;
 
     this.isCardAdding = false;
+  }
+
+  get archived() {
+    return this._archived;
+  }
+
+  set archived(value) {
+    this._archived = value;
+  }
+
+  showArchived(archived = this.archived) {
+    this.$state.go('main.achievements', {
+      archived: archived
+    }, {
+      reload: true
+    });
   }
 
   get newAchievement() {
@@ -84,7 +101,15 @@ export class AchievementsController {
     $event.stopImmediatePropagation();
     this.AchievementService.delete(achievementCard.obj.id)
       .then(() => {
-        this.achievements.remove(achievementCard);
+        achievementCard.obj.archived = true;
+      });
+  }
+
+  restoreAchievement(achievementCard = Utils.requiredParam(), $event = Utils.requiredParam()) {
+    $event.stopImmediatePropagation();
+    this.AchievementService.restore(achievementCard.obj.id)
+      .then(() => {
+        achievementCard.obj.archived = false;
       });
   }
 }

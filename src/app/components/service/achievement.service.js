@@ -28,24 +28,16 @@ export class AchievementService extends DexieService {
     return new Achievement(achievement.id, achievement.name, achievement.description, achievement.karma, achievement.icon, achievement.archived);
   }
 
-  getAll(archived) {
+  getAll(archived = false) {
     const deferred = this.$q.defer(),
       promise = deferred.promise;
 
     this.$$pushPendingReq(promise);
-    let ordered = this.getAchievementsDb();
-
-    if (angular.isDefined(archived)) {
-      // ordered = ordered.where('archived').equalsIgnoreCase(archived);
-      // FIXME it doesn't work
-    }
-
-    ordered
-      .toArray()
+    this.getAchievementsDb().toArray()
       .then(
         (values = []) => {
           this.$$removePendingReq(promise);
-          return deferred.resolve(values.map(AchievementService.achievementMapper));
+          return deferred.resolve(values.map(AchievementService.achievementMapper).filter((achievement) => achievement.archived === archived));
         },
         (ignoredRejection) => {
           this.$$removePendingReq(promise);
@@ -175,7 +167,7 @@ export class AchievementService extends DexieService {
     return promise;
   }
 
-  delete(achievementId = null) {
+  $$updateArchived(achievementId = Utils.requiredParam(), value = false) {
     const deferred = this.$q.defer(),
       promise = deferred.promise;
 
@@ -183,12 +175,12 @@ export class AchievementService extends DexieService {
       this.$$pushPendingReq(promise);
       this.getAchievementsDb()
         .update(achievementId, {
-          archived: true
+          archived: value
         })
         .then(
-          (resp) => {
+          (updated) => {
             this.$$removePendingReq(promise);
-            return deferred.resolve(resp);
+            return deferred.resolve(updated);
           },
           (rejection) => {
             this.$$removePendingReq(promise);
@@ -200,6 +192,14 @@ export class AchievementService extends DexieService {
     }
 
     return promise;
+  }
+
+  delete(achievementId = Utils.requiredParam()) {
+    return this.$$updateArchived(achievementId, true);
+  }
+
+  restore(achievementId = Utils.requiredParam()) {
+    return this.$$updateArchived(achievementId, false);
   }
 
   saveOrUpdate(achievement = Utils.requiredParam()) {

@@ -13,7 +13,10 @@ export function routerConfig($stateProvider, $urlRouterProvider) {
       }
     })
     .state('main.users', {
-      url: '/users',
+      url: '/users?archived',
+      params: {
+        archived: 'false'
+      },
       views: {
         'content@main': {
           templateUrl: 'app/states/users/users.html',
@@ -22,10 +25,10 @@ export function routerConfig($stateProvider, $urlRouterProvider) {
         }
       },
       resolve: {
-        usersData: (UserService) => {
+        usersData: (UserService, $stateParams) => {
           'ngInject';
 
-          return UserService.getAll(false);
+          return UserService.getAll($stateParams.archived);
         }
       }
     })
@@ -48,7 +51,10 @@ export function routerConfig($stateProvider, $urlRouterProvider) {
       }
     })
     .state('main.achievements', {
-      url: '/achievements',
+      url: '/achievements?archived',
+      params: {
+        archived: 'false'
+      },
       views: {
         'content@main': {
           templateUrl: 'app/states/achievements/achievements.html',
@@ -57,10 +63,10 @@ export function routerConfig($stateProvider, $urlRouterProvider) {
         }
       },
       resolve: {
-        achievementsData: (AchievementService) => {
+        achievementsData: (AchievementService, $stateParams) => {
           'ngInject';
 
-          return AchievementService.getAll(false);
+          return AchievementService.getAll($stateParams.archived);
         }
       }
     })

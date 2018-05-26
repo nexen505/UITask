@@ -20,9 +20,6 @@
                          title="Редактировать достижение"
                          ng-click="achievementCtrl.editAchievement()">
           <i class="material-icons">edit</i>
-          <div>
-            <input ng-model="achievementCtrl.achievement.comment">
-          </div>
         </material-button>
         <material-button class="material-icon-button material-button--red"
                          title="Удалить достижение"
@@ -79,7 +76,7 @@
             </material-card-actions>
           </material-card>
           <div class="empty-state" ng-if="!achievementCtrl.users.length">
-            <h3><i class="material-icons">error_outline</i>Нет награжденных пользователей</h3>
+            <h3 class="header"><i class="material-icons">error_outline</i>Нет награжденных пользователей</h3>
           </div>
         </material-tab-content>
       </material-tab>
@@ -91,6 +88,14 @@
       <material-tab>
         <label class="material-tab-label" for="{{achievementCtrl.tabs.OTHERS}}">Остальные пользователи</label>
         <material-tab-content ng-if="selectedTab === achievementCtrl.tabs.OTHERS">
+          <div class="filters" ng-if="achievementCtrl.users.length">
+            <div class="filters-input">
+
+            </div>
+            <div class="filters-checkboxes">
+
+            </div>
+          </div>
           <material-card
             ng-repeat="user in achievementCtrl.users | orderBy:'date' track by user.id"
             ng-if="user">

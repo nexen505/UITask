@@ -20,6 +20,7 @@ import { UserController } from "./states/users/user/user.controller";
 import { UserAchievementService } from "./components/service/userAchievement.service";
 import { EventService } from "./components/utils/events.service";
 import { UserCardDirective } from "./states/directive/achievementUserCard/userCard/userCard.directive";
+import { ArchivedFilter } from "./index.filters";
 
 angular.module('uitask', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngMessages', 'ngAria', 'ngScrollbars', 'ui.router', 'ngMaterial', 'toastr', 'ngdexie', 'ngdexie.ui', 'naif.base64'])
   .constant('malarkey', malarkey)
@@ -28,6 +29,7 @@ angular.module('uitask', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ng
   .config(config)
   .config(routerConfig)
   .run(runBlock)
+  .filter('archived', ArchivedFilter)
   .service('EventService', EventService)
   .service('AchievementService', AchievementService)
   .service('UserService', UserService)

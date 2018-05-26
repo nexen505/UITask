@@ -33,18 +33,12 @@ export class UserService extends DexieService {
       promise = deferred.promise;
 
     this.$$pushPendingReq(promise);
-    let ordered = this.getUsersDb();
-
-    if (angular.isDefined(archived)) {
-      // ordered = ordered.where('archived').equals(+archived);
-      // FIXME it doesn't work
-    }
-    ordered
+    this.getUsersDb()
       .toArray()
       .then(
         (values = []) => {
           this.$$removePendingReq(promise);
-          return deferred.resolve(values.map(UserService.usersMapper));
+          return deferred.resolve(values.map(UserService.usersMapper).filter((user) => user.archived === archived));
         },
         (ignoredRejection) => {
           this.$$removePendingReq(promise);
@@ -179,19 +173,19 @@ export class UserService extends DexieService {
     return deferred.promise;
   }
 
-  delete(userId = Utils.requiredParam()) {
+  $$updateArchived(userId = Utils.requiredParam(), value = false) {
     const deferred = this.$q.defer(),
       promise = deferred.promise;
 
     this.$$pushPendingReq(promise);
     this.getUsersDb()
       .update(userId, {
-        archived: true
+        archived: value
       })
       .then(
-        (value = []) => {
+        (updated = []) => {
           this.$$removePendingReq(promise);
-          return deferred.resolve(value);
+          return deferred.resolve(updated);
         },
         (ignoredRejection) => {
           this.$$removePendingReq(promise);
@@ -200,6 +194,14 @@ export class UserService extends DexieService {
       );
 
     return promise;
+  }
+
+  delete(userId = Utils.requiredParam()) {
+    return this.$$updateArchived(userId, false);
+  }
+
+  restore(userId = Utils.requiredParam()) {
+    return this.$$updateArchived(userId, true);
   }
 
   saveOrUpdate(user = Utils.requiredParam()) {

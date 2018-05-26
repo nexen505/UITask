@@ -83,3 +83,19 @@ material-content {
     height: 100%;
   }
 }
+
+.filters {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .filters-input {
+    input {
+
+    }
+  }
+
+  .filters-checkbox {
+
+  }
+}

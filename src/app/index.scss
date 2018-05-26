@@ -34,6 +34,24 @@ $font-size: 10px !default;
   }
 }
 
+@keyframes opacity-hide {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes opacity-show {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 $display-4-font-size-base: rem(11.20) !default;
 $display-3-font-size-base: rem(5.600) !default;
 $display-2-font-size-base: rem(4.500) !default;
@@ -637,6 +655,17 @@ h1, h2, h3, h4 {
   cursor: default;
   pointer-events: none;
   transition: $swift-ease-in;
+}
+
+.no-animate {
+  &.ng-enter,
+  &.ng-leave,
+  &.ng-animate {
+    transition: none !important;
+  }
+  &.ng-animate {
+    animation: none 0s;
+  }
 }
 
 /**
