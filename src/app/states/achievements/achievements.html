@@ -18,28 +18,28 @@
   <div class="achievements-cards">
     <div class="filters">
       <div class="filters-input">
-        <input ng-model="searchText"
+        <input ng-model="filters.nameValue"
                placeholder="Поиск"
                ng-model-options="{ debounce: 1000 }">
         <i class="material-icons clickable"
-           ng-show="searchText.length"
-           ng-click="searchText=''">clear</i>
+           ng-show="filters.nameValue.length"
+           ng-click="filters.nameValue=''">clear</i>
       </div>
       <div class="filters-checkboxes">
         <div class="material-checkbox">
           <input id="archived"
                  type="checkbox"
-                 ng-model="archived"
+                 ng-model="filters.archivedValue"
                  ng-model-options="{ debounce: 1000 }"
                  ng-true-value="'ALL'"
                  ng-false-value="'0'"
-                 ng-change="achievementsCtrl.showArchived(archived)">
+                 ng-change="achievementsCtrl.showArchived(filters.archivedValue)">
           <label for="archived">Показать архивные</label>
         </div>
       </div>
     </div>
     <div class="achievements-card"
-         ng-repeat="achievement in filtered = (achievementsCtrl.achievements.cards | archivedName:'obj.archived':archived:'obj.name':searchText | orderBy:'obj.name') track by achievement.obj.id">
+         ng-repeat="achievement in filtered = (achievementsCtrl.achievements.cards | archivedName:filters | orderBy:'obj.name') track by achievement.obj.id">
       <achievement-card
         ng-if="achievement.$active"
         ng-class="{'active': achievement.$active}"

@@ -3,23 +3,27 @@ import { CardCollection } from "../../components/directive/card/cardCollection";
 import { Utils } from "../../components/utils/utils.service";
 
 export class AchievementsController {
-  constructor(_, AchievementService, EventService, $state, $scope, achievementsData, archivedCriterions) {
+  constructor(_, AchievementService, EventService, $state, $scope, achievementsData) {
     'ngInject';
 
     this.AchievementService = AchievementService;
     this.$state = $state;
     this.$scope = $scope;
     this._ = _;
-    this.archivedCriterions = archivedCriterions;
 
     this.achievements = new CardCollection(achievementsData);
-    this.$scope.archived = $state.params.archived;
+    this.$scope.filters = {
+      archivedKey: 'obj.archived',
+      archivedValue: $state.params.archived,
+      nameKey: 'obj.name',
+      nameValue: null
+    };
 
     this.isCardAdding = false;
   }
 
   get archived() {
-    return this.$scope.archived;
+    return this.$scope.filters.archived;
   }
 
   showArchived(archived = this.archived) {

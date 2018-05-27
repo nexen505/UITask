@@ -30,7 +30,16 @@ export class AchievementService extends DexieService {
   getAll(archivedCriterion = this.archivedCriterions.NOT_ARCHIVED) {
     const $filter = this.$injector.get('$filter');
 
-    return super.getAllEntities(this.getAchievementsDb().toArray(), (values) => $filter('archived')(values.map(AchievementService.achievementMapper), 'archived', archivedCriterion));
+    return super.getAllEntities(
+      this.getAchievementsDb().toArray(),
+      (values) => $filter('archived')(
+        values.map(AchievementService.achievementMapper),
+        {
+          archivedKey: 'archived',
+          archivedValue: archivedCriterion
+        }
+      )
+    );
   }
 
   get(achievementId = null, withUsers = false) {
