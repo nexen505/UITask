@@ -2,11 +2,10 @@ import { DexieService } from "./ngDexie.service";
 import { Utils } from "../utils/utils.service";
 
 export class UserAchievementService extends DexieService {
-  constructor(ngDexie, $log, $q, _) {
+  constructor(ngDexie, _, $q, $log, $injector) {
     'ngInject';
 
-    super(ngDexie, $log, _);
-    this.$q = $q;
+    super(ngDexie, _, $q, $log, $injector);
   }
 
   getUserAchievementsDb(db = this.getDb()) {
