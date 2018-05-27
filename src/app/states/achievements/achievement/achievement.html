@@ -1,6 +1,11 @@
 <material-content class="achievement">
-  <div class="achievement-info">
-    <material-card ng-if="!achievementCtrl.achievement.$active">
+  <div class="achievement-info switching-cards" ng-switch="achievementCtrl.achievement.$active">
+    <achievement-card
+      ng-switch-when="true"
+      achievement="achievementCtrl.achievementCopy"
+      save-achievement="achievementCtrl.saveAchievement(achievement, $event)"
+      close-achievement="achievementCtrl.closeEditingAchievement($event)"></achievement-card>
+    <material-card ng-switch-default>
       <material-card-title>
         <material-card-title-text>
           <span class="material-headline" ng-bind="achievementCtrl.achievement.name"></span>
@@ -28,11 +33,6 @@
         </material-button>
       </material-card-actions>
     </material-card>
-    <achievement-card
-      ng-if="achievementCtrl.achievement.$active"
-      achievement="achievementCtrl.achievementCopy"
-      save-achievement="achievementCtrl.saveAchievement(achievement, $event)"
-      close-achievement="achievementCtrl.closeEditingAchievement($event)"></achievement-card>
   </div>
   <div class="achievement-users">
     <material-tabs>

@@ -2,7 +2,6 @@ loader-spinner {
   .spinner_wrapper {
     display: block;
     position: static;
-    height: 100%;
 
     .load_procs {
       position: absolute;
@@ -16,7 +15,8 @@ loader-spinner {
       width: 100%;
       text-align: center;
 
-      &:before, .round_loader {
+      &:before,
+      .round_loader {
         position: relative;
         display: inline-block;
         vertical-align: middle;
@@ -82,7 +82,6 @@ loader-spinner {
             transform: rotate(360deg);
           }
         }
-
       }
     }
   }

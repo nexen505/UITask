@@ -735,6 +735,10 @@ h1, h2, h3, h4 {
   }
 }
 
+.switching-cards {
+  @include switching-cards;
+}
+
 /**
  *  Do not remove the comment below. It's the markers used by gulp-inject to inject
  *  all your sass files automatically
