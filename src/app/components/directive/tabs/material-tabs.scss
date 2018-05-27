@@ -1,4 +1,4 @@
-$num-of-tabs: 2;
+$num-of-tabs: 3;
 
 @mixin tabs {
   @for $i from 1 through $num-of-tabs {

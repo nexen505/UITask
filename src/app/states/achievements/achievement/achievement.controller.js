@@ -1,23 +1,110 @@
 import { Utils } from "../../../components/utils/utils.service";
 import { UserAchievement } from "../../../components/model/userAchievement.model";
 
-export class AchievementController {
-  constructor($scope, AchievementService, UserService, UserAchievementService, EventService, achievementData, $state) {
+export class AchievedContentElm {
+  constructor({ obj, type }) {
+    this._obj = obj;
+    this._type = type;
+  }
+
+  get type() {
+    return this._type;
+  }
+
+  get obj() {
+    return this._obj;
+  }
+
+  static get types() {
+    return {
+      ACHIEVED: 'ACHIEVED',
+      OTHERS: 'OTHERS'
+    };
+  }
+}
+
+export class UserAchievementController {
+  constructor({
+                $scope, AchievementService, UserService, UserAchievementService, EventService, $state, $q, $log
+              }) {
+    this._$scope = $scope;
+    this._AchievementService = AchievementService;
+    this._UserService = UserService;
+    this._UserAchievementService = UserAchievementService;
+    this._EventService = EventService;
+    this._$state = $state;
+    this._$q = $q;
+    this._$log = $log;
+  }
+
+  get $scope() {
+    return this._$scope;
+  }
+
+  get AchievementService() {
+    return this._AchievementService;
+  }
+
+  get UserService() {
+    return this._UserService;
+  }
+
+  get UserAchievementService() {
+    return this._UserAchievementService;
+  }
+
+  get EventService() {
+    return this._EventService;
+  }
+
+  get $state() {
+    return this._$state;
+  }
+
+  get $q() {
+    return this._$q;
+  }
+
+  get $log() {
+    return this._$log;
+  }
+
+}
+
+export class AchievementController extends UserAchievementController {
+  constructor($scope, AchievementService, UserService, UserAchievementService, EventService, $state, $q, $log, achievementData) {
     'ngInject';
 
-    this.achievement = achievementData;
-    this.AchievementService = AchievementService;
-    this.UserService = UserService;
-    this.UserAchievementService = UserAchievementService;
-    this.$state = $state;
-
-    this.$scope = $scope;
-    this.$scope.selectedTab = $state.params.tab || this.tabs.ACHIEVED;
-    EventService.watch(this.$scope, 'selectedTab', (newVal) => {
-      if (newVal) {
-        this.selectTab(newVal);
-      }
+    super({
+      $scope: $scope,
+      AchievementService: AchievementService,
+      UserService: UserService,
+      UserAchievementService: UserAchievementService,
+      EventService: EventService,
+      $state: $state,
+      $q: $q,
+      $log: $log
     });
+
+    const vm = this;
+
+    vm._tabs = {
+      ALL: {
+        value: 'ALL',
+        name: 'Все пользователи'
+      },
+      ACHIEVED: {
+        value: AchievedContentElm.types.ACHIEVED,
+        name: 'Награжденные пользователи'
+      },
+      OTHERS: {
+        value: AchievedContentElm.types.OTHERS,
+        name: 'Ненагражденные пользователи'
+      }
+    };
+    vm.achievement = achievementData;
+    vm.$scope.selectedTab = Object.values(vm.tabs).find((value) => value.value === $state.params.tab) || vm.tabs.ALL;
+    vm.selectTab(vm.$scope.selectedTab);
   }
 
   get selectedTab() {
@@ -33,41 +120,87 @@ export class AchievementController {
     this._achievement.$active = false;
   }
 
-  get tabs() {
-    return {
-      ACHIEVED: 'ACHIEVED',
-      OTHERS: 'OTHERS'
-    };
+  get users() {
+    return this._users;
   }
 
-  selectTab(tab) {
-    this.$scope.selectedTab = tab;
-    this.users = [];
-    switch (tab) {
-      case this.tabs.ACHIEVED:
-        this.UserService.getAchievementUsers(this.achievement.id, true)
+  set users(value) {
+    this._users = value || {};
+  }
+
+  get tabs() {
+    return this._tabs;
+  }
+
+  selectTab(tabInfo = {}) {
+    const vm = this;
+
+    this.$scope.selectedTab = tabInfo;
+    switch (tabInfo) {
+      case vm.tabs.ACHIEVED:
+        vm.UserService.getAchievementUsers(vm.achievement.id, true)
           .then(
             (users) => {
-              this.users = users;
+              vm.users = users.map((obj) => {
+                return new AchievedContentElm({
+                  obj: obj,
+                  type: vm.tabs.ACHIEVED.value
+                });
+              });
             },
             (error) => {
               console.log(error);
             }
           );
         break;
-      case this.tabs.OTHERS:
-        this.UserService.getAchievementUsers(this.achievement.id, false)
+      case vm.tabs.OTHERS:
+        vm.UserService.getAchievementUsers(vm.achievement.id, false)
           .then(
             (users) => {
-              this.users = users;
+              vm.users = users.map((obj) => {
+                return new AchievedContentElm({
+                  obj: obj,
+                  type: vm.tabs.OTHERS.value
+                });
+              });
             },
             (error) => {
               console.log(error);
+            }
+          );
+        break;
+      case vm.tabs.ALL:
+        vm.$q
+          .all([
+            vm.UserService.getAchievementUsers(vm.achievement.id, true),
+            vm.UserService.getAchievementUsers(vm.achievement.id, false)
+          ])
+          .then(
+            (values) => {
+              const [achieved, others] = values;
+
+              vm.users = [
+                ...achieved.map((obj) => {
+                  return new AchievedContentElm({
+                    obj: obj,
+                    type: vm.tabs.ACHIEVED.value
+                  });
+                }),
+                ...others.map((obj) => {
+                  return new AchievedContentElm({
+                    obj: obj,
+                    type: vm.tabs.OTHERS.value
+                  });
+                })
+              ];
+            },
+            (error) => {
+              console.log(error, error);
             }
           );
         break;
       default:
-
+        vm.$log.warn('unknown tab info', tabInfo);
     }
   }
 
@@ -105,17 +238,19 @@ export class AchievementController {
   }
 
   toggleAchievement(user = Utils.requiredParam(), toggle = true) {
+    const vm = this;
+
     if (toggle) {
       const userAchievement = new UserAchievement();
 
-      userAchievement.achievement = this.achievement;
+      userAchievement.achievement = vm.achievement;
       userAchievement.user = user;
       user.userAchievement = userAchievement;
     } else {
-      this.UserAchievementService.delete(user.id, this.achievement.id)
+      vm.UserAchievementService.delete(user.id, vm.achievement.id)
         .then(
-          (resp) => {
-            this.selectTab(this.selectedTab);
+          (ignoredResp) => {
+            vm.selectTab(vm.selectedTab);
           },
           (errorResp) => {
             console.log(errorResp);
@@ -125,10 +260,12 @@ export class AchievementController {
   }
 
   saveUserAchievement(userAchievement = Utils.requiredParam()) {
-    this.UserAchievementService.saveOrUpdate(userAchievement)
+    const vm = this;
+
+    vm.UserAchievementService.saveOrUpdate(userAchievement)
       .then(
-        (resp) => {
-          this.selectTab(this.selectedTab);
+        (ignoredResp) => {
+          vm.selectTab(vm.selectedTab);
         },
         (errorResp) => {
           console.log(errorResp);
