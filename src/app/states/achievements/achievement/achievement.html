@@ -63,7 +63,7 @@
               <p ng-bind="userAchievement.comment"></p>
             </material-card-content>
             <material-card-actions>
-              <material-button class="material-icon-button"
+              <material-button class="material-icon-button material-button--yellow"
                                title="Лишить пользователя достижения"
                                ng-click="achievementCtrl.toggleAchievement(userAchievement, false)">
                 <i class="material-icons">star</i>
@@ -121,14 +121,14 @@
                            ng-model="user.userAchievement.comment">
                     <label>Введите комментарий:</label>
                   </material-input-container>
-                  <material-button class="material-icon-button"
+                  <material-button class="material-icon-button material-button--green"
                                    type="submit"
                                    ng-disabled="!userAchievementForm.$valid"
                                    title="Присвоить достижение"
                                    ng-click="achievementCtrl.saveUserAchievement(user.userAchievement)">
                     <i class="material-icons">done</i>
                   </material-button>
-                  <material-button class="material-icon-button"
+                  <material-button class="material-icon-button material-button--red"
                                    type="reset"
                                    title="Отменить присвоение"
                                    ng-click="user.userAchievement = null">
@@ -136,7 +136,7 @@
                   </material-button>
                 </form>
               </div>
-              <material-button class="material-icon-button"
+              <material-button class="material-icon-button material-button--yellow"
                                title="Дать пользователю достижение"
                                ng-if="!user.userAchievement"
                                ng-click="achievementCtrl.toggleAchievement(user, true)">

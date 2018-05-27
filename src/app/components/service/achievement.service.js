@@ -43,12 +43,13 @@ export class AchievementService extends DexieService {
   }
 
   get(achievementId = null, withUsers = false) {
-    const deferred = this.$q.defer(),
+    const vm = this,
+      deferred = vm.$q.defer(),
       promise = deferred.promise;
 
     if (achievementId) {
-      this.$$pushPendingReq(promise);
-      this.getAchievementsDb()
+      vm.$$pushPendingReq(promise);
+      vm.getAchievementsDb()
         .where("id")
         .equalsIgnoreCase(achievementId)
         .first()
@@ -57,25 +58,27 @@ export class AchievementService extends DexieService {
             const achievement = AchievementService.achievementMapper(value);
 
             if (withUsers) {
-              this.UserService.getAchievementUsers(achievementId).then(
-                (achievementUsers) => {
-                  achievement.users = achievementUsers;
+              vm.UserService
+                .getAchievementUsers(achievementId)
+                .then(
+                  (achievementUsers) => {
+                    achievement.users = achievementUsers;
 
-                  this.$$removePendingReq(promise);
-                  return deferred.resolve(achievement);
-                },
-                (ignoredRejection) => {
-                  this.$$removePendingReq(promise);
-                  return deferred.resolve(achievement);
-                }
-              );
+                    vm.$$removePendingReq(promise);
+                    return deferred.resolve(achievement);
+                  },
+                  (ignoredRejection) => {
+                    vm.$$removePendingReq(promise);
+                    return deferred.resolve(achievement);
+                  }
+                );
             } else {
-              this.$$removePendingReq(promise);
+              vm.$$removePendingReq(promise);
               return deferred.resolve(achievement);
             }
           },
           (ignoredRejection) => {
-            this.$$removePendingReq(promise);
+            vm.$$removePendingReq(promise);
             return deferred.resolve(null);
           }
         );
@@ -102,15 +105,21 @@ export class AchievementService extends DexieService {
             return vm.$q
               .all(
                 values.map(
-                  (userAchievement) => vm.get(userAchievement.achievementId)
-                    .then(
-                      (achievement) => {
-                        return new UserAchievement(userAchievement.id, userAchievement.comment, userAchievement.date, AchievementService.achievementMapper(achievement));
-                      },
-                      (ignoredRejection) => {
-                        return new UserAchievement(userAchievement.id, userAchievement.comment, userAchievement.date);
-                      }
-                    )
+                  (userAchievement) => {
+                    const d = vm.$q.defer();
+
+                    vm.get(userAchievement.achievementId)
+                      .then(
+                        (achievement) => {
+                          return d.resolve(new UserAchievement(userAchievement.id, userAchievement.comment, userAchievement.date, AchievementService.achievementMapper(achievement)));
+                        },
+                        (ignoredRejection) => {
+                          return d.resolve(new UserAchievement(userAchievement.id, userAchievement.comment, userAchievement.date));
+                        }
+                      );
+
+                    return d.promise;
+                  }
                 )
               )
               .then(

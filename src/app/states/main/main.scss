@@ -51,5 +51,11 @@ view-wrapper.main {
         color: $color-green_normal;
       }
     }
+
+    &--yellow {
+      &:hover {
+        color: $color_yellow_normal;
+      }
+    }
   }
 }

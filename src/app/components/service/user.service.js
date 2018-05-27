@@ -43,49 +43,49 @@ export class UserService extends DexieService {
   }
 
   get(userId = null, withAchievements = false) {
-    const deferred = this.$q.defer();
+    const vm = this,
+      deferred = vm.$q.defer(),
+      promise = deferred.promise;
 
     if (userId) {
-      this.$$pushPendingReq(deferred.promise);
-      this.getUsersDb()
+      vm.$$pushPendingReq(promise);
+      vm.getUsersDb()
         .where("id")
         .equalsIgnoreCase(userId)
         .first()
         .then(
           (value) => {
-            if (value) {
-              const user = UserService.usersMapper(value);
+            const user = UserService.usersMapper(value);
 
-              if (withAchievements) {
-                this.AchievementService
-                  .getUserAchievements(userId)
-                  .then(
-                    (achievements) => {
-                      user.achievements = achievements;
-                      this.$$removePendingReq(deferred.promise);
-                      return deferred.resolve(user);
-                    },
-                    (ignoredRejection) => {
-                      this.$$removePendingReq(deferred.promise);
-                      return deferred.resolve(user);
-                    }
-                  );
-              } else {
-                this.$$removePendingReq(deferred.promise);
-                return deferred.resolve(user);
-              }
+            if (withAchievements) {
+              vm.AchievementService
+                .getUserAchievements(userId)
+                .then(
+                  (achievements) => {
+                    user.achievements = achievements;
+                    vm.$$removePendingReq(promise);
+                    return deferred.resolve(user);
+                  },
+                  (ignoredRejection) => {
+                    vm.$$removePendingReq(promise);
+                    return deferred.resolve(user);
+                  }
+                );
             } else {
-              this.$$removePendingReq(deferred.promise);
-              return deferred.resolve(null);
+              vm.$$removePendingReq(promise);
+              return deferred.resolve(user);
             }
           },
-          deferred.resolve(null)
+          (ignoredRejection) => {
+            vm.$$removePendingReq(promise);
+            return deferred.resolve(null);
+          }
         );
     } else {
       deferred.resolve(null);
     }
 
-    return deferred.promise;
+    return promise;
   }
 
   getAchievementUsers(achievementId = Utils.requiredParam(), hasAchievement = true) {
@@ -104,15 +104,30 @@ export class UserService extends DexieService {
             return vm.$q
               .all(
                 rows.map(
-                  (userAchievement) => vm.get(userAchievement.userId)
-                    .then(
-                      (user) => {
-                        return new UserAchievement(userAchievement.id, userAchievement.comment, userAchievement.date, null, UserService.usersMapper(user));
-                      },
-                      (ignoredRejection) => {
-                        return new UserAchievement(userAchievement.id, userAchievement.comment, userAchievement.date);
-                      }
-                    )
+                  (userAchievement) => {
+                    const d = vm.$q.defer();
+
+                    vm.get(userAchievement.userId)
+                      .then(
+                        (user) => {
+                          return d.resolve(
+                            new UserAchievement(
+                              userAchievement.id,
+                              userAchievement.comment,
+                              userAchievement.date,
+                              null,
+                              UserService.usersMapper(user))
+                          );
+                        },
+                        (ignoredRejection) => {
+                          return d.resolve(
+                            new UserAchievement(userAchievement.id, userAchievement.comment, userAchievement.date)
+                          );
+                        }
+                      );
+
+                    return d.promise;
+                  }
                 )
               )
               .then(
