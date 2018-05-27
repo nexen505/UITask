@@ -4,12 +4,11 @@ import { UserAchievement } from "../model/userAchievement.model";
 import { Utils } from "../utils/utils.service";
 
 export class UserService extends DexieService {
-  constructor(_, ngDexie, $log, $q, $injector) {
+  constructor(_, ngDexie, $log, $q, $injector, archivedCriterions) {
     'ngInject';
 
-    super(ngDexie, $log, _);
-    this.$q = $q;
-    this.$injector = $injector;
+    super(ngDexie, _, $q, $log, $injector);
+    this.archivedCriterions = archivedCriterions;
   }
 
   get AchievementService() {
@@ -28,25 +27,10 @@ export class UserService extends DexieService {
     return db.users;
   }
 
-  getAll(archived = false) {
-    const deferred = this.$q.defer(),
-      promise = deferred.promise;
+  getAll(archivedCriterion = this.archivedCriterions.NOT_ARCHIVED) {
+    const $filter = this.$injector.get('$filter');
 
-    this.$$pushPendingReq(promise);
-    this.getUsersDb()
-      .toArray()
-      .then(
-        (values = []) => {
-          this.$$removePendingReq(promise);
-          return deferred.resolve(values.map(UserService.usersMapper).filter((user) => user.archived === archived));
-        },
-        (ignoredRejection) => {
-          this.$$removePendingReq(promise);
-          return deferred.resolve(null);
-        }
-      );
-
-    return promise;
+    return super.getAllEntities(this.getUsersDb().toArray(), (values) => $filter('archived')(values.map(UserService.usersMapper), 'archived', archivedCriterion));
   }
 
   get(userId = null, withAchievements = false) {
@@ -97,12 +81,13 @@ export class UserService extends DexieService {
 
   getAchievementUsers(achievementId = Utils.requiredParam(), hasAchievement = true) {
     const deferred = this.$q.defer(),
+      promise = deferred.promise,
       vm = this,
       usAchs = vm.UserAchievementService
         .getUserAchievementsCollection(null, achievementId)
         .toArray();
 
-    vm.$$pushPendingReq(deferred.promise);
+    vm.$$pushPendingReq(promise);
     if (hasAchievement) {
       usAchs
         .then(
@@ -123,19 +108,19 @@ export class UserService extends DexieService {
               )
               .then(
                 (achievementUsers) => {
-                  vm.$$removePendingReq(deferred.promise);
+                  vm.$$removePendingReq(promise);
                   return deferred.resolve(
                     achievementUsers
                   );
                 },
                 (rejections) => {
-                  vm.$$removePendingReq(deferred.promise);
+                  vm.$$removePendingReq(promise);
                   return deferred.reject(rejections);
                 }
               );
           },
           (rejection) => {
-            vm.$$removePendingReq(deferred.promise);
+            vm.$$removePendingReq(promise);
             return deferred.resolve(rejection);
           }
         );
@@ -159,11 +144,11 @@ export class UserService extends DexieService {
           (values = []) => {
             const users = values.map(UserService.usersMapper);
 
-            vm.$$removePendingReq(deferred.promise);
+            vm.$$removePendingReq(promise);
             return deferred.resolve(users);
           },
           (rejection) => {
-            vm.$$removePendingReq(deferred.promise);
+            vm.$$removePendingReq(promise);
             return deferred.reject(rejection);
           }
         );
@@ -173,26 +158,9 @@ export class UserService extends DexieService {
   }
 
   $$updateArchived(userId = Utils.requiredParam(), value = false) {
-    const deferred = this.$q.defer(),
-      promise = deferred.promise;
-
-    this.$$pushPendingReq(promise);
-    this.getUsersDb()
-      .update(userId, {
-        archived: value
-      })
-      .then(
-        (updated = []) => {
-          this.$$removePendingReq(promise);
-          return deferred.resolve(updated);
-        },
-        (ignoredRejection) => {
-          this.$$removePendingReq(promise);
-          return deferred.resolve(null);
-        }
-      );
-
-    return promise;
+    return super.update(this.getUsersDb(), userId, {
+      archived: value
+    });
   }
 
   delete(userId = Utils.requiredParam()) {
@@ -204,23 +172,6 @@ export class UserService extends DexieService {
   }
 
   saveOrUpdate(user = Utils.requiredParam()) {
-    const deferred = this.$q.defer(),
-      promise = deferred.promise;
-
-    this.$$pushPendingReq(promise);
-    this.getUsersDb()
-      .put(user.toObject())
-      .then(
-        (ignoredResponse) => {
-          this.$$removePendingReq(promise);
-          return deferred.resolve(user);
-        },
-        (rejection) => {
-          this.$$removePendingReq(promise);
-          return deferred.reject(rejection);
-        }
-      );
-
-    return promise;
+    return super.put(this.getUsersDb(), user);
   }
 }

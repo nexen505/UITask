@@ -20,15 +20,21 @@ import { UserController } from "./states/users/user/user.controller";
 import { UserAchievementService } from "./components/service/userAchievement.service";
 import { EventService } from "./components/utils/events.service";
 import { UserCardDirective } from "./states/directive/achievementUserCard/userCard/userCard.directive";
-import { ArchivedNameFilter } from "./index.filters";
+import { ArchivedFilter, ArchivedNameFilter } from "./index.filters";
 
-angular.module('uitask', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngMessages', 'ngAria', 'ngScrollbars', 'ui.router', 'ngMaterial', 'toastr', 'ngdexie', 'ngdexie.ui', 'naif.base64'])
+angular.module('uitask', ['ngAnimate', 'ngCookies', 'ngSanitize', 'ngMessages', 'ngAria', 'ngScrollbars', 'ui.router', 'ngMaterial', 'toastr', 'ngdexie', 'ngdexie.ui', 'naif.base64'])
   .constant('malarkey', malarkey)
   .constant('moment', moment)
   .constant('_', window._)
+  .constant('archivedCriterions', {
+    ALL: 'ALL',
+    ARCHIVED: '1',
+    NOT_ARCHIVED: '0'
+  })
   .config(config)
   .config(routerConfig)
   .run(runBlock)
+  .filter('archived', ArchivedFilter)
   .filter('archivedName', ArchivedNameFilter)
   .service('EventService', EventService)
   .service('AchievementService', AchievementService)

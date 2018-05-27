@@ -3,13 +3,14 @@ import { CardCollection } from "../../components/directive/card/cardCollection";
 import { Utils } from "../../components/utils/utils.service";
 
 export class AchievementsController {
-  constructor(_, AchievementService, EventService, $state, $scope, achievementsData) {
+  constructor(_, AchievementService, EventService, $state, $scope, achievementsData, archivedCriterions) {
     'ngInject';
 
     this.AchievementService = AchievementService;
     this.$state = $state;
     this.$scope = $scope;
     this._ = _;
+    this.archivedCriterions = archivedCriterions;
 
     this.achievements = new CardCollection(achievementsData);
     this.$scope.archived = $state.params.archived;

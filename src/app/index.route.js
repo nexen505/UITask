@@ -1,9 +1,10 @@
-export function routerConfig($stateProvider, $urlRouterProvider) {
+export function routerConfig($stateProvider, $urlRouterProvider, archivedCriterions) {
   'ngInject';
 
   $stateProvider
     .state('main', {
       url: '/main',
+      abstract: true,
       views: {
         'main': {
           templateUrl: 'app/states/main/main.html',
@@ -15,7 +16,7 @@ export function routerConfig($stateProvider, $urlRouterProvider) {
     .state('main.users', {
       url: '/users?archived',
       params: {
-        archived: '0'
+        archived: archivedCriterions.NOT_ARCHIVED
       },
       views: {
         'content@main': {
@@ -28,7 +29,7 @@ export function routerConfig($stateProvider, $urlRouterProvider) {
         usersData: (UserService, $stateParams) => {
           'ngInject';
 
-          return UserService.getAll($stateParams.archived === '1');
+          return UserService.getAll($stateParams.archived);
         }
       }
     })
@@ -53,7 +54,7 @@ export function routerConfig($stateProvider, $urlRouterProvider) {
     .state('main.achievements', {
       url: '/achievements?archived',
       params: {
-        archived: '0'
+        archived: archivedCriterions.NOT_ARCHIVED
       },
       views: {
         'content@main': {
@@ -64,9 +65,7 @@ export function routerConfig($stateProvider, $urlRouterProvider) {
       },
       resolve: {
         achievementsData: (AchievementService, $stateParams) => {
-          'ngInject';
-
-          return AchievementService.getAll($stateParams.archived === '1');
+          return AchievementService.getAll($stateParams.archived);
         }
       }
     })
@@ -89,5 +88,5 @@ export function routerConfig($stateProvider, $urlRouterProvider) {
       }
     });
 
-  $urlRouterProvider.otherwise('/main');
+  $urlRouterProvider.otherwise('/main/achievements');
 }

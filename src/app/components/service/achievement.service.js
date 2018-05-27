@@ -4,12 +4,11 @@ import { UserAchievement } from "../model/userAchievement.model";
 import { Utils } from "../utils/utils.service";
 
 export class AchievementService extends DexieService {
-  constructor(_, ngDexie, $log, $q, $injector) {
+  constructor(_, ngDexie, $log, $q, $injector, archivedCriterions) {
     'ngInject';
 
-    super(ngDexie, $log, _);
-    this.$q = $q;
-    this.$injector = $injector;
+    super(ngDexie, _, $q, $log, $injector);
+    this.archivedCriterions = archivedCriterions;
   }
 
   get UserService() {
@@ -28,24 +27,10 @@ export class AchievementService extends DexieService {
     return db.achievements;
   }
 
-  getAll(archived = false) {
-    const deferred = this.$q.defer(),
-      promise = deferred.promise;
+  getAll(archivedCriterion = this.archivedCriterions.NOT_ARCHIVED) {
+    const $filter = this.$injector.get('$filter');
 
-    this.$$pushPendingReq(promise);
-    this.getAchievementsDb().toArray()
-      .then(
-        (values = []) => {
-          this.$$removePendingReq(promise);
-          return deferred.resolve(values.map(AchievementService.achievementMapper).filter((achievement) => achievement.archived === archived));
-        },
-        (ignoredRejection) => {
-          this.$$removePendingReq(promise);
-          return deferred.resolve(null);
-        }
-      );
-
-    return promise;
+    return super.getAllEntities(this.getAchievementsDb().toArray(), (values) => $filter('archived')(values.map(AchievementService.achievementMapper), 'archived', archivedCriterion));
   }
 
   get(achievementId = null, withUsers = false) {
@@ -95,19 +80,20 @@ export class AchievementService extends DexieService {
   getUserAchievements(userId = Utils.requiredParam(), hasUser = true) {
     const deferred = this.$q.defer(),
       promise = deferred.promise,
-      usAchs = this.UserAchievementService
+      vm = this,
+      usAchs = vm.UserAchievementService
         .getUserAchievementsCollection(userId, null)
         .toArray();
 
-    this.$$pushPendingReq(promise);
+    vm.$$pushPendingReq(promise);
     if (hasUser) {
       usAchs
         .then(
           (values = []) => {
-            return this.$q
+            return vm.$q
               .all(
                 values.map(
-                  (userAchievement) => this.get(userAchievement.achievementId)
+                  (userAchievement) => vm.get(userAchievement.achievementId)
                     .then(
                       (achievement) => {
                         return new UserAchievement(userAchievement.id, userAchievement.comment, userAchievement.date, AchievementService.achievementMapper(achievement));
@@ -120,32 +106,32 @@ export class AchievementService extends DexieService {
               )
               .then(
                 (userAchievements) => {
-                  this.$$removePendingReq(promise);
+                  vm.$$removePendingReq(promise);
                   return deferred.resolve(
                     userAchievements
                   );
                 },
                 (rejections) => {
-                  this.$$removePendingReq(promise);
+                  vm.$$removePendingReq(promise);
                   return deferred.reject(rejections);
                 }
               );
           },
           (rejection) => {
-            this.$$removePendingReq(promise);
+            vm.$$removePendingReq(promise);
             return deferred.resolve(rejection);
           }
         );
     } else {
-      return usAchs.then(
+      usAchs.then(
         (rows) => {
-          const achIds = this._.uniq(
-            this._.compact(
+          const achIds = vm._.uniq(
+            vm._.compact(
               rows.map((row) => row.achievementId)
             )
           );
 
-          return this.getAchievementsDb().where('id').noneOf(achIds).toArray();
+          return vm.getAchievementsDb().where('id').noneOf(achIds).toArray();
         },
         (rejection) => {
           return deferred.reject(rejection);
@@ -154,11 +140,11 @@ export class AchievementService extends DexieService {
         (values = []) => {
           const achievements = values.map(AchievementService.achievementMapper);
 
-          this.$$removePendingReq(promise);
+          vm.$$removePendingReq(promise);
           return deferred.resolve(achievements);
         },
         (rejection) => {
-          this.$$removePendingReq(promise);
+          vm.$$removePendingReq(promise);
           return deferred.reject(rejection);
         }
       );
@@ -168,30 +154,9 @@ export class AchievementService extends DexieService {
   }
 
   $$updateArchived(achievementId = Utils.requiredParam(), value = false) {
-    const deferred = this.$q.defer(),
-      promise = deferred.promise;
-
-    if (achievementId) {
-      this.$$pushPendingReq(promise);
-      this.getAchievementsDb()
-        .update(achievementId, {
-          archived: value
-        })
-        .then(
-          (updated) => {
-            this.$$removePendingReq(promise);
-            return deferred.resolve(updated);
-          },
-          (rejection) => {
-            this.$$removePendingReq(promise);
-            return deferred.reject(rejection);
-          }
-        );
-    } else {
-      deferred.resolve(null);
-    }
-
-    return promise;
+    return super.update(this.getAchievementsDb(), achievementId, {
+      archived: value
+    });
   }
 
   delete(achievementId = Utils.requiredParam()) {
@@ -203,23 +168,6 @@ export class AchievementService extends DexieService {
   }
 
   saveOrUpdate(achievement = Utils.requiredParam()) {
-    const deferred = this.$q.defer(),
-      promise = deferred.promise;
-
-    this.$$pushPendingReq(promise);
-    this.getAchievementsDb()
-      .put(achievement.toObject())
-      .then(
-        (ignoredResponse) => {
-          this.$$removePendingReq(promise);
-          return deferred.resolve(achievement);
-        },
-        (rejection) => {
-          this.$$removePendingReq(promise);
-          return deferred.reject(rejection);
-        }
-      );
-
-    return promise;
+    return super.put(this.getAchievementsDb(), achievement);
   }
 }

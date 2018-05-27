@@ -31,15 +31,15 @@
                  type="checkbox"
                  ng-model="archived"
                  ng-model-options="{ debounce: 1000 }"
-                 ng-true-value="'1'"
+                 ng-true-value="'ALL'"
                  ng-false-value="'0'"
                  ng-change="achievementsCtrl.showArchived(archived)">
-          <label for="archived">Архивные</label>
+          <label for="archived">Показать архивные</label>
         </div>
       </div>
     </div>
     <div class="achievements-card"
-         ng-repeat="achievement in filtered = (achievementsCtrl.achievements.cards | archivedName:'obj.archived':(archived==='1'):'obj.name':searchText | orderBy:'obj.name') track by achievement.obj.id">
+         ng-repeat="achievement in filtered = (achievementsCtrl.achievements.cards | archivedName:'obj.archived':archived:'obj.name':searchText | orderBy:'obj.name') track by achievement.obj.id">
       <achievement-card
         ng-if="achievement.$active"
         ng-class="{'active': achievement.$active}"
