@@ -1,8 +1,6 @@
 .material-button {
   display: inline-block;
-  position: relative;
   cursor: pointer;
-  /** Alignment adjustments */
   min-height: 36px;
   min-width: 88px;
   line-height: 36px;
@@ -11,17 +9,14 @@
   text-align: center;
   border-radius: 2px;
   box-sizing: border-box;
-  /* Reset default button appearance */
   user-select: none;
   outline: none;
   border: 0;
-  /** Custom styling for button */
   padding: 0 6px;
   margin: 6px 8px;
   background: transparent;
   color: currentColor;
   white-space: nowrap;
-  /* Uppercase text content */
   text-transform: uppercase;
   font-weight: 500;
   font-size: 14px;
@@ -61,10 +56,6 @@
     background: none;
   }
 
-  &.material-raised:not([disabled]) {
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
-  }
-
   &.material-icon-button {
     margin: 0 6px;
     height: 40px;
@@ -74,135 +65,19 @@
     width: 40px;
     border-radius: 50%;
   }
-  &.material-fab {
-    z-index: 20;
-    line-height: 56px;
-    min-width: 0;
-    width: 56px;
-    height: 56px;
-    vertical-align: middle;
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
-    border-radius: 50%;
-    background-clip: padding-box;
-    overflow: hidden;
-    transition: all 0.3s cubic-bezier(0.55, 0, 0.55, 0.2);
-    transition-property: background-color, box-shadow, transform;
-
-    &.material-fab-bottom-right {
-      top: auto;
-      right: 20px;
-      bottom: 20px;
-      left: auto;
-      position: absolute;
-    }
-
-    &.material-fab-bottom-left {
-      top: auto;
-      right: auto;
-      bottom: 20px;
-      left: 20px;
-      position: absolute;
-    }
-
-    &.material-fab-top-right {
-      top: 20px;
-      right: 20px;
-      bottom: auto;
-      left: auto;
-      position: absolute;
-    }
-
-    &.material-fab-top-left {
-      top: 20px;
-      right: auto;
-      bottom: auto;
-      left: 20px;
-      position: absolute;
-    }
-
-    &.material-mini {
-      line-height: 40px;
-      width: 40px;
-      height: 40px;
-    }
-
-    &.ng-hide, &.ng-leave {
-      transition: none;
-    }
-  }
 
   &:not([disabled]) {
-    &.material-raised.material-focused, &.material-fab.material-focused {
+    &.material-raised, &.material-raised.material-focused {
       box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
-    }
-    &.material-raised:active, &.material-fab:active {
-      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
-    }
-  }
 
-  .material-ripple-container {
-    border-radius: inherit;
-    background-clip: padding-box;
-    overflow: hidden;
+      &:active {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
+      }
+    }
   }
 
   &.material-icon-button material-icon {
     display: block;
-  }
-}
-
-.material-dense {
-  > .material-button:not(.material-dense-disabled) {
-    min-height: 32px;
-  }
-  :not(.material-dense-disabled) .material-button:not(.material-dense-disabled) {
-    min-height: 32px;
-    line-height: 32px;
-    font-size: 13px;
-  }
-  > .material-button:not(.material-dense-disabled) {
-    line-height: 32px;
-  }
-  > .material-button:not(.material-dense-disabled) {
-    font-size: 13px;
-  }
-}
-
-button.material-button.material-fab material-icon {
-  display: block;
-}
-
-.material-toast-open-top .material-button {
-  &.material-fab-top-left, &.material-fab-top-right {
-    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-    transform: translate3d(0, 42px, 0);
-  }
-  &.material-fab-top-left:not([disabled]) {
-    &.material-focused, &:hover {
-      transform: translate3d(0, 41px, 0);
-    }
-  }
-  &.material-fab-top-right:not([disabled]) {
-    &.material-focused, &:hover {
-      transform: translate3d(0, 41px, 0);
-    }
-  }
-}
-
-.material-toast-open-bottom .material-button {
-  &.material-fab-bottom-left, &.material-fab-bottom-right {
-    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-    transform: translate3d(0, -42px, 0);
-  }
-  &.material-fab-bottom-left:not([disabled]) {
-    &.material-focused, &:hover {
-      transform: translate3d(0, -43px, 0);
-    }
-  }
-  &.material-fab-bottom-right:not([disabled]) {
-    &.material-focused, &:hover {
-      transform: translate3d(0, -43px, 0);
-    }
   }
 }
 
@@ -235,7 +110,7 @@ button.material-button.material-fab material-icon {
 
 @media screen and (-ms-high-contrast: active) {
   .material-button {
-    &.material-raised, &.material-fab {
+    &.material-raised {
       border: 1px solid #fff;
     }
   }

@@ -74,7 +74,7 @@
                            ng-click="achievementsCtrl.editAchievement(achievement)">
             <i class="material-icons">edit</i>
           </material-button>
-          <span ng-switch="achievement.obj.archived">
+          <span ng-switch="achievement.obj.archived" class="divider-left">
             <span ng-switch-when="true">
               <material-button class="material-icon-button material-button--green no-animate"
                                title="Восстановить достижение"

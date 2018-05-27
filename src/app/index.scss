@@ -75,15 +75,15 @@ $layout-breakpoint-sm: 960px !default;
 $layout-breakpoint-md: 1280px !default;
 $layout-breakpoint-lg: 1920px !default;
 
-$swift-ease-out-duration: 0.3s !default;
+$swift-ease-out-duration: 0.35s !default;
 $swift-ease-out-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1) !default;
 $swift-ease-out: all $swift-ease-out-duration $swift-ease-out-timing-function !default;
 
-$swift-ease-in-duration: 0.3s !default;
+$swift-ease-in-duration: 0.35s !default;
 $swift-ease-in-timing-function: cubic-bezier(0.55, 0, 0.55, 0.2) !default;
 $swift-ease-in: all $swift-ease-in-duration $swift-ease-in-timing-function !default;
 
-$swift-ease-in-out-duration: 0.3s !default;
+$swift-ease-in-out-duration: 0.35s !default;
 $swift-ease-in-out-timing-function: cubic-bezier(0.35, 0, 0.25, 1) !default;
 $swift-ease-in-out: all $swift-ease-in-out-duration $swift-ease-in-out-timing-function !default;
 
@@ -92,6 +92,20 @@ $swift-linear-timing-function: linear !default;
 $swift-linear: all $swift-linear-duration $swift-linear-timing-function !default;
 
 $material-toolbar-height: 64px;
+$card-active-animation-duration: 0.25s;
+
+@keyframes material-card-to-top {
+  from {
+    width: 100%;
+    margin: 0 auto;
+  }
+  to {
+    width: 500px;
+    margin: 0 auto;
+    z-index: 300;
+    transform: translateY(-20%);
+  }
+}
 
 @mixin empty-state($height) {
   height: #{$height};
@@ -108,9 +122,7 @@ $material-toolbar-height: 64px;
 }
 
 @mixin ng-repeat-animations {
-  &.ng-move,
-  &.ng-enter,
-  &.ng-leave {
+  &.ng-animate {
     transition: $swift-ease-out;
   }
 
@@ -136,8 +148,7 @@ $material-toolbar-height: 64px;
   material-card,
   achievement-card,
   user-card {
-    &.ng-enter,
-    &.ng-leave {
+    &.ng-animate {
       transition: $swift-ease-out;
     }
   }
@@ -198,6 +209,34 @@ $material-toolbar-height: 64px;
   }
 }
 
+@mixin material-active-card-to-top {
+  material-card {
+    &.active {
+      position: relative;
+      display: flex;
+      cursor: default;
+      background: #FFF;
+      border-radius: 0.125em;
+      box-shadow: 0 25px 35px 0 rgba(0, 0, 0, 0.3);
+      animation: $card-active-animation-duration material-card-to-top;
+      animation-timing-function: linear;
+      animation-fill-mode: forwards;
+
+      &.ng-leave, &-remove {
+        animation-fill-mode: forwards;
+      }
+    }
+
+    &.active.ng-leave,
+    &.active-remove,
+    &:not(.active).ng-enter {
+      animation: $card-active-animation-duration material-card-to-top;
+      animation-timing-function: linear;
+      animation-direction: reverse;
+    }
+  }
+}
+
 @import url(http://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Roboto:400,700,700italic,400italic);
 
 @font-face {
@@ -237,10 +276,7 @@ $material-toolbar-height: 64px;
   font-feature-settings: 'liga';
 }
 
-html {
-  font-family: $font-family;
-}
-
+html,
 button,
 select,
 html,
@@ -678,6 +714,24 @@ h1, h2, h3, h4 {
 
   &.ng-animate {
     animation: none 0s;
+  }
+}
+
+.divider {
+  &-left {
+    border-left: 2px solid $color-grey-light;
+  }
+
+  &-right {
+    border-right: 2px solid $color-grey-light;
+  }
+
+  &-top {
+    border-top: 2px solid $color-grey-light;
+  }
+
+  &-bottom {
+    border-bottom: 2px solid $color-grey-light;
   }
 }
 

@@ -1,17 +1,3 @@
-$card-active-animation-duration: 0.25s;
-
-@keyframes material-card-to-top {
-  from {
-    width: 100%;
-    margin: 0 auto;
-  }
-  to {
-    width: 500px;
-    margin: 0 auto;
-    z-index: 300;
-    transform: translateY(-20%);
-  }
-}
 
 .achievements, .users {
   &--no-scroll {
@@ -35,35 +21,7 @@ $card-active-animation-duration: 0.25s;
 
     .achievements-card, .users-card {
       @include ng-repeat-animations;
-
-      material-card {
-        &.active {
-          position: relative;
-          display: flex;
-          cursor: default;
-          background: #FFF;
-          border-radius: 0.125em;
-          box-shadow: 0 25px 35px 0 rgba(0, 0, 0, 0.3);
-          animation: $card-active-animation-duration material-card-to-top;
-          animation-timing-function: linear;
-          animation-fill-mode: forwards;
-
-          &.ng-leave {
-            animation: $card-active-animation-duration material-card-to-top;
-            animation-timing-function: linear;
-            animation-direction: reverse;
-            animation-fill-mode: forwards;
-          }
-        }
-
-        &:not(.active) {
-          &.ng-enter {
-            animation: $card-active-animation-duration material-card-to-top;
-            animation-timing-function: linear;
-            animation-direction: reverse;
-          }
-        }
-      }
+      @include material-active-card-to-top;
     }
 
     .empty-state {

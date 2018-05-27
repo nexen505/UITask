@@ -51,7 +51,7 @@
                            ng-click="usersCtrl.editUser(user)">
             <i class="material-icons">edit</i>
           </material-button>
-          <span ng-switch="user.obj.archived">
+          <span ng-switch="user.obj.archived" class="divider-left">
             <span ng-switch-when="true">
               <material-button class="material-icon-button material-button--green"
                                title="Удалить пользователя"
