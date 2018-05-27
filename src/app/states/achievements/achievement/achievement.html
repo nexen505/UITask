@@ -46,9 +46,9 @@
       <material-tab ng-repeat-end>
         <label class="material-tab-label" for="{{tabInfo.value}}" ng-bind="tabInfo.name"></label>
         <material-tab-content ng-if="selectedTab.value === tabInfo.value">
-          <div
-            ng-repeat="tabContentElm in filtered = (achievementCtrl.users | orderBy:'obj.date') track by tabContentElm.obj.id"
-            ng-switch="tabContentElm.type">
+          <div class="achievement-users-card"
+               ng-repeat="tabContentElm in filtered = (achievementCtrl.users | orderBy:'obj.date') track by tabContentElm.obj.id"
+               ng-switch="tabContentElm.type">
             <div ng-switch-when="ACHIEVED">
               <material-card ng-if="tabContentElm.obj.user">
                 <material-card-title>

@@ -19,6 +19,8 @@ $card-active-animation-duration: 0.25s;
   }
 
   &-new-card {
+    @include switching-cards;
+
     display: flex;
     align-items: flex-start;
     justify-content: center;
@@ -28,14 +30,12 @@ $card-active-animation-duration: 0.25s;
     }
   }
 
-  .achievements-new-card, .users-new-card {
-    @include switching-cards;
-  }
-
   .achievements-cards, .users-cards {
     position: relative;
 
     .achievements-card, .users-card {
+      @include ng-repeat-animations;
+
       material-card {
         &.active {
           position: relative;

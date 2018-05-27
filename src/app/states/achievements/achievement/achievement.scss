@@ -2,6 +2,14 @@
   .achievement-info {
     @include switching-cards;
   }
+
+  .achievement-users {
+    material-tab-content {
+      .achievement-users-card {
+        @include ng-repeat-animations;
+      }
+    }
+  }
 }
 
 .comment-input {
