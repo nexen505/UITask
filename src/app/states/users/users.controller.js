@@ -46,12 +46,14 @@ export class UsersController {
   }
 
   editUser(user = Utils.requiredParam()) {
+    this.closeAddingCard();
     const cards = this.users;
 
     user.closeEditingUser = ($event) => {
       this.closeUsers($event, user);
     };
     user.objCopy = angular.copy(user.obj);
+    user.objCopy.original = user;
     cards.open(user);
   }
 
@@ -75,7 +77,10 @@ export class UsersController {
     $event.stopImmediatePropagation();
     this.UserService.saveOrUpdate(user)
       .then((savedUser) => {
-        user.obj = savedUser;
+        angular.extend(user.original, {
+          obj: savedUser,
+          objCopy: null
+        });
         this.closeUsers($event);
       });
   }

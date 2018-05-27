@@ -66,12 +66,14 @@ export class AchievementsController {
   }
 
   editAchievement(achievement = Utils.requiredParam()) {
+    this.closeAddingCard();
     const cards = this.achievements;
 
     achievement.closeEditingAchievement = ($event) => {
       this.closeAchievements($event, achievement);
     };
     achievement.objCopy = angular.copy(achievement.obj);
+    achievement.objCopy.original = achievement;
     cards.open(achievement);
   }
 
@@ -95,7 +97,10 @@ export class AchievementsController {
     $event.stopImmediatePropagation();
     this.AchievementService.saveOrUpdate(achievement)
       .then((savedAchievement) => {
-        achievement.obj = savedAchievement;
+        angular.extend(achievement.original, {
+          obj: savedAchievement,
+          objCopy: null
+        });
         this.closeAchievements($event);
       });
   }
