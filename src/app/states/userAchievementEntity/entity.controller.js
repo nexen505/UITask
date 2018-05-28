@@ -1,4 +1,4 @@
-import {Utils} from "../../components/utils/utils.service";
+import { Utils } from "../../components/utils/utils.service";
 
 export class UserAchievementController {
   constructor({

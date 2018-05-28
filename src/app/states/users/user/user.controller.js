@@ -1,7 +1,7 @@
-import {Utils} from "../../../components/utils/utils.service";
-import {UserAchievement} from "../../../components/model/userAchievement.model";
-import {UserAchievementController} from "../../userAchievementEntity/entity.controller";
-import {AchievedContentElm} from "../../userAchievementEntity/achievedContentElm";
+import { Utils } from "../../../components/utils/utils.service";
+import { UserAchievement } from "../../../components/model/userAchievement.model";
+import { UserAchievementController } from "../../userAchievementEntity/entity.controller";
+import { AchievedContentElm } from "../../userAchievementEntity/achievedContentElm";
 
 export class UserController extends UserAchievementController {
   constructor($scope, AchievementService, UserService, UserAchievementService, EventService, $state, $q, $log, userData) {
@@ -30,7 +30,7 @@ export class UserController extends UserAchievementController {
           name: 'Неполученные достижения'
         }
       },
-      selectTabImpl: (tabInfo = {}) => {
+      selectTabImpl: function (tabInfo = {}) {
         const vm = this;
 
         this.$scope.selectedTab = tabInfo;
@@ -101,17 +101,17 @@ export class UserController extends UserAchievementController {
             vm.$log.warn('unknown tab info', tabInfo);
         }
       },
-      goToTabEntityImpl: (tabEntityId = Utils.requiredParam()) => {
+      goToTabEntityImpl: function (tabEntityId = Utils.requiredParam()) {
         this.$state.go('achievement', {
           achievementId: tabEntityId
         });
       },
       entity: userData,
-      editEntityImpl: () => {
+      editEntityImpl: function () {
         this.entityCopy = angular.copy(this.entity);
         this.entity.$active = true;
       },
-      saveEntityImpl: (entity = Utils.requiredParam(), $event = Utils.requiredParam()) => {
+      saveEntityImpl: function (entity = Utils.requiredParam(), $event = Utils.requiredParam()) {
         $event.stopImmediatePropagation();
         this.UserService.saveOrUpdate(entity)
           .then((savedAchievement) => {
@@ -119,18 +119,18 @@ export class UserController extends UserAchievementController {
             this.closeEditingAchievement($event);
           });
       },
-      deleteEntityImpl: ($event = Utils.requiredParam()) => {
+      deleteEntityImpl: function ($event = Utils.requiredParam()) {
         $event.stopImmediatePropagation();
         this.UserService.delete(this.entity.id)
           .then(() => {
             this.$state.go('main.users');
           });
       },
-      closeEditingEntityImpl: ($event = Utils.requiredParam()) => {
+      closeEditingEntityImpl: function ($event = Utils.requiredParam()) {
         $event.stopImmediatePropagation();
         this.entity.$active = false;
       },
-      toggleTabEntityImpl: (tabEntityObj = Utils.requiredParam(), toggle = true) => {
+      toggleTabEntityImpl: function (tabEntityObj = Utils.requiredParam(), toggle = true) {
         const vm = this;
 
         if (toggle) {

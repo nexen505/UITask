@@ -1,7 +1,7 @@
 <material-content class="achievements"
                   ng-class="{'achievements--no-scroll': achievementsCtrl.achievements.hasActive()}">
   <h3 class="material-display-1">Все достижения</h3>
-  <div class="achievements-new-card switching-cards" ng-switch="achievementsCtrl.isCardAdding">
+  <div class="achievements-new-card" ng-switch="achievementsCtrl.isCardAdding">
     <achievement-card ng-switch-when="true"
                       achievement="achievementsCtrl.newAchievement"
                       save-achievement="achievementsCtrl.saveNewAchievement(achievement, $event)"

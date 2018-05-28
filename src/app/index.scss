@@ -122,38 +122,44 @@ $card-active-animation-duration: 0.25s;
 }
 
 @mixin ng-repeat-animations {
-  &.ng-animate {
+  &.ng-animate,
+  > .ng-animate {
     transition: $swift-ease-out;
   }
 
   &.ng-leave.ng-leave-active,
   &.ng-move,
-  &.ng-enter {
+  &.ng-enter,
+  > .ng-leave.ng-leave-active,
+  > .ng-move,
+  > .ng-enter {
     opacity: 0;
     max-height: 0;
   }
 
   &.ng-leave,
   &.ng-move.ng-move-active,
-  &.ng-enter.ng-enter-active {
+  &.ng-enter.ng-enter-active,
+  > .ng-leave,
+  > .ng-move.ng-move-active,
+  > .ng-enter.ng-enter-active {
     opacity: 1;
     max-height: none;
   }
 }
 
-@mixin switching-cards {
+@mixin switching-cards-classes($active, $default) {
   $animation-duration: 0.3s;
   $translate-amount: 2000px;
 
-  material-card,
-  achievement-card,
-  user-card {
+  #{$active},
+  #{$default} {
     &.ng-animate {
       transition: $swift-ease-out;
     }
   }
 
-  material-card {
+  #{$active} {
     &.ng-enter {
       transform: translateX(-#{$translate-amount});
 
@@ -167,8 +173,7 @@ $card-active-animation-duration: 0.25s;
     }
   }
 
-  achievement-card,
-  user-card {
+  #{$default} {
     &.ng-enter {
       transform: translateX(#{$translate-amount});
 
@@ -733,10 +738,6 @@ h1, h2, h3, h4 {
   &-bottom {
     border-bottom: 2px solid $color-grey-light;
   }
-}
-
-.switching-cards {
-  @include switching-cards;
 }
 
 /**

@@ -5,7 +5,8 @@
   }
 
   &-new-card {
-    @include switching-cards;
+    @include switching-cards-classes("achievement-card", "material-card");
+    @include switching-cards-classes("user-card", "material-card");
 
     display: flex;
     align-items: flex-start;
@@ -31,7 +32,7 @@
 }
 
 material-content {
-  &.achievements, &.achievement, &.users, &.user {
+  &.achievements, &.users, &.entity {
     padding: 50px 10%;
     position: absolute;
     top: 0;

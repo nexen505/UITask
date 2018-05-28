@@ -1,6 +1,6 @@
 .entity {
   .entity-info {
-    @include switching-cards;
+    @include switching-cards-classes(".entity-info--active", ".entity-info--default");
   }
 
   .tab-entities {
