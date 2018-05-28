@@ -1,0 +1,17 @@
+.entity {
+  .entity-info {
+    @include switching-cards;
+  }
+
+  .tab-entities {
+    material-tab-content {
+      .tab-entities-card {
+        @include ng-repeat-animations;
+      }
+    }
+  }
+}
+
+.comment-input {
+
+}

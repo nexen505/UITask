@@ -1,0 +1,27 @@
+<material-card>
+  <material-card-title>
+    <material-card-title-text>
+      <span class="material-headline" ng-bind="$entityCtrl.entity.name"></span>
+    </material-card-title-text>
+    <material-card-title-media ng-if="$entityCtrl.entity.photo">
+      <div class="material-media-med">
+        <img ng-src="data:image/png;base64,{{$entityCtrl.entity.photo}}" alt=""/>
+      </div>
+    </material-card-title-media>
+  </material-card-title>
+  <material-card-content>
+    <p ng-bind="$entityCtrl.entity.bio"></p>
+  </material-card-content>
+  <material-card-actions>
+    <material-button class="material-icon-button"
+                     title="Редактировать пользователя"
+                     ng-click="$entityCtrl.editEntity()">
+      <i class="material-icons">edit</i>
+    </material-button>
+    <material-button class="material-icon-button material-button--red"
+                     title="Удалить пользователя"
+                     ng-click="$entityCtrl.deleteEntity($event)">
+      <i class="material-icons">delete</i>
+    </material-button>
+  </material-card-actions>
+</material-card>

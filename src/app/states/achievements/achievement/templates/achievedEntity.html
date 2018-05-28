@@ -1,0 +1,29 @@
+<material-card ng-if="tabEntity.obj.user">
+  <material-card-title>
+    <material-card-title-text>
+      <span class="material-headline" ng-bind="tabEntity.obj.user.name"></span>
+      <span class="material-subhead"
+            ng-bind="tabEntity.obj.date | date:'dd/MM/yyyy hh:mm:ss'"></span>
+    </material-card-title-text>
+    <material-card-title-media ng-if="tabEntity.obj.user.photo">
+      <div class="material-media-med">
+        <img ng-src="data:image/png;base64,{{tabEntity.obj.user.photo}}" alt=""/>
+      </div>
+    </material-card-title-media>
+  </material-card-title>
+  <material-card-content>
+    <p ng-bind="tabEntity.obj.comment"></p>
+  </material-card-content>
+  <material-card-actions>
+    <material-button class="material-icon-button material-button--yellow"
+                     title="Лишить пользователя достижения"
+                     ng-click="$entityCtrl.toggleTabEntity(tabEntity.obj, false)">
+      <i class="material-icons">star</i>
+    </material-button>
+    <material-button class="material-icon-button material-button--green"
+                     title="Просмотреть информацию о пользователе"
+                     ng-click="$entityCtrl.goToTabEntity(tabEntity.obj.user.id)">
+      <i class="material-icons">info</i>
+    </material-button>
+  </material-card-actions>
+</material-card>

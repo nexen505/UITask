@@ -38,15 +38,13 @@ export function routerConfig($stateProvider, $urlRouterProvider, archivedCriteri
       parent: 'main.users',
       views: {
         'content@main': {
-          templateUrl: 'app/states/users/user/user.html',
+          templateUrl: 'app/states/userAchievementEntity/entity.template.html',
           controller: 'UserController',
-          controllerAs: 'userCtrl'
+          controllerAs: '$entityCtrl'
         }
       },
       resolve: {
         userData: (UserService, $stateParams) => {
-          'ngInject';
-
           return UserService.get($stateParams.userId, true);
         }
       }
@@ -74,15 +72,13 @@ export function routerConfig($stateProvider, $urlRouterProvider, archivedCriteri
       parent: 'main.achievements',
       views: {
         'content@main': {
-          templateUrl: 'app/states/achievements/achievement/achievement.html',
+          templateUrl: 'app/states/userAchievementEntity/entity.template.html',
           controller: 'AchievementController',
-          controllerAs: 'achievementCtrl'
+          controllerAs: '$entityCtrl'
         }
       },
       resolve: {
         achievementData: (AchievementService, $stateParams) => {
-          'ngInject';
-
           return AchievementService.get($stateParams.achievementId, true);
         }
       }

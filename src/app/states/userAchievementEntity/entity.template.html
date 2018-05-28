@@ -1,0 +1,39 @@
+<material-content class="entity">
+  <div class="entity-info switching-cards" ng-switch="$entityCtrl.entity.$active">
+    <div ng-if="$entityCtrl.entity.$active"
+         ng-include="::$entityCtrl.activeEntityTemplate"
+         class="entity-info--active"></div>
+    <div ng-if="!$entityCtrl.entity.$active"
+         ng-include="::$entityCtrl.defaultEntityTemplate"
+         class="entity-info--default"></div>
+  </div>
+  <div class="tab-entities">
+    <material-tabs>
+      <input ng-repeat-start="(tabKey, tabInfo) in $entityCtrl.tabs track by tabKey"
+             type="radio"
+             name="tab"
+             id="{{tabInfo.value}}"
+             ng-value="tabInfo"
+             ng-model="selectedTab"
+             ng-change="$entityCtrl.selectTab(tabInfo)">
+      <material-tab ng-repeat-end>
+        <label class="material-tab-label" for="{{tabInfo.value}}" ng-bind="tabInfo.name"></label>
+        <material-tab-content ng-if="selectedTab.value === tabInfo.value">
+          <div class="tab-entities-card"
+               ng-repeat="tabEntity in filtered = ($entityCtrl.tabEntities | orderBy:'obj.date') track by tabEntity.obj.id">
+            <div ng-if="tabEntity.type === $entityCtrl.tabs.ACHIEVED.value"
+                 ng-include="::$entityCtrl.achievedEntityTemplate"
+                 class="tab-entities-card--achieved"></div>
+            <div ng-if="tabEntity.type === $entityCtrl.tabs.OTHERS.value"
+                 ng-include="::$entityCtrl.othersEntityTemplate"
+                 class="tab-entities-card--others"></div>
+          </div>
+          <div ng-if="!$entityCtrl.tabEntities.length"
+               ng-include="::$entityCtrl.tabEmptyStateTemplate"
+               class="empty-state"></div>
+        </material-tab-content>
+      </material-tab>
+      <div class="slide"></div>
+    </material-tabs>
+  </div>
+</material-content>

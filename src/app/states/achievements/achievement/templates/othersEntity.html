@@ -1,0 +1,50 @@
+<material-card ng-if="tabEntity.obj">
+  <material-card-title>
+    <material-card-title-text>
+      <span class="material-headline" ng-bind="tabEntity.obj.name"></span>
+    </material-card-title-text>
+    <material-card-title-media ng-if="tabEntity.obj.photo">
+      <div class="material-media-med">
+        <img ng-src="data:image/png;base64,{{tabEntity.obj.photo}}" alt="Изображение отсутствует"/>
+      </div>
+    </material-card-title-media>
+  </material-card-title>
+  <material-card-content>
+    <p ng-bind="tabEntity.obj.bio"></p>
+  </material-card-content>
+  <material-card-actions>
+    <div class="comment-input" ng-if="tabEntity.obj.userAchievement">
+      <form name="userAchievementForm">
+        <material-input-container>
+          <input required
+                 ng-model="tabEntity.obj.userAchievement.comment">
+          <label>Введите комментарий:</label>
+        </material-input-container>
+        <material-button class="material-icon-button material-button--green"
+                         type="submit"
+                         ng-disabled="!userAchievementForm.$valid"
+                         title="Присвоить достижение"
+                         ng-click="$entityCtrl.saveUserAchievement(tabEntity.obj.userAchievement)">
+          <i class="material-icons">done</i>
+        </material-button>
+        <material-button class="material-icon-button material-button--red"
+                         type="reset"
+                         title="Отменить присвоение"
+                         ng-click="tabEntity.obj.userAchievement = null">
+          <i class="material-icons">clear</i>
+        </material-button>
+      </form>
+    </div>
+    <material-button class="material-icon-button material-button--yellow"
+                     title="Дать пользователю достижение"
+                     ng-if="!tabEntity.obj.userAchievement"
+                     ng-click="$entityCtrl.toggleTabEntity(tabEntity.obj, true)">
+      <i class="material-icons">star_border</i>
+    </material-button>
+    <material-button class="material-icon-button material-button--green"
+                     title="Просмотреть информацию о пользователе"
+                     ng-click="$entityCtrl.goToTabEntity(tabEntity.obj.id)">
+      <i class="material-icons">info</i>
+    </material-button>
+  </material-card-actions>
+</material-card>
