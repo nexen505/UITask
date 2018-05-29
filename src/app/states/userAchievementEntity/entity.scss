@@ -1,9 +1,13 @@
 .entity {
   .entity-info {
     @include switching-cards-classes(".entity-info--active", ".entity-info--default");
+
+    width: 100%;
   }
 
   .tab-entities {
+    width: 100%;
+
     material-tab-content {
       .tab-entities-card {
         @include ng-repeat-animations;

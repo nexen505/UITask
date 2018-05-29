@@ -2,7 +2,7 @@ import { Utils } from "../../components/utils/utils.service";
 
 export class UserAchievementController {
   constructor({
-                $scope, AchievementService, UserService, UserAchievementService, EventService, $state, $q, $log,
+                AchievementService, UserService, UserAchievementService, EventService, $state, $q, $log,
                 tabs, selectTabImpl, toggleTabEntityImpl, goToTabEntityImpl,
                 entity,
                 editEntityImpl,
@@ -17,39 +17,32 @@ export class UserAchievementController {
                   tabEmptyStateTemplate
                 }
               }) {
-    const vm = this;
+    this._AchievementService = AchievementService;
+    this._UserService = UserService;
+    this._UserAchievementService = UserAchievementService;
+    this._EventService = EventService;
+    this._$state = $state;
+    this._$q = $q;
+    this._$log = $log;
+    this._tabs = tabs;
+    this._selectTab = selectTabImpl;
+    this._goToTabEntity = goToTabEntityImpl;
+    this._toggleTabEntity = toggleTabEntityImpl;
 
-    vm._$scope = $scope;
-    vm._AchievementService = AchievementService;
-    vm._UserService = UserService;
-    vm._UserAchievementService = UserAchievementService;
-    vm._EventService = EventService;
-    vm._$state = $state;
-    vm._$q = $q;
-    vm._$log = $log;
-    vm._tabs = tabs;
-    vm._selectTab = selectTabImpl;
-    vm._goToTabEntity = goToTabEntityImpl;
-    vm._toggleTabEntity = toggleTabEntityImpl;
+    this._entity = entity;
+    this._editEntity = editEntityImpl;
+    this._saveEntity = saveEntityImpl;
+    this._deleteEntity = deleteEntityImpl;
+    this._closeEditingEntity = closeEditingEntityImpl;
 
-    vm._entity = entity;
-    vm._editEntity = editEntityImpl;
-    vm._saveEntity = saveEntityImpl;
-    vm._deleteEntity = deleteEntityImpl;
-    vm._closeEditingEntity = closeEditingEntityImpl;
+    this._activeEntityTemplate = activeEntityTemplate;
+    this._defaultEntityTemplate = defaultEntityTemplate;
+    this._achievedEntityTemplate = achievedEntityTemplate;
+    this._othersEntityTemplate = othersEntityTemplate;
+    this._tabEmptyStateTemplate = tabEmptyStateTemplate;
 
-    vm._activeEntityTemplate = activeEntityTemplate;
-    vm._defaultEntityTemplate = defaultEntityTemplate;
-    vm._achievedEntityTemplate = achievedEntityTemplate;
-    vm._othersEntityTemplate = othersEntityTemplate;
-    vm._tabEmptyStateTemplate = tabEmptyStateTemplate;
-
-    vm.$scope.selectedTab = Object.values(vm.tabs).find((value) => value.value === $state.params.tab) || vm.tabs.ALL;
-    vm.selectTab(vm.$scope.selectedTab);
-  }
-
-  get $scope() {
-    return this._$scope;
+    this.selectedTab = Object.values(this.tabs).find((value) => value.value === $state.params.tab) || this.tabs.ALL;
+    this.selectTab(this.selectedTab);
   }
 
   get AchievementService() {
@@ -114,7 +107,11 @@ export class UserAchievementController {
   }
 
   get selectedTab() {
-    return this.$scope.selectedTab;
+    return this._selectedTab;
+  }
+
+  set selectedTab(value) {
+    this._selectedTab = value;
   }
 
   get editEntity() {

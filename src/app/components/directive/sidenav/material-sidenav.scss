@@ -1,5 +1,5 @@
-$sidenav-mobile-width: 320px !default;
-$sidenav-desktop-width: 400px !default;
+$sidenav-mobile-width: 200px !default;
+$sidenav-desktop-width: 350px !default;
 $sidenav-min-space: 56px !default;
 $z-index-sidenav: 60 !default;
 
@@ -28,7 +28,8 @@ material-sidenav {
 
       .material-button {
         width: 100%;
-        padding-left: 20px;
+        margin-left: 0;
+        padding-left: 15px;
         display: flex;
 
         i.material-icons {
@@ -36,25 +37,22 @@ material-sidenav {
         }
 
         &:hover {
-          background: $color-grey-dark;
+          background: $color-grey-normal;
         }
       }
     }
   }
 
-  // unlocked|closed
   &.material-closed {
     display: none;
   }
 
-  // any|open <=> any|closed
   &.material-closed-add,
   &.material-closed-remove {
     display: flex;
     transition: 0.2s ease-in all;
   }
 
-  // any|open <=> any|closed (animating)
   &.material-closed-add.material-closed-add-active,
   &.material-closed-remove.material-closed-remove-active {
     transition: $swift-ease-out;

@@ -12,13 +12,15 @@
       <input ng-repeat-start="(tabKey, tabInfo) in $entityCtrl.tabs track by tabKey"
              type="radio"
              name="tab"
-             id="{{tabInfo.value}}"
-             ng-value="tabInfo"
-             ng-model="selectedTab"
+             id="{{::tabInfo.value}}"
+             ng-value="::tabInfo"
+             ng-model="$entityCtrl.selectedTab"
              ng-change="$entityCtrl.selectTab(tabInfo)">
       <material-tab ng-repeat-end>
-        <label class="material-tab-label" for="{{tabInfo.value}}" ng-bind="tabInfo.name"></label>
-        <material-tab-content ng-if="selectedTab.value === tabInfo.value">
+        <label class="material-tab-label"
+               for="{{::tabInfo.value}}"
+               ng-bind="::tabInfo.name"></label>
+        <material-tab-content>
           <div class="tab-entities-card"
                ng-repeat="tabEntity in filtered = ($entityCtrl.tabEntities | orderBy:'obj.date') track by tabEntity.obj.id">
             <div ng-if="tabEntity.type === $entityCtrl.tabs.ACHIEVED.value"

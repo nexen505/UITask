@@ -4,11 +4,10 @@ import { UserAchievementController } from "../../userAchievementEntity/entity.co
 import { AchievedContentElm } from "../../userAchievementEntity/achievedContentElm";
 
 export class AchievementController extends UserAchievementController {
-  constructor($scope, AchievementService, UserService, UserAchievementService, EventService, $state, $q, $log, achievementData) {
+  constructor(AchievementService, UserService, UserAchievementService, EventService, $state, $q, $log, achievementData) {
     'ngInject';
 
     super({
-      $scope: $scope,
       AchievementService: AchievementService,
       UserService: UserService,
       UserAchievementService: UserAchievementService,
@@ -33,7 +32,6 @@ export class AchievementController extends UserAchievementController {
       selectTabImpl: function (tabInfo = {}) {
         const vm = this;
 
-        vm.$scope.selectedTab = tabInfo;
         switch (tabInfo) {
           case vm.tabs.ACHIEVED:
             vm.UserService.getAchievementUsers(vm.entity.id, true)
