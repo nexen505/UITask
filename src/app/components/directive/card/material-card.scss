@@ -109,21 +109,39 @@ material-card {
     }
 
     material-card-title-media {
+      $small-size: 80px;
+      $medium-size: 112px;
+      $large-size: 152px;
       margin-top: -8px;
 
       .material-media-sm {
-        height: 80px;
-        width: 80px;
+        height: $small-size;
+        width: $small-size;
       }
 
       .material-media-med {
-        height: 112px;
-        width: 112px;
+        height: $medium-size;
+        width: $medium-size;
+
+        @include adaptive-width(0, $small-phone-screen) {
+          height: $small-size;
+          width: $small-size;
+        }
       }
 
       .material-media-lg {
-        height: 152px;
-        width: 152px;
+        height: $large-size;
+        width: $large-size;
+
+        @include adaptive-width(0, $small-phone-screen) {
+          height: $small-size;
+          width: $small-size;
+        }
+
+        @include adaptive-width($small-phone-screen, $medium-phone-screen) {
+          height: $medium-size;
+          width: $medium-size;
+        }
       }
 
       img {

@@ -8,6 +8,15 @@
 $font-family: Roboto, 'Helvetica Neue', sans-serif !default;
 $font-size: 10px !default;
 
+$extra-small-phone-screen: 360px;
+$small-phone-screen: 480px;
+$medium-phone-screen: 600px;
+$large-phone-screen: 800px;
+$small-desktop-screen: 1024px;
+$medium-desktop-screen: 1280px;
+$large-desktop-screen: 1400px;
+$extra-large-desktop-screen: 1920px;
+
 @function rem($multiplier) {
   @return $multiplier * $font-size;
 }
@@ -70,11 +79,6 @@ $color_green_normal: #25a54e;
 $color_red_normal: #d44a4a;
 $color_yellow_normal: #e8b920;
 
-$layout-breakpoint-xs: 600px !default;
-$layout-breakpoint-sm: 960px !default;
-$layout-breakpoint-md: 1280px !default;
-$layout-breakpoint-lg: 1920px !default;
-
 $swift-ease-out-duration: 0.35s !default;
 $swift-ease-out-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1) !default;
 $swift-ease-out: all $swift-ease-out-duration $swift-ease-out-timing-function !default;
@@ -93,6 +97,12 @@ $swift-linear: all $swift-linear-duration $swift-linear-timing-function !default
 
 $material-toolbar-height: 64px;
 $card-active-animation-duration: 0.25s;
+
+@mixin adaptive-width($min-width, $max-width) {
+  @media (min-width: #{$min-width}) and (max-width: #{$max-width}) {
+    @content;
+  }
+}
 
 @keyframes material-card-to-top {
   from {
@@ -229,6 +239,26 @@ $card-active-animation-duration: 0.25s;
 
       &.ng-leave, &-remove {
         animation-fill-mode: forwards;
+      }
+
+      @include adaptive-width(0, $extra-small-phone-screen) {
+        max-width: 300px;
+      }
+
+      @include adaptive-width($extra-small-phone-screen, $small-phone-screen) {
+        max-width: 350px;
+      }
+
+      @include adaptive-width($small-phone-screen, $medium-phone-screen) {
+        max-width: 450px;
+      }
+
+      @include adaptive-width($medium-phone-screen, $large-phone-screen) {
+        max-width: 500px;
+      }
+
+      @include adaptive-width($large-phone-screen, $small-desktop-screen) {
+        max-width: 700px;
       }
     }
 

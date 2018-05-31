@@ -41,13 +41,26 @@ material-content {
     left: 0;
     width: 100%;
     height: 100%;
+
+    @media (max-width: $small-desktop-screen) {
+      padding: 30px 3%;
+    }
   }
 }
 
 .filters {
+  margin: 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  @include adaptive-width(0, $medium-phone-screen) {
+    flex-direction: column;
+
+    > * {
+      margin: 10px 0;
+    }
+  }
 
   .filters-input {
     position: relative;

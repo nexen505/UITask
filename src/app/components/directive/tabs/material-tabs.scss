@@ -62,6 +62,14 @@ material-tabs {
       height: 56px;
       transition: color $swift-ease-out-duration $swift-ease-out-timing-function;
       width: 100%;
+
+      @include adaptive-width(0, $small-phone-screen) {
+        font-size: 14px;
+      }
+
+      @include adaptive-width($small-phone-screen, $medium-phone-screen) {
+        font-size: 15px;
+      }
     }
 
     material-tab-content {

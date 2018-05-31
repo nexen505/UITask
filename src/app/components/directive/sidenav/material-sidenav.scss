@@ -70,17 +70,9 @@ material-sidenav {
   }
 }
 
-@media (min-width: $layout-breakpoint-xs) {
+@media (min-width: $medium-phone-screen) {
   material-sidenav {
     max-width: $sidenav-desktop-width;
-  }
-}
-
-@media (max-width: $sidenav-desktop-width + $sidenav-min-space) {
-  material-sidenav {
-    width: calc(100% - #{$sidenav-min-space});
-    min-width: calc(100% - #{$sidenav-min-space});
-    max-width: calc(100% - #{$sidenav-min-space});
   }
 }
 
