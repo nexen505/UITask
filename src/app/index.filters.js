@@ -29,7 +29,7 @@ export function ArchivedNameFilter(_, archivedCriterions) {
     return arr.filter((elm) => {
       const elmName = _.get(elm, nameKey, null),
         archivedCriterion = archivedCriteria(_, archivedCriterions, elm, archivedKey, archivedValue),
-        nameCriterion = (Utils.isEmpty(nameValue) || (!Utils.isEmpty(elmName) && elmName.indexOf(nameValue) !== -1));
+        nameCriterion = (Utils.isEmpty(nameValue) || (!Utils.isEmpty(elmName) && elmName.toLowerCase().indexOf(nameValue.toLowerCase()) !== -1));
 
       return archivedCriterion && nameCriterion;
     });

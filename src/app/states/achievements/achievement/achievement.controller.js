@@ -29,75 +29,11 @@ export class AchievementController extends UserAchievementController {
           name: 'Ненагражденные пользователи'
         }
       },
-      selectTabImpl: function (tabInfo = {}) {
-        const vm = this;
-
-        switch (tabInfo) {
-          case vm.tabs.ACHIEVED:
-            vm.UserService.getAchievementUsers(vm.entity.id, true)
-              .then(
-                (tabEntities) => {
-                  vm.tabEntities = tabEntities.map((obj) => {
-                    return new AchievedContentElm({
-                      obj: obj,
-                      type: vm.tabs.ACHIEVED.value
-                    });
-                  });
-                },
-                (error) => {
-                  console.log(error);
-                }
-              );
-            break;
-          case vm.tabs.OTHERS:
-            vm.UserService.getAchievementUsers(vm.entity.id, false)
-              .then(
-                (tabEntities) => {
-                  vm.tabEntities = tabEntities.map((obj) => {
-                    return new AchievedContentElm({
-                      obj: obj,
-                      type: vm.tabs.OTHERS.value
-                    });
-                  });
-                },
-                (error) => {
-                  console.log(error);
-                }
-              );
-            break;
-          case vm.tabs.ALL:
-            vm.$q
-              .all([
-                vm.UserService.getAchievementUsers(vm.entity.id, true),
-                vm.UserService.getAchievementUsers(vm.entity.id, false)
-              ])
-              .then(
-                (values) => {
-                  const [achieved, others] = values;
-
-                  vm.tabEntities = [
-                    ...achieved.map((obj) => {
-                      return new AchievedContentElm({
-                        obj: obj,
-                        type: vm.tabs.ACHIEVED.value
-                      });
-                    }),
-                    ...others.map((obj) => {
-                      return new AchievedContentElm({
-                        obj: obj,
-                        type: vm.tabs.OTHERS.value
-                      });
-                    })
-                  ];
-                },
-                (error) => {
-                  console.log(error, error);
-                }
-              );
-            break;
-          default:
-            vm.$log.warn('unknown tab info', tabInfo);
-        }
+      achievedEntitiesImpl: function (entityId) {
+        return this.UserService.getAchievementUsers(entityId, true);
+      },
+      othersEntitiesImpl: function (entityId) {
+        return this.UserService.getAchievementUsers(entityId, false);
       },
       goToTabEntityImpl: function (tabEntityId = Utils.requiredParam()) {
         this.$state.go('user', {
@@ -105,10 +41,6 @@ export class AchievementController extends UserAchievementController {
         });
       },
       entity: achievementData,
-      editEntityImpl: function () {
-        this.entityCopy = angular.copy(this.entity);
-        this.entity.$active = true;
-      },
       saveEntityImpl: function (entity = Utils.requiredParam(), $event = Utils.requiredParam()) {
         $event.stopImmediatePropagation();
         this.AchievementService.saveOrUpdate(entity)
@@ -123,10 +55,6 @@ export class AchievementController extends UserAchievementController {
           .then(() => {
             this.$state.go('main.achievements');
           });
-      },
-      closeEditingEntityImpl: function ($event = Utils.requiredParam()) {
-        $event.stopImmediatePropagation();
-        this.entity.$active = false;
       },
       toggleTabEntityImpl: function (tabEntityObj = Utils.requiredParam(), toggle = true) {
         const vm = this;

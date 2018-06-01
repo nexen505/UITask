@@ -143,8 +143,7 @@ $card-active-animation-duration: 0.25s;
   > .ng-leave.ng-leave-active,
   > .ng-move,
   > .ng-enter {
-    opacity: 0;
-    max-height: 0;
+    transform: scaleY(0);
   }
 
   &.ng-leave,
@@ -153,8 +152,7 @@ $card-active-animation-duration: 0.25s;
   > .ng-leave,
   > .ng-move.ng-move-active,
   > .ng-enter.ng-enter-active {
-    opacity: 1;
-    max-height: none;
+    transform: scaleY(1);
   }
 }
 

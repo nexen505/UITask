@@ -1,14 +1,15 @@
 import { Utils } from "../../components/utils/utils.service";
+import { AchievedContentElm } from "./achievedContentElm";
 
 export class UserAchievementController {
   constructor({
                 AchievementService, UserService, UserAchievementService, EventService, $state, $q, $log,
-                tabs, selectTabImpl, toggleTabEntityImpl, goToTabEntityImpl,
+                tabs, toggleTabEntityImpl, goToTabEntityImpl,
                 entity,
-                editEntityImpl,
+                achievedEntitiesImpl,
+                othersEntitiesImpl,
                 saveEntityImpl,
                 deleteEntityImpl,
-                closeEditingEntityImpl,
                 templates: {
                   activeEntityTemplate,
                   defaultEntityTemplate,
@@ -25,15 +26,14 @@ export class UserAchievementController {
     this._$q = $q;
     this._$log = $log;
     this._tabs = tabs;
-    this._selectTab = selectTabImpl;
     this._goToTabEntity = goToTabEntityImpl;
     this._toggleTabEntity = toggleTabEntityImpl;
 
     this._entity = entity;
-    this._editEntity = editEntityImpl;
+    this._achievedEntitiesImpl = achievedEntitiesImpl;
+    this._othersEntitiesImpl = othersEntitiesImpl;
     this._saveEntity = saveEntityImpl;
     this._deleteEntity = deleteEntityImpl;
-    this._closeEditingEntity = closeEditingEntityImpl;
 
     this._activeEntityTemplate = activeEntityTemplate;
     this._defaultEntityTemplate = defaultEntityTemplate;
@@ -85,10 +85,6 @@ export class UserAchievementController {
     this._tabEntities = value || {};
   }
 
-  get selectTab() {
-    return this._selectTab;
-  }
-
   get goToTabEntity() {
     return this._goToTabEntity;
   }
@@ -114,20 +110,12 @@ export class UserAchievementController {
     this._selectedTab = value;
   }
 
-  get editEntity() {
-    return this._editEntity;
-  }
-
   get saveEntity() {
     return this._saveEntity;
   }
 
   get deleteEntity() {
     return this._deleteEntity;
-  }
-
-  get closeEditingEntity() {
-    return this._closeEditingEntity;
   }
 
   get activeEntityTemplate() {
@@ -150,6 +138,88 @@ export class UserAchievementController {
     return this._tabEmptyStateTemplate;
   }
 
+  get achievedEntities() {
+    return this._achievedEntitiesImpl;
+  }
+
+  get othersEntities() {
+    return this._othersEntitiesImpl;
+  }
+
+  allEntities(entityId) {
+    return [this.achievedEntities(entityId), this.othersEntities(entityId)];
+  }
+
+  selectTab(tabInfo = {}) {
+    const vm = this;
+
+    switch (tabInfo) {
+      case vm.tabs.ACHIEVED:
+        vm.achievedEntities(vm.entity.id)
+          .then(
+            (tabEntities) => {
+              vm.tabEntities = tabEntities.map((obj) => {
+                return new AchievedContentElm({
+                  obj: obj,
+                  type: vm.tabs.ACHIEVED.value
+                });
+              });
+            },
+            (error) => {
+              console.log(error);
+            }
+          );
+        break;
+      case vm.tabs.OTHERS:
+        vm.othersEntities(vm.entity.id)
+          .then(
+            (tabEntities) => {
+              vm.tabEntities = tabEntities.map((obj) => {
+                return new AchievedContentElm({
+                  obj: obj,
+                  type: vm.tabs.OTHERS.value
+                });
+              });
+            },
+            (error) => {
+              console.log(error);
+            }
+          );
+        break;
+      case vm.tabs.ALL:
+        vm.$q
+          .all(
+            vm.allEntities(vm.entity.id)
+          )
+          .then(
+            (values) => {
+              const [achieved, others] = values;
+
+              vm.tabEntities = [
+                ...achieved.map((obj) => {
+                  return new AchievedContentElm({
+                    obj: obj,
+                    type: vm.tabs.ACHIEVED.value
+                  });
+                }),
+                ...others.map((obj) => {
+                  return new AchievedContentElm({
+                    obj: obj,
+                    type: vm.tabs.OTHERS.value
+                  });
+                })
+              ];
+            },
+            (error) => {
+              console.log(error, error);
+            }
+          );
+        break;
+      default:
+        vm.$log.warn('unknown tab info', tabInfo);
+    }
+  }
+
   saveUserAchievement(userAchievement = Utils.requiredParam()) {
     const vm = this;
 
@@ -162,5 +232,15 @@ export class UserAchievementController {
           console.log(errorResp);
         }
       );
+  }
+
+  editEntity() {
+    this.entityCopy = angular.copy(this.entity);
+    this.entity.$active = true;
+  }
+
+  closeEditingEntity($event = Utils.requiredParam()) {
+    $event.stopImmediatePropagation();
+    this.entity.$active = false;
   }
 }

@@ -18,28 +18,29 @@
   <div class="achievements-cards">
     <div class="filters">
       <div class="filters-input">
-        <input ng-model="filters.nameValue"
-               placeholder="Поиск"
-               ng-model-options="{ debounce: 1000 }">
+        <input placeholder="Поиск"
+               ng-model="achievementsCtrl.filters.nameValue"
+               ng-model-options="{ debounce: 1000 }"
+               ng-change="achievementsCtrl.showArchived()">
         <i class="material-icons clickable"
-           ng-show="filters.nameValue.length"
-           ng-click="filters.nameValue=''">clear</i>
+           ng-show="achievementsCtrl.filters.nameValue.length"
+           ng-click="achievementsCtrl.showArchived(achievementsCtrl.filters.archivedValue, achievementsCtrl.filters.nameValue = '')">clear</i>
       </div>
       <div class="filters-checkboxes">
         <div class="material-checkbox">
           <input id="archived"
                  type="checkbox"
-                 ng-model="filters.archivedValue"
+                 ng-model="achievementsCtrl.filters.archivedValue"
                  ng-model-options="{ debounce: 1000 }"
                  ng-true-value="'ALL'"
                  ng-false-value="'0'"
-                 ng-change="achievementsCtrl.showArchived(filters.archivedValue)">
+                 ng-change="achievementsCtrl.showArchived()">
           <label for="archived">Показать архивные</label>
         </div>
       </div>
     </div>
     <div class="achievements-card"
-         ng-repeat="achievement in filtered = (achievementsCtrl.achievements.cards | archivedName:filters | orderBy:'obj.name') track by achievement.obj.id"
+         ng-repeat="achievement in filtered = (achievementsCtrl.achievements.cards | archivedName:achievementsCtrl.filters | orderBy:'obj.name') track by achievement.obj.id"
          ng-switch="achievement.$active">
       <achievement-card
         ng-switch-when="true"

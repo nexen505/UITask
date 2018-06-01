@@ -9,6 +9,19 @@
     width: 100%;
 
     material-tab-content {
+      display: flex;
+      flex-direction: column;
+
+      @media (min-width: $small-desktop-screen) {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+
+        .tab-entities-card {
+          width: 50%;
+        }
+      }
+
       .tab-entities-card {
         @include ng-repeat-animations;
       }

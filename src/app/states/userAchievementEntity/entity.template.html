@@ -20,7 +20,7 @@
         <label class="material-tab-label"
                for="{{::tabInfo.value}}"
                ng-bind="::tabInfo.name"></label>
-        <material-tab-content>
+        <material-tab-content ng-if="$entityCtrl.selectedTab === tabInfo">
           <div class="tab-entities-card"
                ng-repeat="tabEntity in filtered = ($entityCtrl.tabEntities | orderBy:'obj.date') track by tabEntity.obj.id">
             <div ng-if="tabEntity.type === $entityCtrl.tabs.ACHIEVED.value"

@@ -12,7 +12,6 @@ material-sidenav {
   z-index: $z-index-sidenav;
   background: $color-grey-light;
   color: $color-grey-darker;
-
   width: $sidenav-mobile-width;
   max-width: $sidenav-mobile-width;
   bottom: 0;
@@ -65,6 +64,7 @@ material-sidenav {
   left: 0;
   top: $material-toolbar-height;
   transform: translate3d(0%, 0, 0);
+
   &.material-closed {
     transform: translate3d(-100%, 0, 0);
   }

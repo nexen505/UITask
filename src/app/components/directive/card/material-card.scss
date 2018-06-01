@@ -8,10 +8,6 @@ material-card {
   border-radius: 2px;
   transition: $swift-ease-in-out;
 
-  &.ng-leave.ng-leave-active {
-    display: none;
-  }
-
   &:hover {
     box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
   }
@@ -123,7 +119,7 @@ material-card {
         height: $medium-size;
         width: $medium-size;
 
-        @include adaptive-width(0, $small-phone-screen) {
+        @include adaptive-width(0, $medium-phone-screen) {
           height: $small-size;
           width: $small-size;
         }
@@ -133,12 +129,12 @@ material-card {
         height: $large-size;
         width: $large-size;
 
-        @include adaptive-width(0, $small-phone-screen) {
+        @include adaptive-width(0, $medium-phone-screen) {
           height: $small-size;
           width: $small-size;
         }
 
-        @include adaptive-width($small-phone-screen, $medium-phone-screen) {
+        @include adaptive-width($medium-phone-screen, $large-phone-screen) {
           height: $medium-size;
           width: $medium-size;
         }

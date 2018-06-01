@@ -50,7 +50,7 @@ export function routerConfig($stateProvider, $urlRouterProvider, archivedCriteri
       }
     })
     .state('main.achievements', {
-      url: '/achievements?archived',
+      url: '/achievements?archived?searchText',
       params: {
         archived: archivedCriterions.NOT_ARCHIVED
       },
@@ -63,7 +63,7 @@ export function routerConfig($stateProvider, $urlRouterProvider, archivedCriteri
       },
       resolve: {
         achievementsData: (AchievementService, $stateParams) => {
-          return AchievementService.getAll($stateParams.archived);
+          return AchievementService.getAll($stateParams.archived, $stateParams.searchText);
         }
       }
     })

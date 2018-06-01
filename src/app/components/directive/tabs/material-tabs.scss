@@ -29,10 +29,6 @@ material-tabs {
         label.material-tab-label {
           color: white;
         }
-
-        material-tab-content {
-          display: block;
-        }
       }
     }
   }
@@ -73,7 +69,6 @@ material-tabs {
     }
 
     material-tab-content {
-      display: none;
       position: absolute;
       width: 100%;
       left: 0;

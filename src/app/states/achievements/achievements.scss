@@ -18,6 +18,8 @@
   }
 
   .achievements-cards, .users-cards {
+    display: flex;
+    flex-direction: column;
     position: relative;
 
     .achievements-card, .users-card {
@@ -27,6 +29,15 @@
 
     .empty-state {
       @include empty-state(600px);
+    }
+
+    @media (min-width: $small-desktop-screen) {
+      flex-direction: row;
+      flex-wrap: wrap;
+
+      .achievements-card, .users-card {
+        width: 50%;
+      }
     }
   }
 }
@@ -49,6 +60,7 @@ material-content {
 }
 
 .filters {
+  width: 100%;
   margin: 10px;
   display: flex;
   align-items: center;
