@@ -1,5 +1,4 @@
-
-.achievements, .users {
+.entities {
   &--no-scroll {
     overflow: hidden;
   }
@@ -17,12 +16,12 @@
     }
   }
 
-  .achievements-cards, .users-cards {
+  .entities-cards {
     display: flex;
     flex-direction: column;
     position: relative;
 
-    .achievements-card, .users-card {
+    .entity-card {
       @include ng-repeat-animations;
       @include material-active-card-to-top;
     }
@@ -32,10 +31,11 @@
     }
 
     @media (min-width: $small-desktop-screen) {
+      display: flex;
       flex-direction: row;
       flex-wrap: wrap;
 
-      .achievements-card, .users-card {
+      .entity-card {
         width: 50%;
       }
     }
@@ -43,7 +43,7 @@
 }
 
 material-content {
-  &.achievements, &.users, &.entity {
+  &.entities, &.entity {
     padding: 50px 10%;
     position: absolute;
     top: 0;

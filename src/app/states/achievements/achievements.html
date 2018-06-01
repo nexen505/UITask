@@ -1,94 +1,94 @@
-<material-content class="achievements"
-                  ng-class="{'achievements--no-scroll': achievementsCtrl.achievements.hasActive()}">
+<material-content class="entities"
+                  ng-class="{'entities--no-scroll': $entitiesCtrl.achievements.hasActive()}">
   <h3 class="material-display-1">Все достижения</h3>
-  <div class="achievements-new-card" ng-switch="achievementsCtrl.isCardAdding">
+  <div class="entities-new-card" ng-switch="$entitiesCtrl.isCardAdding">
     <achievement-card ng-switch-when="true"
                       class="no-background"
-                      achievement="achievementsCtrl.newAchievement"
-                      save-achievement="achievementsCtrl.saveNewAchievement(achievement, $event)"
-                      close-achievement="achievementsCtrl.closeAddingCard()"></achievement-card>
+                      achievement="$entitiesCtrl.newAchievement"
+                      save-achievement="$entitiesCtrl.saveNewAchievement(achievement, $event)"
+                      close-achievement="$entitiesCtrl.closeAddingCard()"></achievement-card>
     <material-card ng-switch-default>
-      <material-card-title ng-click="achievementsCtrl.openAddingCard()"
-                           ng-class="{'clickable': !achievementsCtrl.isCardAdding}">
+      <material-card-title ng-click="$entitiesCtrl.openAddingCard()"
+                           ng-class="{'clickable': !$entitiesCtrl.isCardAdding}">
         <material-card-title-text>
           <span class="material-headline"><i class="material-icons">add</i>Новое достижение</span>
         </material-card-title-text>
       </material-card-title>
     </material-card>
   </div>
-  <div class="achievements-cards">
+  <div class="entities-cards">
     <div class="filters">
       <div class="filters-input">
         <input placeholder="Поиск"
-               ng-model="achievementsCtrl.filters.nameValue"
+               ng-model="$entitiesCtrl.filters.nameValue"
                ng-model-options="{ debounce: 1000 }"
-               ng-change="achievementsCtrl.showArchived()">
+               ng-change="$entitiesCtrl.showArchived()">
         <i class="material-icons clickable"
-           ng-show="achievementsCtrl.filters.nameValue.length"
-           ng-click="achievementsCtrl.showArchived(achievementsCtrl.filters.archivedValue, achievementsCtrl.filters.nameValue = '')">clear</i>
+           ng-show="$entitiesCtrl.filters.nameValue.length"
+           ng-click="$entitiesCtrl.showArchived($entitiesCtrl.filters.archivedValue, $entitiesCtrl.filters.nameValue = '')">clear</i>
       </div>
       <div class="filters-checkboxes">
         <div class="material-checkbox">
           <input id="archived"
                  type="checkbox"
-                 ng-model="achievementsCtrl.filters.archivedValue"
+                 ng-model="$entitiesCtrl.filters.archivedValue"
                  ng-model-options="{ debounce: 1000 }"
                  ng-true-value="'ALL'"
                  ng-false-value="'0'"
-                 ng-change="achievementsCtrl.showArchived()">
+                 ng-change="$entitiesCtrl.showArchived()">
           <label for="archived">Показать архивные</label>
         </div>
       </div>
     </div>
-    <div class="achievements-card"
-         ng-repeat="achievement in filtered = (achievementsCtrl.achievements.cards | archivedName:achievementsCtrl.filters | orderBy:'obj.name') track by achievement.obj.id"
-         ng-switch="achievement.$active">
+    <div class="entity-card"
+         ng-repeat="card in filtered = ($entitiesCtrl.achievements.cards | archivedName:$entitiesCtrl.filters | orderBy:'obj.name') track by card.obj.id"
+         ng-switch="card.$active">
       <achievement-card
         ng-switch-when="true"
-        ng-class="{'active': achievement.$active}"
-        active="achievement.$active"
-        achievement="achievement.objCopy"
-        save-achievement="achievementsCtrl.saveAchievement(achievement, $event)"
-        close-achievement="achievement.closeEditingAchievement($event)"></achievement-card>
+        ng-class="{'active': card.$active}"
+        active="card.$active"
+        achievement="card.objCopy"
+        save-achievement="$entitiesCtrl.saveAchievement(card, $event)"
+        close-achievement="card.closeEditingAchievement($event)"></achievement-card>
       <material-card
         ng-switch-default>
         <material-card-title>
           <material-card-title-text>
-            <span class="material-headline" ng-bind="achievement.obj.name"></span>
-            <span class="material-subhead">Кол-во кармы: {{achievement.obj.karma}}</span>
+            <span class="material-headline" ng-bind="card.obj.name"></span>
+            <span class="material-subhead">Кол-во кармы: {{card.obj.karma}}</span>
           </material-card-title-text>
           <material-card-title-media>
             <div class="material-media-med">
-              <img ng-src="data:image/png;base64,{{achievement.obj.icon}}" alt="Изображение отсутствует"/>
+              <img ng-src="data:image/png;base64,{{card.obj.icon}}" alt="Изображение отсутствует"/>
             </div>
           </material-card-title-media>
         </material-card-title>
         <material-card-content>
-          <p ng-bind="achievement.obj.description"></p>
+          <p ng-bind="card.obj.description"></p>
         </material-card-content>
         <material-card-actions>
           <material-button class="material-icon-button material-button--green"
                            title="Просмотреть информацию о достижении"
-                           ng-click="achievementsCtrl.goToAchievement(achievement.obj.id)">
+                           ng-click="$entitiesCtrl.goToAchievement(card.obj.id)">
             <i class="material-icons">info</i>
           </material-button>
           <material-button class="material-icon-button"
                            title="Редактировать достижение"
-                           ng-click="achievementsCtrl.editAchievement(achievement)">
+                           ng-click="$entitiesCtrl.editAchievement(card)">
             <i class="material-icons">edit</i>
           </material-button>
           <span ng-switch="achievement.obj.archived" class="divider-left">
             <span ng-switch-when="true">
               <material-button class="material-icon-button material-button--green no-animate"
                                title="Восстановить достижение"
-                               ng-click="achievementsCtrl.restoreAchievement(achievement, $event)">
+                               ng-click="$entitiesCtrl.restoreAchievement(card, $event)">
                 <i class="material-icons">undo</i>
               </material-button>
             </span>
             <span ng-switch-default>
               <material-button class="material-icon-button material-button--red no-animate"
                                title="Удалить достижение"
-                               ng-click="achievementsCtrl.deleteAchievement(achievement, $event)">
+                               ng-click="$entitiesCtrl.deleteAchievement(card, $event)">
                 <i class="material-icons">delete</i>
               </material-button>
             </span>
@@ -96,12 +96,12 @@
         </material-card-actions>
       </material-card>
     </div>
-    <div class="empty-state" ng-if="!achievementsCtrl.achievements.cards.length">
+    <div class="empty-state" ng-if="!$entitiesCtrl.achievements.cards.length">
       <h3 class="header">
         <i class="material-icons">error_outline</i>Нет достижений. Можете добавить их через форму сверху.
       </h3>
     </div>
-    <div class="empty-state" ng-if="achievementsCtrl.achievements.cards.length && !filtered.length">
+    <div class="empty-state" ng-if="$entitiesCtrl.achievements.cards.length && !filtered.length">
       <h3 class="header">
         <i class="material-icons">error_outline</i>Отсутствуют достижения, удовлетворяющие выбранным критериям.
       </h3>

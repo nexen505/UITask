@@ -1,92 +1,93 @@
-<material-content class="users"
-                  ng-class="{'users--no-scroll': usersCtrl.users.hasActive()}">
+<material-content class="entities"
+                  ng-class="{'entities--no-scroll': $entitiesCtrl.users.hasActive()}">
   <h3 class="material-display-1">Все пользователи</h3>
-  <div class="users-new-card" ng-switch="usersCtrl.isCardAdding">
+  <div class="entities-new-card" ng-switch="$entitiesCtrl.isCardAdding">
     <user-card ng-switch-when="true"
                class="no-background"
-               user="usersCtrl.newUser"
-               save-user="usersCtrl.saveNewUser(user, $event)"
-               close-user="usersCtrl.closeAddingCard()"></user-card>
+               user="$entitiesCtrl.newUser"
+               save-user="$entitiesCtrl.saveNewUser(user, $event)"
+               close-user="$entitiesCtrl.closeAddingCard()"></user-card>
     <material-card ng-switch-default>
-      <material-card-title ng-click="usersCtrl.openAddingCard()"
-                           ng-class="{'clickable': !usersCtrl.isCardAdding}">
+      <material-card-title ng-click="$entitiesCtrl.openAddingCard()"
+                           ng-class="{'clickable': !$entitiesCtrl.isCardAdding}">
         <material-card-title-text>
           <span class="material-headline"><i class="material-icons">add</i>Новый пользователь</span>
         </material-card-title-text>
       </material-card-title>
     </material-card>
   </div>
-  <div class="users-cards">
+  <div class="entities-cards">
     <div class="filters">
       <div class="filters-input">
         <input placeholder="Поиск"
-               ng-model="usersCtrl.filters.nameValue"
+               ng-model="$entitiesCtrl.filters.nameValue"
                ng-model-options="{ debounce: 1000 }"
-               ng-change="usersCtrl.showArchived()">
+               ng-change="$entitiesCtrl.showArchived()">
         <i class="material-icons clickable"
-           ng-show="usersCtrl.filters.nameValue.length"
-           ng-click="usersCtrl.showArchived(usersCtrl.filters.archivedValue, usersCtrl.filters.nameValue = '')">clear</i>
+           ng-show="$entitiesCtrl.filters.nameValue.length"
+           ng-click="$entitiesCtrl.showArchived($entitiesCtrl.filters.archivedValue, $entitiesCtrl.filters.nameValue = '')">clear</i>
       </div>
       <div class="filters-checkboxes">
         <div class="material-checkbox">
           <input id="archived"
                  type="checkbox"
-                 ng-model="usersCtrl.filters.archivedValue"
+                 ng-model="$entitiesCtrl.filters.archivedValue"
                  ng-model-options="{ debounce: 1000 }"
                  ng-true-value="'ALL'"
                  ng-false-value="'0'"
-                 ng-change="usersCtrl.showArchived()">
+                 ng-change="$entitiesCtrl.showArchived()">
           <label for="archived">Показать архивные</label>
         </div>
       </div>
     </div>
-    <div class="users-card"
-         ng-repeat="user in filtered = (usersCtrl.users.cards | archivedName:usersCtrl.filters | orderBy:'obj.name') track by user.obj.id">
+    <div class="entity-card"
+         ng-repeat="card in filtered = ($entitiesCtrl.users.cards | archivedName:$entitiesCtrl.filters | orderBy:'obj.name') track by card.obj.id"
+         ng-switch="card.$active">
       <user-card
-        ng-if="user.$active"
-        ng-class="{'active': user.$active}"
-        active="user.$active"
-        user="user.objCopy"
-        save-user="usersCtrl.saveUser(user, $event)"
-        close-user="user.closeEditingUser($event)"></user-card>
+        ng-switch-when="true"
+        ng-class="{'active': card.$active}"
+        active="card.$active"
+        user="card.objCopy"
+        save-user="$entitiesCtrl.saveUser(card, $event)"
+        close-user="card.closeEditingUser($event)"></user-card>
       <material-card
-        ng-if="!user.$active">
+        ng-switch-default>
         <material-card-title>
           <material-card-title-text>
-            <span class="material-headline" ng-bind="user.obj.name"></span>
+            <span class="material-headline" ng-bind="card.obj.name"></span>
           </material-card-title-text>
           <material-card-title-media>
             <div class="material-media-med">
-              <img ng-src="data:image/png;base64,{{user.obj.photo}}" alt="Изображение отсутствует"/>
+              <img ng-src="data:image/png;base64,{{card.obj.photo}}" alt="Изображение отсутствует"/>
             </div>
           </material-card-title-media>
         </material-card-title>
         <material-card-content>
-          <p ng-bind="user.obj.bio"></p>
+          <p ng-bind="card.obj.bio"></p>
         </material-card-content>
         <material-card-actions>
           <material-button class="material-icon-button material-button--green"
                            title="Просмотреть информацию о пользователе"
-                           ng-click="usersCtrl.goToUser(user.obj.id)">
+                           ng-click="$entitiesCtrl.goToUser(card.obj.id)">
             <i class="material-icons">info</i>
           </material-button>
           <material-button class="material-icon-button"
                            title="Редактировать пользователя"
-                           ng-click="usersCtrl.editUser(user)">
+                           ng-click="$entitiesCtrl.editUser(card)">
             <i class="material-icons">edit</i>
           </material-button>
           <span ng-switch="user.obj.archived" class="divider-left">
             <span ng-switch-when="true">
               <material-button class="material-icon-button material-button--green"
                                title="Удалить пользователя"
-                               ng-click="usersCtrl.restoreUser(user, $event)">
+                               ng-click="$entitiesCtrl.restoreUser(card, $event)">
                 <i class="material-icons">undo</i>
               </material-button>
             </span>
             <span ng-switch-default>
               <material-button class="material-icon-button material-button--red"
                                title="Удалить пользователя"
-                               ng-click="usersCtrl.deleteUser(user, $event)">
+                               ng-click="$entitiesCtrl.deleteUser(card, $event)">
                 <i class="material-icons">delete</i>
               </material-button>
             </span>
@@ -94,12 +95,12 @@
         </material-card-actions>
       </material-card>
     </div>
-    <div class="empty-state" ng-if="!usersCtrl.users.cards.length">
+    <div class="empty-state" ng-if="!$entitiesCtrl.users.cards.length">
       <h3 class="header">
         <i class="material-icons">error_outline</i>Нет пользователей. Можете добавить их через форму сверху.
       </h3>
     </div>
-    <div class="empty-state" ng-if="usersCtrl.users.cards.length && !filtered.length">
+    <div class="empty-state" ng-if="$entitiesCtrl.users.cards.length && !filtered.length">
       <h3 class="header">
         <i class="material-icons">error_outline</i>Отсутствуют пользователи, удовлетворяющие выбранным критериям.
       </h3>

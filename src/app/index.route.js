@@ -22,13 +22,11 @@ export function routerConfig($stateProvider, $urlRouterProvider, archivedCriteri
         'content@main': {
           templateUrl: 'app/states/users/users.html',
           controller: 'UsersController',
-          controllerAs: 'usersCtrl'
+          controllerAs: '$entitiesCtrl'
         }
       },
       resolve: {
         usersData: (UserService, $stateParams) => {
-          'ngInject';
-
           return UserService.getAll($stateParams.archived, $stateParams.searchText);
         }
       }
@@ -58,7 +56,7 @@ export function routerConfig($stateProvider, $urlRouterProvider, archivedCriteri
         'content@main': {
           templateUrl: 'app/states/achievements/achievements.html',
           controller: 'AchievementsController',
-          controllerAs: 'achievementsCtrl'
+          controllerAs: '$entitiesCtrl'
         }
       },
       resolve: {
