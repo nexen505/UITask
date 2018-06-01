@@ -27,16 +27,18 @@ export class UserService extends DexieService {
     return db.users;
   }
 
-  getAll(archivedCriterion = this.archivedCriterions.NOT_ARCHIVED) {
+  getAll(archivedCriterion = this.archivedCriterions.NOT_ARCHIVED, searchText = '') {
     const $filter = this.$injector.get('$filter');
 
     return super.getAllEntities(
       this.getUsersDb().toArray(),
-      (values) => $filter('archived')(
+      (values) => $filter('archivedName')(
         values.map(UserService.usersMapper),
         {
           archivedKey: 'archived',
-          archivedValue: archivedCriterion
+          archivedValue: archivedCriterion,
+          nameKey: 'name',
+          nameValue: searchText
         }
       )
     );
@@ -188,11 +190,11 @@ export class UserService extends DexieService {
   }
 
   delete(userId = Utils.requiredParam()) {
-    return this.$$updateArchived(userId, false);
+    return this.$$updateArchived(userId, true);
   }
 
   restore(userId = Utils.requiredParam()) {
-    return this.$$updateArchived(userId, true);
+    return this.$$updateArchived(userId, false);
   }
 
   saveOrUpdate(user = Utils.requiredParam()) {

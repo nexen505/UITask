@@ -8,10 +8,33 @@ export class UsersController {
 
     this.UserService = UserService;
     this.$state = $state;
-    this.users = new CardCollection(usersData);
     this._ = _;
 
+    this.users = new CardCollection(usersData);
+    this.filters = {
+      archivedKey: 'obj.archived',
+      archivedValue: $state.params.archived,
+      nameKey: 'obj.name',
+      nameValue: $state.params.searchText
+    };
     this.isCardAdding = false;
+  }
+
+  get archived() {
+    return this.filters.archivedValue;
+  }
+
+  get searchText() {
+    return this.filters.nameValue;
+  }
+
+  showArchived(archived = this.archived, searchText = this.searchText) {
+    this.$state.go('main.users', {
+      archived: archived,
+      searchText: searchText
+    }, {
+      reload: true
+    });
   }
 
   get newUser() {

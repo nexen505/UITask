@@ -14,7 +14,7 @@ export function routerConfig($stateProvider, $urlRouterProvider, archivedCriteri
       }
     })
     .state('main.users', {
-      url: '/users?archived',
+      url: '/users?archived?searchText',
       params: {
         archived: archivedCriterions.NOT_ARCHIVED
       },
@@ -29,7 +29,7 @@ export function routerConfig($stateProvider, $urlRouterProvider, archivedCriteri
         usersData: (UserService, $stateParams) => {
           'ngInject';
 
-          return UserService.getAll($stateParams.archived);
+          return UserService.getAll($stateParams.archived, $stateParams.searchText);
         }
       }
     })

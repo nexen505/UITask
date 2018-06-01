@@ -16,8 +16,31 @@
                close-user="usersCtrl.closeAddingCard()"></user-card>
   </div>
   <div class="users-cards">
+    <div class="filters">
+      <div class="filters-input">
+        <input placeholder="Поиск"
+               ng-model="usersCtrl.filters.nameValue"
+               ng-model-options="{ debounce: 1000 }"
+               ng-change="usersCtrl.showArchived()">
+        <i class="material-icons clickable"
+           ng-show="usersCtrl.filters.nameValue.length"
+           ng-click="usersCtrl.showArchived(usersCtrl.filters.archivedValue, usersCtrl.filters.nameValue = '')">clear</i>
+      </div>
+      <div class="filters-checkboxes">
+        <div class="material-checkbox">
+          <input id="archived"
+                 type="checkbox"
+                 ng-model="usersCtrl.filters.archivedValue"
+                 ng-model-options="{ debounce: 1000 }"
+                 ng-true-value="'ALL'"
+                 ng-false-value="'0'"
+                 ng-change="usersCtrl.showArchived()">
+          <label for="archived">Показать архивные</label>
+        </div>
+      </div>
+    </div>
     <div class="users-card"
-         ng-repeat="user in filtered = (usersCtrl.users.cards | orderBy:'obj.name') track by user.obj.id">
+         ng-repeat="user in filtered = (usersCtrl.users.cards | archivedName:usersCtrl.filters | orderBy:'obj.name') track by user.obj.id">
       <user-card
         ng-if="user.$active"
         ng-class="{'active': user.$active}"
