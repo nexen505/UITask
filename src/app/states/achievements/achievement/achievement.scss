@@ -1,0 +1,40 @@
+material-tab-content {
+  .tab-entities-card {
+    material-card {
+      material-card-actions {
+        .comment-input {
+          &.ng-animate {
+            transition: $swift-ease-out;
+          }
+
+          &.ng-enter,
+          &.ng-leave.ng-leave-active {
+            opacity: 0;
+            transform: scale(0);
+          }
+
+          &.ng-leave,
+          &.ng-enter.ng-enter-active {
+            opacity: 1;
+            transform: scale(1);
+          }
+
+          form {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+
+            material-input-container {
+              width: 100%;
+            }
+
+            & + .material-icon-button {
+              margin-left: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+}

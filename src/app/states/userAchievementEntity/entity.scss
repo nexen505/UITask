@@ -3,6 +3,23 @@
     @include switching-cards-classes(".entity-info--active", ".entity-info--default");
 
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    > * {
+      width: 100%;
+      max-width: 1000px;
+      transition: $swift-ease-out;
+
+      @include adaptive-width($medium-phone-screen, $small-desktop-screen) {
+        max-width: 600px;
+      }
+
+      @include adaptive-width($small-desktop-screen, $large-desktop-screen) {
+        max-width: 800px;
+      }
+    }
   }
 
   .tab-entities {
@@ -27,8 +44,4 @@
       }
     }
   }
-}
-
-.comment-input {
-
 }

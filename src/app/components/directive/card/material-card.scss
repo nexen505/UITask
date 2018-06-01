@@ -118,6 +118,7 @@ material-card {
       .material-media-med {
         height: $medium-size;
         width: $medium-size;
+        transition: $swift-ease-out;
 
         @include adaptive-width(0, $medium-phone-screen) {
           height: $small-size;
@@ -128,6 +129,7 @@ material-card {
       .material-media-lg {
         height: $large-size;
         width: $large-size;
+        transition: $swift-ease-out;
 
         @include adaptive-width(0, $medium-phone-screen) {
           height: $small-size;

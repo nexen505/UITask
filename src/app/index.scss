@@ -25,24 +25,6 @@ $extra-large-desktop-screen: 1920px;
   @return mix(rgb(red($rgba), green($rgba), blue($rgba)), $background, alpha($rgba) * 100%)
 }
 
-@keyframes bounce-right {
-  0% {
-    transform: translateX(1000px);
-  }
-  100% {
-    transform: translateX(0);
-  }
-}
-
-@keyframes bounce-left {
-  0% {
-    transform: translateX(-1000px);
-  }
-  100% {
-    transform: translateX(0);
-  }
-}
-
 @mixin opacity-keyframes($name, $start, $end) {
   @keyframes #{$name} {
     from {
@@ -157,36 +139,16 @@ $card-active-animation-duration: 0.25s;
 }
 
 @mixin switching-cards-classes($active, $default) {
-  $animation-duration: 0.3s;
-  $translate-amount: 2000px;
-
-  #{$active},
-  #{$default} {
+  #{$active}, #{$default} {
     &.ng-animate {
       transition: $swift-ease-out;
     }
-  }
 
-  #{$active} {
     &.ng-enter {
-      transform: translateX(-#{$translate-amount});
+      transform: scaleY(0);
 
       &.ng-enter-active {
-        transform: translateX(0);
-      }
-    }
-
-    &.ng-leave {
-      display: none;
-    }
-  }
-
-  #{$default} {
-    &.ng-enter {
-      transform: translateX(#{$translate-amount});
-
-      &.ng-enter-active {
-        transform: translateX(0);
+        transform: scaleY(1);
       }
     }
 
@@ -234,6 +196,7 @@ $card-active-animation-duration: 0.25s;
       animation: $card-active-animation-duration material-card-to-top;
       animation-timing-function: linear;
       animation-fill-mode: forwards;
+      transition: $swift-ease-out;
 
       &.ng-leave, &-remove {
         animation-fill-mode: forwards;
