@@ -1,8 +1,13 @@
 <material-content class="users"
                   ng-class="{'users--no-scroll': usersCtrl.users.hasActive()}">
   <h3 class="material-display-1">Все пользователи</h3>
-  <div class="users-new-card">
-    <material-card ng-if="!usersCtrl.isCardAdding">
+  <div class="users-new-card" ng-switch="usersCtrl.isCardAdding">
+    <user-card ng-switch-when="true"
+               class="no-background"
+               user="usersCtrl.newUser"
+               save-user="usersCtrl.saveNewUser(user, $event)"
+               close-user="usersCtrl.closeAddingCard()"></user-card>
+    <material-card ng-switch-default>
       <material-card-title ng-click="usersCtrl.openAddingCard()"
                            ng-class="{'clickable': !usersCtrl.isCardAdding}">
         <material-card-title-text>
@@ -10,10 +15,6 @@
         </material-card-title-text>
       </material-card-title>
     </material-card>
-    <user-card ng-if="usersCtrl.isCardAdding"
-               user="usersCtrl.newUser"
-               save-user="usersCtrl.saveNewUser(user, $event)"
-               close-user="usersCtrl.closeAddingCard()"></user-card>
   </div>
   <div class="users-cards">
     <div class="filters">

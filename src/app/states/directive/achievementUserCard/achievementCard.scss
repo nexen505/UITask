@@ -17,4 +17,10 @@ achievement-card, user-card {
   .active-background {
     @include active-background($card-active-animation-duration)
   }
+
+  &.no-background {
+    .active-background {
+      display: none;
+    }
+  }
 }

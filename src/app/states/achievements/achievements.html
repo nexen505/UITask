@@ -3,6 +3,7 @@
   <h3 class="material-display-1">Все достижения</h3>
   <div class="achievements-new-card" ng-switch="achievementsCtrl.isCardAdding">
     <achievement-card ng-switch-when="true"
+                      class="no-background"
                       achievement="achievementsCtrl.newAchievement"
                       save-achievement="achievementsCtrl.saveNewAchievement(achievement, $event)"
                       close-achievement="achievementsCtrl.closeAddingCard()"></achievement-card>

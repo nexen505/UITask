@@ -1,16 +1,16 @@
-<material-card ng-if="tabEntity.obj">
+<material-card ng-if="::tabEntity.obj">
   <material-card-title>
     <material-card-title-text>
-      <span class="material-headline" ng-bind="tabEntity.obj.name"></span>
+      <span class="material-headline" ng-bind="::tabEntity.obj.name"></span>
     </material-card-title-text>
-    <material-card-title-media ng-if="tabEntity.obj.photo">
+    <material-card-title-media ng-if="::tabEntity.obj.photo">
       <div class="material-media-med">
-        <img ng-src="data:image/png;base64,{{tabEntity.obj.photo}}" alt="Изображение отсутствует"/>
+        <img ng-src="data:image/png;base64,{{::tabEntity.obj.photo}}" alt="Изображение отсутствует"/>
       </div>
     </material-card-title-media>
   </material-card-title>
   <material-card-content>
-    <p ng-bind="tabEntity.obj.bio"></p>
+    <p ng-bind="::tabEntity.obj.bio"></p>
   </material-card-content>
   <material-card-actions>
     <div class="comment-input" ng-if="tabEntity.obj.userAchievement">

@@ -114,26 +114,19 @@ $card-active-animation-duration: 0.25s;
 }
 
 @mixin ng-repeat-animations {
-  &.ng-animate,
-  > .ng-animate {
+  &.ng-animate {
     transition: $swift-ease-out;
   }
 
   &.ng-leave.ng-leave-active,
   &.ng-move,
-  &.ng-enter,
-  > .ng-leave.ng-leave-active,
-  > .ng-move,
-  > .ng-enter {
+  &.ng-enter {
     transform: scaleY(0);
   }
 
   &.ng-leave,
   &.ng-move.ng-move-active,
-  &.ng-enter.ng-enter-active,
-  > .ng-leave,
-  > .ng-move.ng-move-active,
-  > .ng-enter.ng-enter-active {
+  &.ng-enter.ng-enter-active {
     transform: scaleY(1);
   }
 }
@@ -199,6 +192,9 @@ $card-active-animation-duration: 0.25s;
       transition: $swift-ease-out;
 
       &.ng-leave, &-remove {
+        animation: $card-active-animation-duration material-card-to-top;
+        animation-timing-function: linear;
+        animation-direction: reverse;
         animation-fill-mode: forwards;
       }
 
@@ -223,12 +219,16 @@ $card-active-animation-duration: 0.25s;
       }
     }
 
-    &.active.ng-leave,
-    &.active-remove,
-    &:not(.active).ng-enter {
-      animation: $card-active-animation-duration material-card-to-top;
-      animation-timing-function: linear;
-      animation-direction: reverse;
+    &:not(.active) {
+      &.ng-enter {
+        animation: $card-active-animation-duration material-card-to-top;
+        animation-timing-function: linear;
+        animation-direction: reverse;
+      }
+
+      &.ng-leave {
+        display: none;
+      }
     }
   }
 }

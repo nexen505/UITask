@@ -1,17 +1,17 @@
-<material-card ng-if="tabEntity.obj">
+<material-card ng-if="::tabEntity.obj">
   <material-card-title>
     <material-card-title-text>
-      <span class="material-headline" ng-bind="tabEntity.obj.name"></span>
-      <span class="material-subhead">Кол-во кармы: {{achievement.obj.karma}}</span>
+      <span class="material-headline" ng-bind="::tabEntity.obj.name"></span>
+      <span class="material-subhead">Кол-во кармы: {{::achievement.obj.karma}}</span>
     </material-card-title-text>
-    <material-card-title-media ng-if="tabEntity.obj.icon">
+    <material-card-title-media ng-if="::tabEntity.obj.icon">
       <div class="material-media-med">
-        <img ng-src="data:image/png;base64,{{tabEntity.obj.icon}}" alt="Изображение отсутствует"/>
+        <img ng-src="data:image/png;base64,{{::tabEntity.obj.icon}}" alt="Изображение отсутствует"/>
       </div>
     </material-card-title-media>
   </material-card-title>
   <material-card-content>
-    <p ng-bind="tabEntity.obj.description"></p>
+    <p ng-bind="::tabEntity.obj.description"></p>
   </material-card-content>
   <material-card-actions>
     <div class="comment-input" ng-if="tabEntity.obj.userAchievement">
