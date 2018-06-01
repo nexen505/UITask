@@ -66,7 +66,7 @@ export class AchievementController extends UserAchievementController {
           userAchievement.user = tabEntityObj;
           tabEntityObj.userAchievement = userAchievement;
         } else {
-          vm.UserAchievementService.delete(tabEntityObj.id, vm.entity.id)
+          vm.UserAchievementService.delete(tabEntityObj.user.id, vm.entity.id)
             .then(
               (ignoredResp) => {
                 vm.selectTab(vm.selectedTab);

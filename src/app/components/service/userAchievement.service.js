@@ -18,8 +18,10 @@ export class UserAchievementService extends DexieService {
     if (userId) {
       userAchievements = userAchievements.where("userId")
         .equalsIgnoreCase(userId);
-    }
-    if (achievementId) {
+      if (achievementId) {
+        userAchievements = userAchievements.and((item) => angular.equals(item.achievementId, achievementId));
+      }
+    } else if (achievementId) {
       userAchievements = userAchievements.where('achievementId')
         .equalsIgnoreCase(achievementId);
     }
